@@ -7,8 +7,8 @@ import DungeonFighters from './DungeonFighters'
 import Fight from './Fight'
 
 const App = () => {
-  return <CreateDungeon />
-  // return <Dungeon />
+  // return <CreateDungeon />
+  return <Dungeon />
   // return <IconPanel />
   // return <DungeonFighters />
   // return <Fight />
