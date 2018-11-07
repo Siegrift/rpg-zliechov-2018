@@ -8,6 +8,7 @@
   "rules": {
     "import/no-duplicates": "error",
     "object-curly-spacing": "off",
-    "no-duplicate-imports": "off"
+    "no-duplicate-imports": "off",
+    "quote-props": "off"
   }
 }

@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.4.0",
+    "@material-ui/icons": "^3.0.1",
+    "classnames": "^2.2.6",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "recompose": "^0.30.0",
+    "typeface-roboto": "^0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,8 +26,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.8.0",
     "eslint-config-vacuumlabs": "^1.5.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-react": "^7.11.1",
