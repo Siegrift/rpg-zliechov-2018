@@ -10,10 +10,10 @@ import StarBorderIcon from '@material-ui/icons/StarBorder'
 import AddIcon from '@material-ui/icons/Add'
 import classNames from 'classnames'
 
-import Image0 from './assets/monster0.jpg'
-import Image1 from './assets/monster1.jpg'
-import Image2 from './assets/monster2.png'
-import Image3 from './assets/monster3.jpeg'
+import Image0 from './assets/creatures/monster0.jpg'
+import Image1 from './assets/creatures/monster1.jpg'
+import Image2 from './assets/creatures/monster2.png'
+import Image3 from './assets/creatures/monster3.jpeg'
 import Add from './assets/add.png'
 
 const styles = (theme) => ({

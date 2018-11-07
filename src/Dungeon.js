@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
-import MonsterImage from './assets/monster2.png'
+import MonsterImage from './assets/creatures/monster2.png'
 
 const styles = {
   wrapper: {

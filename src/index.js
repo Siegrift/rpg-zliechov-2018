@@ -10,6 +10,9 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
   },
+  spacing: {
+    unit: 32,
+  },
 })
 
 ReactDOM.render(
