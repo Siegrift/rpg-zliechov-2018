@@ -1,7 +1,8 @@
 import React from 'react'
 import LinearProgress from '@material-ui/core/LinearProgress'
-
 import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
 const styles = (theme) => ({
   wrapper: {
@@ -53,7 +54,19 @@ const styles = (theme) => ({
   },
 })
 
-const Stats = ({ classes }) => {
+const Stats = ({ classes, creatures, fighters }) => {
+  const fightersPower = fighters.reduce((acc, f) => acc + parseInt(f.power, 10), 0)
+  const fightersAgi = fighters.reduce((acc, f) => acc + parseInt(f.agility, 10), 0)
+  const fightersInt = fighters.reduce((acc, f) => acc + parseInt(f.intelligence, 10), 0)
+
+  const creaturesPower = creatures.reduce((acc, f) => acc + parseInt(f.power, 10), 0)
+  const creaturesAgi = creatures.reduce((acc, f) => acc + parseInt(f.agility, 10), 0)
+  const creaturesInt = creatures.reduce((acc, f) => acc + parseInt(f.intelligence, 10), 0)
+
+  const sumPower = fightersPower + creaturesPower
+  const sumAgi = fightersAgi + creaturesAgi
+  const sumInt = fightersInt + creaturesInt
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.progressWrapper}>
@@ -63,10 +76,10 @@ const Stats = ({ classes }) => {
             barColorPrimary: classes.powerBar,
           }}
           variant="determinate"
-          value={25}
+          value={(fightersPower / sumPower) * 100}
         />
         <span className={classes.barText}>Sila</span>
-        <span className={classes.barTextEnd}>1500/6000</span>
+        <span className={classes.barTextEnd}>{`${fightersPower}/${sumPower}`}</span>
       </div>
 
       <div className={classes.progressWrapper}>
@@ -76,10 +89,10 @@ const Stats = ({ classes }) => {
             barColorPrimary: classes.agilityBar,
           }}
           variant="determinate"
-          value={50}
+          value={(fightersAgi / sumAgi) * 100}
         />
         <span className={classes.barText}>Obratnost</span>
-        <span className={classes.barTextEnd}>3000/6000</span>
+        <span className={classes.barTextEnd}>{`${fightersAgi}/${sumAgi}`}</span>
       </div>
 
       <div className={classes.progressWrapper}>
@@ -89,13 +102,19 @@ const Stats = ({ classes }) => {
             barColorPrimary: classes.intelligenceBar,
           }}
           variant="determinate"
-          value={75}
+          value={(fightersInt / sumInt) * 100}
         />
         <span className={classes.barText}>Inteligencia</span>
-        <span className={classes.barTextEnd}>4500/6000</span>
+        <span className={classes.barTextEnd}>{`${fightersInt}/${sumInt}`}</span>
       </div>
     </div>
   )
 }
 
-export default withStyles(styles)(Stats)
+export default compose(
+  connect((state) => ({
+    creatures: state.creatures,
+    fighters: state.fighters,
+  })),
+  withStyles(styles)
+)(Stats)

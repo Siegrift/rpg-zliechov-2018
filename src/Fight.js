@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 
 import TeamView from './TeamView'
 import Stats from './Stats'
-import { raceImages, itemImages, spellImages, creatureSpells, creatureImages } from './images'
 
 const styles = (theme) => ({
   wrapper: {
@@ -22,24 +21,14 @@ const styles = (theme) => ({
   },
 })
 
-const Fight = ({ classes }) => {
+const Fight = ({ classes, creatures, fighters }) => {
   return (
     <div className={classes.wrapper}>
       <Stats />
       <div className={classes.panel}>
-        <TeamView
-          selected="0"
-          entityData={raceImages[0]}
-          spellData={spellImages}
-          itemData={itemImages}
-        />
+        <TeamView />
         <div className={classes.divider} />
-        <TeamView
-          selected="0"
-          entityData={creatureImages}
-          spellData={creatureSpells}
-          itemData={[]}
-        />
+        <TeamView isCreatureView />
       </div>
     </div>
   )

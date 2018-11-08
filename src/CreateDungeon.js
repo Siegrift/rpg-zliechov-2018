@@ -72,7 +72,7 @@ const CreateDungeon = ({
                 label="Názov"
                 placeholder="Zadaj názov príšery"
                 value={name}
-                onChange={(e) => updateValue(['creature', 'name'], e.target.value)}
+                onChange={(e) => updateValue(['creatures', 0, 'name'], e.target.value)}
               />
             </FormControl>
           </FormGroup>
@@ -84,7 +84,7 @@ const CreateDungeon = ({
                 label="Sila"
                 placeholder="Zadaj silu príšery"
                 value={power}
-                onChange={(e) => updateValue(['creature', 'power'], e.target.value)}
+                onChange={(e) => updateValue(['creatures', 0, 'power'], e.target.value)}
               />
             </FormControl>
           </FormGroup>
@@ -96,7 +96,7 @@ const CreateDungeon = ({
                 label="Obratnosť"
                 placeholder="Zadaj obratnosť príšery"
                 value={agility}
-                onChange={(e) => updateValue(['creature', 'agility'], e.target.value)}
+                onChange={(e) => updateValue(['creatures', 0, 'agility'], e.target.value)}
               />
             </FormControl>
           </FormGroup>
@@ -108,7 +108,7 @@ const CreateDungeon = ({
                 label="Inteligencia"
                 placeholder="Zadaj inteligenciu príšery"
                 value={intelligence}
-                onChange={(e) => updateValue(['creature', 'intelligence'], e.target.value)}
+                onChange={(e) => updateValue(['creatures', 0, 'intelligence'], e.target.value)}
               />
             </FormControl>
           </FormGroup>
@@ -121,7 +121,10 @@ const CreateDungeon = ({
                 value={currentRequirement}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    updateValue(['creature', 'requirements'], [...requirements, currentRequirement])
+                    updateValue(
+                      ['creatures', 0, 'requirements'],
+                      [...requirements, currentRequirement]
+                    )
                     setCurrentRequirement('')
                   }
                 }}
@@ -135,7 +138,7 @@ const CreateDungeon = ({
             chips={requirements}
             onDelete={(index) =>
               updateValue(
-                ['creature', 'requirements'],
+                ['creatures', 0, 'requirements'],
                 requirements.filter((_, ind) => ind !== index)
               )
             }
@@ -146,7 +149,7 @@ const CreateDungeon = ({
           imageClassName={classes.image}
           images={creatureImages}
           onChange={(index) => {
-            if (index !== -1) updateValue(['creature', 'imageIndex'], index)
+            if (index !== -1) updateValue(['creatures', 0, 'imageIndex'], index)
           }}
         />
       </div>
@@ -166,7 +169,7 @@ const CreateDungeon = ({
 export default compose(
   connect(
     (state) => ({
-      ...state.creature,
+      ...state.creatures[0],
     }),
     { updateValue: _updateValue }
   ),

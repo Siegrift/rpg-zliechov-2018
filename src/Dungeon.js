@@ -75,7 +75,7 @@ const Dungeon = ({ name, requirements, imageIndex, classes, updateValue }) => {
 export default compose(
   connect(
     (state) => ({
-      ...state.creature,
+      ...state.creatures[0],
     }),
     {
       updateValue: _updateValue,

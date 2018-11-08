@@ -7,6 +7,7 @@ import DungeonFighters from './DungeonFighters'
 import Fight from './Fight'
 
 const App = ({ page }) => {
+  return <Fight />
   switch (page) {
     case 'create':
       return <CreateDungeon />
