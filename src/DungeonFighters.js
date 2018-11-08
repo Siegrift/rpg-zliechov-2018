@@ -86,18 +86,18 @@ const DungeonFighters = ({ classes, onSelect }) => {
               </FormControl>
             </FormGroup>
             <FormControl className={classes.formField}>
-              <InputLabel htmlFor="choose-race">Rasa</InputLabel>
+              <InputLabel htmlFor="choose-class">Klasa</InputLabel>
               <Select
                 value={10}
                 onChange={onSelect}
                 inputProps={{
-                  name: 'race',
-                  id: 'choose-race',
+                  name: 'class',
+                  id: 'choose-class',
                 }}
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={10}>Mág</MenuItem>
+                <MenuItem value={20}>Lovec</MenuItem>
+                <MenuItem value={30}>Kňaz</MenuItem>
               </Select>
             </FormControl>
             <FormGroup className={classes.formField}>
@@ -124,16 +124,18 @@ const DungeonFighters = ({ classes, onSelect }) => {
           <EntityImage imageClassName={classes.image} />
         </div>
         <Divider className={classes.divider} />
-        <div>
-          <AutoComplete label="Kúzla" data={spellImages} />
-          <IconPanel data={spellImages} />
-        </div>
+
+        <FormLabel component="legend">Kúzla</FormLabel>
+        <IconPanel
+          data={spellImages.map((spell) => ({
+            ...spell,
+            title: `${spell.title} (${Math.ceil(Math.random() * 4)})`,
+          }))}
+        />
         <Divider className={classes.divider} />
 
-        <div>
-          <AutoComplete label="Predmety" data={itemsData} />
-          <IconPanel data={itemsData} />
-        </div>
+        <AutoComplete label="Predmety" data={itemsData} />
+        <IconPanel data={itemsData} />
         <Divider className={classes.divider} />
 
         <Button variant="contained" color="primary" className={classes.button} size="large">
