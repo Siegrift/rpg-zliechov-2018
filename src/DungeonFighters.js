@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select'
 import { withStyles } from '@material-ui/core/styles'
 
 import IconPanel from './IconPanel'
+import AutoComplete from './AutoComplete'
 import EntityImage from './EntityImage'
 import { mageImages, addEntityImage, itemImages, spellImages } from './images'
 
@@ -65,7 +66,7 @@ const styles = (theme) => ({
 
 const fightersData = [...mageImages, addEntityImage]
 
-const itemsData = [...itemImages, addEntityImage]
+const itemsData = [...itemImages]
 
 const DungeonFighters = ({ classes, onSelect }) => {
   return (
@@ -124,19 +125,19 @@ const DungeonFighters = ({ classes, onSelect }) => {
         </div>
         <Divider className={classes.divider} />
         <div>
-          <FormLabel component="legend">Kúzla</FormLabel>
+          <AutoComplete label="Kúzla" data={spellImages} />
           <IconPanel data={spellImages} />
         </div>
         <Divider className={classes.divider} />
 
         <div>
-          <FormLabel component="legend">Predmety</FormLabel>
+          <AutoComplete label="Predmety" data={itemsData} />
           <IconPanel data={itemsData} />
         </div>
         <Divider className={classes.divider} />
 
         <Button variant="contained" color="primary" className={classes.button} size="large">
-          Pridaj
+          Pokračuj na boj
         </Button>
       </div>
     </div>

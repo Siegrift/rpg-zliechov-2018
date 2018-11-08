@@ -43,7 +43,6 @@ const styles = (theme) => ({
   titleWrap: {
     textAlign: 'center',
     margin: 'auto',
-    zIndex: 2,
   },
   titleBar: {
     background:

@@ -8,8 +8,8 @@ import Fight from './Fight'
 const App = () => {
   //return <CreateDungeon />
   //return <Dungeon />
-  //return <DungeonFighters />
-  return <Fight />
+  return <DungeonFighters />
+  // return <Fight />
 }
 
 export default App
