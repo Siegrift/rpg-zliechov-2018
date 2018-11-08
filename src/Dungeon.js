@@ -1,21 +1,18 @@
 import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import Tooltip from '@material-ui/core/Tooltip'
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { withStyles } from '@material-ui/core/styles'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 
-import MonsterImage from './assets/creatures/monster2.png'
+import List from './List'
+import { updateValue as _updateValue } from './actions'
+import { creatureImages } from './images'
 
 const styles = (theme) => ({
   wrapper: {
@@ -29,6 +26,8 @@ const styles = (theme) => ({
   },
   media: {
     objectFit: 'cover',
+    maxWidth: '500px',
+    maxHeight: '500px',
   },
   requirement: {
     padding: theme.spacing.unit / 8,
@@ -42,44 +41,29 @@ const styles = (theme) => ({
   },
 })
 
-const requirements = ['Aspoň 5 ľudia', 'Dokopy 500 sily']
-
-const Dungeon = ({ classes }) => {
+const Dungeon = ({ name, requirements, imageIndex, classes, updateValue }) => {
   return (
     <div className={classes.wrapper}>
       <Tooltip title="Vyzvať príšeru">
-        <Card className={classes.card}>
+        <Card className={classes.card} onClick={() => updateValue(['page'], 'fighters')}>
           <CardActionArea>
             <CardMedia
               component="img"
               alt="Príšera"
               className={classes.media}
-              image={MonsterImage}
+              image={creatureImages[imageIndex].image}
               title="Príšera"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
-                Meno príšery
-              </Typography>
-              <Typography component="p">
-                Lizards are a widespread group of squamate reptiles, with over 6,000 species,
-                ranging across all continents except Antarctica
+                {name}
               </Typography>
               <Divider className={classes.divider} />
 
               <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
                 Podmienky na vyzvanie
               </Typography>
-              <List component="nav">
-                {requirements.map((req, i) => (
-                  <ListItem button key={i} className={classes.requirement}>
-                    <ListItemIcon>
-                      <FiberManualRecordIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={req} />
-                  </ListItem>
-                ))}
-              </List>
+              <List items={requirements} itemClassName={classes.requirement} />
             </CardContent>
           </CardActionArea>
         </Card>
@@ -88,4 +72,14 @@ const Dungeon = ({ classes }) => {
   )
 }
 
-export default withStyles(styles)(Dungeon)
+export default compose(
+  connect(
+    (state) => ({
+      ...state.creature,
+    }),
+    {
+      updateValue: _updateValue,
+    }
+  ),
+  withStyles(styles)
+)(Dungeon)

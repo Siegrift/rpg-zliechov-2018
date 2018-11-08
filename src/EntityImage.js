@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
+import { compose, withState } from 'recompose'
+
+import ImageDialog from './ImageDialog'
 
 import PlaceholderCreature from './assets/creatures/creaturePlaceholder.png'
 
@@ -17,14 +20,44 @@ const styles = (theme) => ({
   },
 })
 
-const EntityImage = ({ imageWrapperClassName, imageClassName, classes }) => {
+const EntityImage = ({
+  imageWrapperClassName,
+  imageClassName,
+  classes,
+  images,
+  onChange,
+  showDialog,
+  setShowDialog,
+  currentImage,
+}) => {
   return (
-    <Tooltip title="Vyber obrázok">
-      <div className={classNames(imageWrapperClassName, classes.imageWrapper)}>
-        <img src={PlaceholderCreature} alt="Placeholder creature" className={imageClassName} />
+    <Tooltip title="Vyber obrázok" disableHoverListener={showDialog}>
+      <div>
+        <div
+          className={classNames(imageWrapperClassName, classes.imageWrapper)}
+          onClick={() => setShowDialog(true)}
+        >
+          <img
+            src={currentImage || PlaceholderCreature}
+            alt="Placeholder creature"
+            className={imageClassName}
+          />
+        </div>
+        {showDialog && (
+          <ImageDialog
+            images={images}
+            onClose={(index) => {
+              setShowDialog(false)
+              if (index !== -1) onChange(index)
+            }}
+          />
+        )}
       </div>
     </Tooltip>
   )
 }
 
-export default withStyles(styles)(EntityImage)
+export default compose(
+  withState('showDialog', 'setShowDialog', false),
+  withStyles(styles)
+)(EntityImage)

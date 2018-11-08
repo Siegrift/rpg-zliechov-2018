@@ -5,9 +5,6 @@ import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import Tooltip from '@material-ui/core/Tooltip'
-import Button from '@material-ui/core/Button'
-import StarBorderIcon from '@material-ui/icons/StarBorder'
-import AddIcon from '@material-ui/icons/Add'
 import classNames from 'classnames'
 
 const styles = (theme) => ({
@@ -23,7 +20,7 @@ const styles = (theme) => ({
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
-  gridListTile: {
+  tile: {
     borderRadius: theme.shape.borderRadius,
     '& > *': {
       borderRadius: theme.shape.borderRadius,
@@ -48,7 +45,7 @@ const styles = (theme) => ({
     background:
       'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0) 100%)',
   },
-  x: {
+  overlay: {
     backgroundColor: 'rgb(0, 0, 0, 0)',
     display: 'inline-block',
     height: '1500px',
@@ -61,17 +58,22 @@ const styles = (theme) => ({
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
   },
+  overlaySelected: {
+    backgroundColor: 'rgba(0, 0, 255, 0.4) !important',
+  },
 })
 
-const SingleLineGridList = ({ classes, className, data, autoresize }) => {
+const SingleLineGridList = ({ classes, className, data, autoresize, onClick, selected }) => {
   return (
     <div className={classNames(classes.root, className)}>
       <GridList className={classes.gridList} cols={data.length}>
         {data.map((tile, i) => (
           <Tooltip key={i} title={tile.title || 'PRISERA'}>
-            <GridListTile className={classes.gridListTile}>
+            <GridListTile className={classes.tile} onClick={() => onClick && onClick(i)}>
               <img src={tile.image} alt={tile.title || 'PRISERA'} className={classes.image} />
-              <span className={classes.x} />
+              <span
+                className={classNames(classes.overlay, selected === i && classes.overlaySelected)}
+              />
               <GridListTileBar
                 title={tile.title || 'PRISERA'}
                 classes={{
