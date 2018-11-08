@@ -5,8 +5,11 @@ import TeamView from './TeamView'
 import Stats from './Stats'
 
 const styles = (theme) => ({
+  wrapper: {
+    margin: theme.spacing.unit / 2,
+  },
   divider: {
-    borderLeft: '2px solid red',
+    borderLeft: '3px solid gray',
     height: '100%',
     position: 'fixed',
     left: '50%',
@@ -20,14 +23,14 @@ const styles = (theme) => ({
 
 const Fight = ({ classes }) => {
   return (
-    <React.Fragment>
+    <div className={classes.wrapper}>
       <Stats />
       <div className={classes.panel}>
         <TeamView />
         <div className={classes.divider} />
         <TeamView />
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

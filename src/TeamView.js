@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import TextField from '@material-ui/core/TextField'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControl from '@material-ui/core/FormControl'
@@ -10,6 +11,11 @@ import { mageImages, itemImages, spellImages } from './images'
 import Image from './assets/races/mage/mage0.png'
 
 const styles = (theme) => ({
+  wrapper: {
+    marginLeft: theme.spacing.unit / 2,
+    marginRight: theme.spacing.unit / 2,
+    width: `calc(50% - ${theme.spacing.unit}px)`,
+  },
   heroDetails: {
     display: 'flex',
   },
@@ -18,9 +24,9 @@ const styles = (theme) => ({
   },
 })
 
-const TeamView = ({ classes }) => {
+const TeamView = ({ classes, className }) => {
   return (
-    <div style={{ width: '50%' }}>
+    <div className={classNames(classes.wrapper, className)}>
       <IconPanel data={mageImages} />
       <div className={classes.heroDetails}>
         <div className={classes.formPanel}>
