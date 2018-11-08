@@ -6,28 +6,38 @@ import FormControl from '@material-ui/core/FormControl'
 import { withStyles } from '@material-ui/core/styles'
 
 import IconPanel from './IconPanel'
-import { mageImages, itemImages, spellImages } from './images'
-
-import Image from './assets/races/mage/mage0.png'
 
 const styles = (theme) => ({
   wrapper: {
     marginLeft: theme.spacing.unit / 2,
     marginRight: theme.spacing.unit / 2,
     width: `calc(50% - ${theme.spacing.unit}px)`,
+    marginTop: theme.spacing.unit / 2,
   },
   heroDetails: {
     display: 'flex',
+    marginTop: theme.spacing.unit / 2,
+    marginBottom: theme.spacing.unit / 2,
   },
   formPanel: {
     width: '50%',
+    margin: 'auto',
+    '& > div': {
+      marginTop: theme.spacing.unit / 4,
+      marginBottom: theme.spacing.unit / 4,
+    },
+  },
+  image: {
+    margin: 'auto',
+    width: '50%',
+    height: '50%',
   },
 })
 
-const TeamView = ({ classes, className }) => {
+const TeamView = ({ classes, className, entityData, spellData, itemData, selected }) => {
   return (
     <div className={classNames(classes.wrapper, className)}>
-      <IconPanel data={mageImages} />
+      <IconPanel data={entityData} />
       <div className={classes.heroDetails}>
         <div className={classes.formPanel}>
           <FormGroup>
@@ -45,11 +55,11 @@ const TeamView = ({ classes, className }) => {
               <TextField label="Inteligencia" value={Math.ceil(Math.random() * 1000)} />
             </FormControl>
           </FormGroup>
-          <IconPanel data={spellImages} />
+          <IconPanel data={spellData} maxSize="40" />
         </div>
-        <img src={Image} width="50%" height="50%" />
+        <img src={entityData[selected].image} className={classes.image} />
       </div>
-      <IconPanel data={itemImages} />
+      <IconPanel data={itemData} />
     </div>
   )
 }

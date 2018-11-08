@@ -24,4 +24,10 @@ export const spellImages = [
   { image: require('./assets/spells/invoke.jpg'), title: 'Invoke' },
 ]
 
+export const creatureSpells = [
+  { image: require('./assets/creatureSpells/fireSword.png'), title: 'Fire strike' },
+  { image: require('./assets/creatureSpells/hidan.png'), title: 'Hidan' },
+  { image: require('./assets/creatureSpells/sacrifice.jpg'), title: 'Sacrifice' },
+]
+
 export const addEntityImage = { image: require('./assets/add.png'), title: 'Nový' }
