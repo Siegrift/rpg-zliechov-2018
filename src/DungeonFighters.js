@@ -4,17 +4,25 @@ import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
 import FormLabel from '@material-ui/core/FormLabel'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
+import CloseIcon from '@material-ui/icons/Close'
 import { withStyles } from '@material-ui/core/styles'
+import { clamp } from 'lodash'
+import { compose, withState } from 'recompose'
+import { connect } from 'react-redux'
 
 import IconPanel from './IconPanel'
 import AutoComplete from './AutoComplete'
 import EntityImage from './EntityImage'
-import { mageImages, addEntityImage, itemImages, spellImages } from './images'
+import EntityPlaceholderImage from './assets/entityPlaceholder.png'
+import { updateValue as _updateValue } from './actions'
+import { createDefaultFighter } from './store/initialState'
+import { raceImages, addEntityImage, itemImages, spellImages } from './images'
 
 const styles = (theme) => ({
   wrapper: {
@@ -62,83 +70,205 @@ const styles = (theme) => ({
     margin: 'auto',
     display: 'block',
   },
+  closeButton: {
+    position: 'absolute',
+    right: `${theme.spacing.unit + 4}px`,
+    marginTop: '-12px',
+  },
 })
 
-const fightersData = [...mageImages, addEntityImage]
-
-const itemsData = [...itemImages]
-
-const DungeonFighters = ({ classes, onSelect }) => {
+const DungeonFighters = ({
+  classes,
+  selectedFighter,
+  setSelectedFighter,
+  fighters,
+  updateValue,
+}) => {
+  const {
+    nick,
+    race,
+    level,
+    power,
+    agility,
+    intelligence,
+    spellLevels,
+    imageIndex,
+    items,
+  } = fighters[selectedFighter]
+  const fightersImageData = [
+    ...fighters.map(({ imageIndex }, index) => ({
+      image: imageIndex === -1 ? EntityPlaceholderImage : raceImages[race][imageIndex].image,
+      title: nick,
+    })),
+    addEntityImage,
+  ]
   return (
     <div className={classes.wrapper}>
-      <IconPanel data={fightersData} />
+      <IconPanel
+        data={fightersImageData}
+        onClick={(index) => {
+          if (index === fighters.length) {
+            updateValue(['fighters'], [...fighters, createDefaultFighter()])
+          }
+          setSelectedFighter(index)
+        }}
+        selected={selectedFighter}
+      />
 
       <div className={classes.form}>
+        <IconButton
+          className={classes.closeButton}
+          onClick={() => {
+            if (fighters.length !== 1) {
+              updateValue(['fighters'], fighters.filter((_, i) => i !== selectedFighter))
+              setSelectedFighter(Math.max(0, selectedFighter - 1))
+            }
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+
         <Typography component="h4" variant="h4" gutterBottom className={classes.title}>
-          Nový bojovník
+          {nick}
         </Typography>
 
         <div className={classes.fighterDetails}>
           <div className={classes.fighterDetailsForm}>
             <FormGroup className={classes.formField}>
               <FormControl>
-                <TextField label="Nick" placeholder="Zadaj svoj nick" />
+                <TextField
+                  label="Nick"
+                  placeholder="Zadaj svoj nick"
+                  value={nick}
+                  onChange={(e) =>
+                    updateValue(['fighters', selectedFighter, 'nick'], e.target.value)
+                  }
+                />
               </FormControl>
             </FormGroup>
+
             <FormControl className={classes.formField}>
-              <InputLabel htmlFor="choose-class">Klasa</InputLabel>
+              <InputLabel htmlFor="choose-race">Klasa</InputLabel>
               <Select
-                value={10}
-                onChange={onSelect}
+                value={race}
+                onChange={(e) => {
+                  const raceIndex = e.target.value
+                  updateValue(['fighters', selectedFighter, 'race'], raceIndex)
+                  updateValue(
+                    ['fighters', selectedFighter, 'imageIndex'],
+                    clamp(imageIndex, 0, raceImages[raceIndex].length - 1)
+                  )
+                }}
                 inputProps={{
-                  name: 'class',
-                  id: 'choose-class',
+                  name: 'race',
+                  id: 'choose-race',
                 }}
               >
-                <MenuItem value={10}>Mág</MenuItem>
-                <MenuItem value={20}>Lovec</MenuItem>
-                <MenuItem value={30}>Kňaz</MenuItem>
+                <MenuItem value={0}>Mág</MenuItem>
+                <MenuItem value={1}>Lovec</MenuItem>
+                <MenuItem value={2}>Kňaz</MenuItem>
+                <MenuItem value={3}>Černokňažník</MenuItem>
+                <MenuItem value={4}>Bojovník</MenuItem>
               </Select>
             </FormControl>
+
             <FormGroup className={classes.formField}>
               <FormControl>
-                <TextField label="Level" placeholder="Zadaj svoj level" />
+                <TextField
+                  type="number"
+                  label="Level"
+                  placeholder="Zadaj svoj level"
+                  value={level}
+                  onChange={(e) =>
+                    updateValue(['fighters', selectedFighter, 'level'], e.target.value)
+                  }
+                />
               </FormControl>
             </FormGroup>
+
             <FormGroup className={classes.formField}>
               <FormControl>
-                <TextField label="Sila" placeholder="Zadaj svoju silu" />
+                <TextField
+                  type="number"
+                  label="Sila"
+                  placeholder="Zadaj svoju silu"
+                  value={power}
+                  onChange={(e) =>
+                    updateValue(['fighters', selectedFighter, 'power'], e.target.value)
+                  }
+                />
               </FormControl>
             </FormGroup>
+
             <FormGroup className={classes.formField}>
               <FormControl>
-                <TextField label="Obratnosť" placeholder="Zadaj svoju obratnosť" />
+                <TextField
+                  type="number"
+                  label="Obratnosť"
+                  placeholder="Zadaj svoju obratnosť"
+                  value={agility}
+                  onChange={(e) =>
+                    updateValue(['fighters', selectedFighter, 'agility'], e.target.value)
+                  }
+                />
               </FormControl>
             </FormGroup>
+
             <FormGroup className={classes.formField}>
               <FormControl>
-                <TextField label="Inteligencia" placeholder="Zadaj svoju inteligenciu" />
+                <TextField
+                  type="number"
+                  label="Inteligencia"
+                  placeholder="Zadaj svoju inteligenciu"
+                  value={intelligence}
+                  onChange={(e) =>
+                    updateValue(['fighters', selectedFighter, 'intelligence'], e.target.value)
+                  }
+                />
               </FormControl>
             </FormGroup>
           </div>
-          <EntityImage imageClassName={classes.image} />
+          <EntityImage
+            imageClassName={classes.image}
+            images={raceImages[race]}
+            currentImage={imageIndex !== -1 && raceImages[race][imageIndex].image}
+            onChange={(index) => {
+              if (index !== -1) {
+                updateValue(['fighters', selectedFighter, 'imageIndex'], index)
+              }
+            }}
+          />
         </div>
         <Divider className={classes.divider} />
 
         <FormLabel component="legend">Kúzla</FormLabel>
         <IconPanel
-          data={spellImages.map((spell) => ({
+          data={spellImages[race].map((spell, i) => ({
             ...spell,
-            title: `${spell.title} (${Math.ceil(Math.random() * 4)})`,
+            title: `${spell.title} (${spellLevels[i]})`,
           }))}
         />
         <Divider className={classes.divider} />
 
-        <AutoComplete label="Predmety" data={itemsData} />
-        <IconPanel data={itemsData} />
+        <AutoComplete
+          label="Predmety"
+          data={itemImages}
+          placeholder="Zvoľ svoje itemy"
+          value={items}
+          onChange={(value) => {
+            updateValue(['fighters', selectedFighter, 'items'], value.map((v) => v.ind))
+          }}
+        />
+        <IconPanel data={items.map((itemIndex) => itemImages[itemIndex])} />
         <Divider className={classes.divider} />
 
-        <Button variant="contained" color="primary" className={classes.button} size="large">
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          size="large"
+          onClick={() => updateValue(['page'], 'fight')}
+        >
           Pokračuj na boj
         </Button>
       </div>
@@ -146,4 +276,13 @@ const DungeonFighters = ({ classes, onSelect }) => {
   )
 }
 
-export default withStyles(styles)(DungeonFighters)
+export default compose(
+  connect(
+    (state) => ({
+      fighters: state.fighters,
+    }),
+    { updateValue: _updateValue }
+  ),
+  withState('selectedFighter', 'setSelectedFighter', 0),
+  withStyles(styles)
+)(DungeonFighters)

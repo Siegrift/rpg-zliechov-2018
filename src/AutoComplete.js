@@ -1,7 +1,4 @@
-/* eslint-disable react/prop-types, react/jsx-handler-names */
-
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Select from 'react-select'
 import { withStyles } from '@material-ui/core/styles'
@@ -132,14 +129,6 @@ function Placeholder(props) {
   )
 }
 
-function SingleValue(props) {
-  return (
-    <Typography className={props.selectProps.classes.singleValue} {...props.innerProps}>
-      {props.children}
-    </Typography>
-  )
-}
-
 function ValueContainer(props) {
   return <div className={props.selectProps.classes.valueContainer}>{props.children}</div>
 }
@@ -173,24 +162,12 @@ const components = {
   NoOptionsMessage,
   Option,
   Placeholder,
-  SingleValue,
   ValueContainer,
 }
 
 class AutoComplete extends React.Component {
-  state = {
-    single: null,
-    multi: null,
-  }
-
-  handleChange = (name) => (value) => {
-    this.setState({
-      [name]: value,
-    })
-  }
-
   render() {
-    const { classes, theme, data } = this.props
+    const { classes, theme, data, placeholder, value, onChange } = this.props
 
     const selectStyles = {
       input: (base) => ({
@@ -214,22 +191,27 @@ class AutoComplete extends React.Component {
                 shrink: true,
               },
             }}
-            options={data.map(({ title, image }) => ({ image, value: title, label: title }))}
+            options={data.map(({ title, image }, i) => ({
+              image,
+              value: title,
+              label: title,
+              ind: i,
+            }))}
             components={components}
-            value={this.state.multi}
-            onChange={this.handleChange('multi')}
-            placeholder="Select multiple countries"
+            value={value.map((itemIndex) => ({
+              image: data[itemIndex].image,
+              value: data[itemIndex].title,
+              label: data[itemIndex].title,
+              ind: itemIndex,
+            }))}
+            onChange={onChange}
+            placeholder={placeholder}
             isMulti
           />
         </NoSsr>
       </div>
     )
   }
-}
-
-AutoComplete.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles, { withTheme: true })(AutoComplete)

@@ -63,7 +63,7 @@ const Stats = ({ classes }) => {
             barColorPrimary: classes.powerBar,
           }}
           variant="determinate"
-          value="25"
+          value={25}
         />
         <span className={classes.barText}>Sila</span>
         <span className={classes.barTextEnd}>1500/6000</span>
@@ -76,7 +76,7 @@ const Stats = ({ classes }) => {
             barColorPrimary: classes.agilityBar,
           }}
           variant="determinate"
-          value="50"
+          value={50}
         />
         <span className={classes.barText}>Obratnost</span>
         <span className={classes.barTextEnd}>3000/6000</span>
@@ -89,7 +89,7 @@ const Stats = ({ classes }) => {
             barColorPrimary: classes.intelligenceBar,
           }}
           variant="determinate"
-          value="75"
+          value={75}
         />
         <span className={classes.barText}>Inteligencia</span>
         <span className={classes.barTextEnd}>4500/6000</span>

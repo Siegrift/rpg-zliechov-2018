@@ -5,10 +5,21 @@ export const creatureImages = [
   { image: require('./assets/creatures/monster3.jpeg'), title: 'Príšera D' },
 ]
 
-export const mageImages = [
-  { image: require('./assets/races/mage/mage0.png'), title: 'Mág A' },
-  { image: require('./assets/races/mage/mage1.png'), title: 'Mág B' },
-  { image: require('./assets/races/mage/mage2.jpg'), title: 'Mág C' },
+// all races have fixed spells (look in initialState.js for index<--->race mapping)
+export const raceImages = [
+  // TODO: find race images for all races
+  [
+    { image: require('./assets/races/mage/mage0.png'), title: 'Mág A' },
+    { image: require('./assets/races/mage/mage1.png'), title: 'Mág B' },
+    { image: require('./assets/races/mage/mage2.jpg'), title: 'Mág C' },
+  ],
+  [
+    { image: require('./assets/races/hunter/hunter0.jpg'), title: 'Lovec A' },
+    { image: require('./assets/races/hunter/hunter1.png'), title: 'Lovec B' },
+  ],
+  [{ image: require('./assets/races/hunter/hunter0.jpg'), title: 'Kňaz' }],
+  [{ image: require('./assets/races/hunter/hunter0.jpg'), title: 'Černokňažník' }],
+  [{ image: require('./assets/races/hunter/hunter0.jpg'), title: 'Bojovník' }],
 ]
 
 export const itemImages = [
@@ -17,11 +28,39 @@ export const itemImages = [
   { image: require('./assets/items/manta.png'), title: 'Manta' },
 ]
 
+// all races have fixed spells (look in initialState.js for index<--->race mapping)
 export const spellImages = [
-  { image: require('./assets/spells/quas.png'), title: 'Quas' },
-  { image: require('./assets/spells/wex.png'), title: 'Wex' },
-  { image: require('./assets/spells/exort.png'), title: 'Exort' },
-  { image: require('./assets/spells/invoke.jpg'), title: 'Invoke' },
+  // TODO: find spell icons for all races
+  [
+    { image: require('./assets/spells/quas.png'), title: 'Quas' },
+    { image: require('./assets/spells/wex.png'), title: 'Wex' },
+    { image: require('./assets/spells/exort.png'), title: 'Exort' },
+    { image: require('./assets/spells/invoke.jpg'), title: 'Invoke' },
+  ],
+  [
+    { image: require('./assets/spells/wex.png'), title: 'Wex' },
+    { image: require('./assets/spells/wex.png'), title: 'Wex' },
+    { image: require('./assets/spells/wex.png'), title: 'Wex' },
+    { image: require('./assets/spells/wex.png'), title: 'Wex' },
+  ],
+  [
+    { image: require('./assets/spells/quas.png'), title: 'Quas' },
+    { image: require('./assets/spells/quas.png'), title: 'Quas' },
+    { image: require('./assets/spells/quas.png'), title: 'Quas' },
+    { image: require('./assets/spells/quas.png'), title: 'Quas' },
+  ],
+  [
+    { image: require('./assets/spells/exort.png'), title: 'Exort' },
+    { image: require('./assets/spells/exort.png'), title: 'Exort' },
+    { image: require('./assets/spells/exort.png'), title: 'Exort' },
+    { image: require('./assets/spells/exort.png'), title: 'Exort' },
+  ],
+  [
+    { image: require('./assets/spells/invoke.jpg'), title: 'Invoke' },
+    { image: require('./assets/spells/invoke.jpg'), title: 'Invoke' },
+    { image: require('./assets/spells/invoke.jpg'), title: 'Invoke' },
+    { image: require('./assets/spells/invoke.jpg'), title: 'Invoke' },
+  ],
 ]
 
 export const creatureSpells = [

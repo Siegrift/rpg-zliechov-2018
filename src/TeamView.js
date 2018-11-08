@@ -57,7 +57,7 @@ const TeamView = ({ classes, className, entityData, spellData, itemData, selecte
           </FormGroup>
           <IconPanel data={spellData} maxSize="40" />
         </div>
-        <img src={entityData[selected].image} className={classes.image} />
+        <img src={entityData[selected].image} className={classes.image} alt="Fighter image" />
       </div>
       <IconPanel data={itemData} />
     </div>

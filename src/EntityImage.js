@@ -6,7 +6,7 @@ import { compose, withState } from 'recompose'
 
 import ImageDialog from './ImageDialog'
 
-import PlaceholderCreature from './assets/creatures/creaturePlaceholder.png'
+import PlaceholderCreature from './assets/entityPlaceholder.png'
 
 const styles = (theme) => ({
   imageWrapper: {
