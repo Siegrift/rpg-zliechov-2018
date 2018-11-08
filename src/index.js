@@ -13,6 +13,9 @@ const theme = createMuiTheme({
   spacing: {
     unit: 32,
   },
+  shape: {
+    borderRadius: 8,
+  },
 })
 
 ReactDOM.render(

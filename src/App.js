@@ -8,9 +8,9 @@ import Fight from './Fight'
 
 const App = () => {
   // return <CreateDungeon />
-  return <Dungeon />
+  // return <Dungeon />
   // return <IconPanel />
-  // return <DungeonFighters />
+  return <DungeonFighters />
   // return <Fight />
 }
 

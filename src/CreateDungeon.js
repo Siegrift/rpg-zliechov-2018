@@ -4,10 +4,9 @@ import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
 
-import PlaceholderCreature from './assets/creatures/creaturePlaceholder.png'
+import EntityImage from './EntityImage'
 
 const styles = (theme) => ({
   panel: {
@@ -26,18 +25,15 @@ const styles = (theme) => ({
       marginRight: theme.spacing.unit,
     },
   },
-  imageWrapper: {
-    display: 'grid',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  form: {
+    '& > *': {
+      margin: theme.spacing.unit / 2,
     },
-    borderRadius: theme.spacing.unit / 2,
-    cursor: 'pointer',
   },
   image: {
     maxHeight: '500px',
     margin: 'auto',
-    maxWidth: '50%',
+    maxWidth: '80%',
   },
   button: {
     marginTop: theme.spacing.unit * 2,
@@ -53,7 +49,7 @@ const CreateDungeon = ({ classes }) => {
         Vytvor dungeon
       </Typography>
       <div className={classes.formWrapper}>
-        <div>
+        <div className={classes.form}>
           <FormGroup>
             <FormControl>
               <TextField label="Sila" placeholder="Zadaj silu príšery" />
@@ -70,11 +66,7 @@ const CreateDungeon = ({ classes }) => {
             </FormControl>
           </FormGroup>
         </div>
-        <Tooltip title="Vyber obrázok">
-          <div className={classes.imageWrapper}>
-            <img src={PlaceholderCreature} alt="Placeholder creature" className={classes.image} />
-          </div>
-        </Tooltip>
+        <EntityImage imageClassName={classes.image} />
       </div>
       <Button className={classes.button} variant="contained" color="primary" size="large">
         Vytvor
