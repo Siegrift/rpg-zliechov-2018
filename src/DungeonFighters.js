@@ -135,7 +135,7 @@ const DungeonFighters = ({ classes, onSelect }) => {
         </div>
         <Divider className={classes.divider} />
 
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained" color="primary" className={classes.button} size="large">
           Pridaj
         </Button>
       </div>

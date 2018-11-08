@@ -5,6 +5,7 @@ import FormControl from '@material-ui/core/FormControl'
 import { withStyles } from '@material-ui/core/styles'
 
 import IconPanel from './IconPanel'
+import { mageImages, itemImages, spellImages } from './images'
 
 import Image from './assets/races/mage/mage0.png'
 
@@ -19,8 +20,8 @@ const styles = (theme) => ({
 
 const TeamView = ({ classes }) => {
   return (
-    <div style={{ maxWidth: '50%' }}>
-      <IconPanel />
+    <div style={{ width: '50%' }}>
+      <IconPanel data={mageImages} />
       <div className={classes.heroDetails}>
         <div className={classes.formPanel}>
           <FormGroup>
@@ -38,11 +39,11 @@ const TeamView = ({ classes }) => {
               <TextField label="Inteligencia" value={Math.ceil(Math.random() * 1000)} />
             </FormControl>
           </FormGroup>
-          <IconPanel />
+          <IconPanel data={spellImages} />
         </div>
         <img src={Image} width="50%" height="50%" />
       </div>
-      <IconPanel />
+      <IconPanel data={itemImages} />
     </div>
   )
 }
