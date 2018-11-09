@@ -23,9 +23,9 @@ export const raceImages = [
 ]
 
 export const itemImages = [
-  { image: require('./assets/items/agh.jpg'), title: 'Aghanim' },
-  { image: require('./assets/items/dagon.jpg'), title: 'Dagon' },
-  { image: require('./assets/items/manta.png'), title: 'Manta' },
+  { image: require('./assets/items/agh.jpg'), title: 'Aghanim', onInvoke: (state) => state },
+  { image: require('./assets/items/dagon.jpg'), title: 'Dagon', onInvoke: (state) => state },
+  { image: require('./assets/items/manta.png'), title: 'Manta', onInvoke: (state) => state },
 ]
 
 // all races have fixed spells (look in initialState.js for index<--->race mapping)

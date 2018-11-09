@@ -1,11 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import Tooltip from '@material-ui/core/Tooltip'
 import classNames from 'classnames'
+import { compose, withState } from 'recompose'
+
+const SPELL_ANIMATION_SIZE = 250
+const ANIMATION_TIME = 0.5
 
 const styles = (theme) => ({
   root: {
@@ -61,15 +64,75 @@ const styles = (theme) => ({
   overlaySelected: {
     backgroundColor: 'rgba(0, 0, 255, 0.4) !important',
   },
+  invokeSpellAnimation: {
+    width: `${SPELL_ANIMATION_SIZE}px !important`,
+    height: `${SPELL_ANIMATION_SIZE}px !important`,
+    visibility: 'visible !important',
+    transform: `translate(-${SPELL_ANIMATION_SIZE / 2}px, -${SPELL_ANIMATION_SIZE / 2}px)`,
+    opacity: '1 !important',
+  },
+  hidden: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    zIndex: 3,
+    transition: `transform ${ANIMATION_TIME}s, width ${ANIMATION_TIME}s, height ${ANIMATION_TIME}s, left ${ANIMATION_TIME}s, opacity ${ANIMATION_TIME}s linear`,
+    width: '0px',
+    height: '0px',
+    opacity: 0,
+    visibility: 'hidden',
+  },
 })
 
-const SingleLineGridList = ({ classes, className, data, autoresize, onClick, selected }) => {
+class Animate extends React.Component {
+  state = {}
+  componentDidMount() {
+    // eslint-disable-next-line
+    if (!this.state.invokeSpell) this.setState({ invokeSpell: true })
+  }
+
+  render() {
+    const { image, classes } = this.props
+    const { invokeSpell } = this.state
+
+    return (
+      <img
+        src={image}
+        alt="Selected enchantment"
+        className={classNames(classes.hidden, invokeSpell && classes.invokeSpellAnimation)}
+      />
+    )
+  }
+}
+
+const SingleLineGridList = ({
+  classes,
+  className,
+  data,
+  autoresize,
+  onClick,
+  selected,
+  animateOnClick,
+  animateIndex,
+  setAnimateIndex,
+}) => {
   return (
     <div className={classNames(classes.root, className)}>
       <GridList className={classes.gridList} cols={data.length}>
         {data.map((tile, i) => (
           <Tooltip key={i} title={tile.title || 'PRISERA'}>
-            <GridListTile className={classes.tile} onClick={() => onClick && onClick(i)}>
+            <GridListTile
+              className={classes.tile}
+              onClick={() => {
+                if (onClick) onClick(i)
+                if (animateOnClick) {
+                  setAnimateIndex(i)
+                  setTimeout(() => {
+                    setAnimateIndex(-1)
+                  }, 1000)
+                }
+              }}
+            >
               <img src={tile.image} alt={tile.title || 'PRISERA'} className={classes.image} />
               <span
                 className={classNames(classes.overlay, selected === i && classes.overlaySelected)}
@@ -86,12 +149,12 @@ const SingleLineGridList = ({ classes, className, data, autoresize, onClick, sel
           </Tooltip>
         ))}
       </GridList>
+      {animateIndex !== -1 && <Animate image={data[animateIndex].image} classes={classes} />}
     </div>
   )
 }
 
-SingleLineGridList.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-export default withStyles(styles)(SingleLineGridList)
+export default compose(
+  withState('animateIndex', 'setAnimateIndex', -1),
+  withStyles(styles)
+)(SingleLineGridList)

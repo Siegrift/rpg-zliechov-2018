@@ -112,11 +112,18 @@ const TeamView = ({
               onClick={(ind) => {
                 updateValue([], produce(state, (draftState) => spellData[ind].onInvoke(draftState)))
               }}
+              animateOnClick
             />
           </div>
           <img src={imageSrc} className={classes.image} alt="Fighter" />
         </div>
-        <IconPanel data={itemData} />
+        <IconPanel
+          data={itemData}
+          onClick={(ind) => {
+            updateValue([], produce(state, (draftState) => itemData[ind].onInvoke(draftState)))
+          }}
+          animateOnClick
+        />
       </div>
     </div>
   )
