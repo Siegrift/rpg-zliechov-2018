@@ -105,7 +105,7 @@ class Animate extends React.Component {
   }
 }
 
-const SingleLineGridList = ({
+const ImagePanel = ({
   classes,
   className,
   data,
@@ -115,13 +115,15 @@ const SingleLineGridList = ({
   animateOnClick,
   animateIndex,
   setAnimateIndex,
+  withTitle,
 }) => {
   return (
     <div className={classNames(classes.root, className)}>
       <GridList className={classes.gridList} cols={data.length}>
-        {data.map((tile, i) => (
-          <Tooltip key={i} title={tile.title || 'PRISERA'}>
+        {data.map((tile, i) => {
+          const Tile = (
             <GridListTile
+              key={i}
               className={classes.tile}
               onClick={() => {
                 if (onClick) onClick(i)
@@ -133,21 +135,30 @@ const SingleLineGridList = ({
                 }
               }}
             >
-              <img src={tile.image} alt={tile.title || 'PRISERA'} className={classes.image} />
+              <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
               <span
                 className={classNames(classes.overlay, selected === i && classes.overlaySelected)}
               />
-              <GridListTileBar
-                title={tile.title || 'PRISERA'}
-                classes={{
-                  root: classes.titleBar,
-                  title: classes.title,
-                  titleWrap: classes.titleWrap,
-                }}
-              />
+              {withTitle && (
+                <GridListTileBar
+                  title={tile.title}
+                  classes={{
+                    root: classes.titleBar,
+                    title: classes.title,
+                    titleWrap: classes.titleWrap,
+                  }}
+                />
+              )}
             </GridListTile>
-          </Tooltip>
-        ))}
+          )
+          return withTitle ? (
+            <Tooltip key={i} title={tile.title}>
+              {Tile}
+            </Tooltip>
+          ) : (
+            Tile
+          )
+        })}
       </GridList>
       {animateIndex !== -1 && <Animate image={data[animateIndex].image} classes={classes} />}
     </div>
@@ -157,4 +168,4 @@ const SingleLineGridList = ({
 export default compose(
   withState('animateIndex', 'setAnimateIndex', -1),
   withStyles(styles)
-)(SingleLineGridList)
+)(ImagePanel)

@@ -7,7 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import { withState, compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 
-import IconPanel from './IconPanel'
+import ImagePanel from './ImagePanel'
 
 const styles = {
   root: {
@@ -25,7 +25,7 @@ const ImageDialog = ({ classes, onClose, images, index, setIndex }) => {
     >
       <DialogTitle id="form-dialog-title">Vyber obrázok</DialogTitle>
       <DialogContent>
-        <IconPanel data={images} onClick={(index) => setIndex(index)} selected={index} />
+        <ImagePanel data={images} onClick={(index) => setIndex(index)} selected={index} />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onClose(index)} color="primary" disabled={index === -1}>

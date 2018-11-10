@@ -16,7 +16,7 @@ import { clamp } from 'lodash'
 import { compose, withState } from 'recompose'
 import { connect } from 'react-redux'
 
-import IconPanel from './IconPanel'
+import ImagePanel from './ImagePanel'
 import AutoComplete from './AutoComplete'
 import EntityImage from './EntityImage'
 import EntityPlaceholderImage from './assets/entityPlaceholder.png'
@@ -104,7 +104,7 @@ const DungeonFighters = ({
   ]
   return (
     <div className={classes.wrapper}>
-      <IconPanel
+      <ImagePanel
         data={fightersImageData}
         onClick={(index) => {
           if (index === fighters.length) {
@@ -242,11 +242,12 @@ const DungeonFighters = ({
         <Divider className={classes.divider} />
 
         <FormLabel component="legend">Kúzla</FormLabel>
-        <IconPanel
+        <ImagePanel
           data={spellImages[race].map((spell, i) => ({
             ...spell,
             title: `${spell.title} (${spellLevels[i]})`,
           }))}
+          withTitle
         />
         <Divider className={classes.divider} />
 
@@ -259,7 +260,7 @@ const DungeonFighters = ({
             updateValue(['fighters', selectedFighter, 'items'], value.map((v) => v.ind))
           }}
         />
-        <IconPanel data={items.map((itemIndex) => itemImages[itemIndex])} />
+        <ImagePanel data={items.map((itemIndex) => itemImages[itemIndex])} withTitle />
         <Divider className={classes.divider} />
 
         <Button

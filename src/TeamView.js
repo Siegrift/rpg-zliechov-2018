@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { compose, withState } from 'recompose'
 import { connect } from 'react-redux'
 
-import IconPanel from './IconPanel'
+import ImagePanel from './ImagePanel'
 import { updateValue as _updateValue } from './actions'
 import { raceImages, itemImages, spellImages, creatureSpells, creatureImages } from './images'
 
@@ -88,7 +88,7 @@ const TeamView = ({
 
   return (
     <div className={classNames(classes.wrapper, className)}>
-      <IconPanel data={imagePanelData} selected={selected} onClick={setSelected} />
+      <ImagePanel data={imagePanelData} selected={selected} onClick={setSelected} withTitle />
       <div className={classes.heroDetailsWrapper}>
         <div className={classes.heroDetails}>
           <div className={classes.formPanel}>
@@ -107,22 +107,24 @@ const TeamView = ({
                 <TextField label="Inteligencia" value={intelligence} />
               </FormControl>
             </FormGroup>
-            <IconPanel
+            <ImagePanel
               data={spellData}
               onClick={(ind) => {
                 updateValue([], produce(state, (draftState) => spellData[ind].onInvoke(draftState)))
               }}
               animateOnClick
+              withTitle
             />
           </div>
           <img src={imageSrc} className={classes.image} alt="Fighter" />
         </div>
-        <IconPanel
+        <ImagePanel
           data={itemData}
           onClick={(ind) => {
             updateValue([], produce(state, (draftState) => itemData[ind].onInvoke(draftState)))
           }}
           animateOnClick
+          withTitle
         />
       </div>
     </div>
