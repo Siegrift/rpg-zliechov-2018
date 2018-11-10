@@ -38,7 +38,7 @@ const styles = (theme) => ({
     padding: theme.spacing.unit / 2,
   },
   image: {
-    maxHeight: '500px',
+    maxHeight: 500,
     margin: 'auto',
     maxWidth: '80%',
   },
@@ -72,10 +72,19 @@ const styles = (theme) => ({
   },
   closeButton: {
     position: 'absolute',
-    right: `${theme.spacing.unit + 4}px`,
-    marginTop: '-12px',
+    right: theme.spacing.unit + 4,
+    marginTop: -12,
   },
 })
+
+const isSubmitDisabled = (fighters) => {
+  for (const f of fighters) {
+    if (f.nick === '' || f.level <= 0 || f.power <= 0 || f.agility <= 0 || f.intelligence <= 0) {
+      return true
+    }
+  }
+  return false
+}
 
 const DungeonFighters = ({
   classes,
@@ -102,6 +111,8 @@ const DungeonFighters = ({
     })),
     addEntityImage,
   ]
+
+  const isDisabled = isSubmitDisabled(fighters)
   return (
     <div className={classes.wrapper}>
       <ImagePanel
@@ -269,8 +280,9 @@ const DungeonFighters = ({
           className={classes.button}
           size="large"
           onClick={() => updateValue(['page'], 'fight')}
+          disabled={isDisabled}
         >
-          Pokračuj na boj
+          {isDisabled ? 'Niektoré políčka sú neplatné!' : 'Pokračuj na boj'}
         </Button>
       </div>
     </div>

@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
+import withStatProps from './withStatProps'
+
 const styles = (theme) => ({
   wrapper: {
     display: 'flex',
@@ -13,13 +15,13 @@ const styles = (theme) => ({
     },
   },
   progressWrapper: {
-    height: '20px',
+    height: 20,
   },
   intelligenceBar: {
     backgroundColor: 'rgb(0, 0, 220)',
   },
   intelligence: {
-    height: '20px',
+    height: 20,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'rgb(0, 0, 110)',
   },
@@ -27,7 +29,7 @@ const styles = (theme) => ({
     backgroundColor: 'rgb(0, 220, 0)',
   },
   agility: {
-    height: '20px',
+    height: 20,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'rgb(0, 110, 0)',
   },
@@ -35,38 +37,37 @@ const styles = (theme) => ({
     backgroundColor: 'rgb(220, 0, 0)',
   },
   power: {
-    height: '20px',
+    height: 20,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'rgb(110, 0, 0)',
   },
   barText: {
     color: 'white',
     position: 'relative',
-    top: '-19px',
-    left: '9px',
+    top: -19,
+    left: 9,
   },
   barTextEnd: {
     color: 'white',
     position: 'relative',
     float: 'right',
-    top: '-19px',
-    right: '9px',
+    top: -19,
+    right: 9,
   },
 })
 
-const Stats = ({ classes, creatures, fighters }) => {
-  const fightersPower = fighters.reduce((acc, f) => acc + parseInt(f.power, 10), 0)
-  const fightersAgi = fighters.reduce((acc, f) => acc + parseInt(f.agility, 10), 0)
-  const fightersInt = fighters.reduce((acc, f) => acc + parseInt(f.intelligence, 10), 0)
-
-  const creaturesPower = creatures.reduce((acc, f) => acc + parseInt(f.power, 10), 0)
-  const creaturesAgi = creatures.reduce((acc, f) => acc + parseInt(f.agility, 10), 0)
-  const creaturesInt = creatures.reduce((acc, f) => acc + parseInt(f.intelligence, 10), 0)
-
-  const sumPower = fightersPower + creaturesPower
-  const sumAgi = fightersAgi + creaturesAgi
-  const sumInt = fightersInt + creaturesInt
-
+const Stats = ({
+  classes,
+  fightersPower,
+  fightersAgi,
+  fightersInt,
+  creaturesPower,
+  creaturesAgi,
+  creaturesInt,
+  sumPower,
+  sumAgi,
+  sumInt,
+}) => {
   return (
     <div className={classes.wrapper}>
       <div className={classes.progressWrapper}>
@@ -116,5 +117,6 @@ export default compose(
     creatures: state.creatures,
     fighters: state.fighters,
   })),
+  withStatProps,
   withStyles(styles)
 )(Stats)

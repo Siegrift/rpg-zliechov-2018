@@ -20,14 +20,14 @@ const styles = (theme) => ({
     height: '100%',
   },
   card: {
-    maxWidth: '500px',
+    maxWidth: 500,
     margin: 'auto',
     marginTop: '5em',
   },
   media: {
     objectFit: 'cover',
-    maxWidth: '500px',
-    maxHeight: '500px',
+    maxWidth: 500,
+    maxHeight: 500,
   },
   requirement: {
     padding: theme.spacing.unit / 8,

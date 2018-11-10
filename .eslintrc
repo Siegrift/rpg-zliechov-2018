@@ -1,5 +1,6 @@
 {
   "extends": ["vacuumlabs"],
+  "globals": { "int": true },
   "env": {
     "browser": true,
     "node": true,

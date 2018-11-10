@@ -6,7 +6,7 @@ export const createDefaultFighter = (mul = 1) => ({
   agility: `${mul * 100}`,
   intelligence: `${mul * 100}`,
   spellLevels: [1, 1, 1, 1],
-  items: [0, 1, 0, 0, 2, 1],
+  items: [0, 1, 2],
   imageIndex: 1,
 })
 
@@ -21,6 +21,7 @@ export const createDefaultCreature = () => ({
 })
 
 const state = {
+  // creatures[0] MUST be the one original
   creatures: [createDefaultCreature()],
   fighters: [createDefaultFighter(2), createDefaultFighter()],
   page: 'create',

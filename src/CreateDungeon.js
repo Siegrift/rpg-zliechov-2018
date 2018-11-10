@@ -4,11 +4,12 @@ import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
+import ChipInput from 'material-ui-chip-input'
 import { withStyles } from '@material-ui/core/styles'
-import { compose, withState } from 'recompose'
+import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
-import ChipPanel from './ChipPanel'
+// import ChipPanel from './ChipPanel'
 import EntityImage from './EntityImage'
 import { updateValue as _updateValue } from './actions'
 import { creatureImages } from './images'
@@ -36,7 +37,7 @@ const styles = (theme) => ({
     },
   },
   image: {
-    maxHeight: '500px',
+    maxHeight: 500,
     margin: 'auto',
     maxWidth: '80%',
   },
@@ -55,10 +56,9 @@ const CreateDungeon = ({
   imageIndex,
   updateValue,
   requirements,
-  currentRequirement,
-  setCurrentRequirement,
   name,
 }) => {
+  const isDisabled = name === '' || power <= 0 || agility <= 0 || intelligence <= 0
   return (
     <div className={classes.panel}>
       <Typography className={classes.title} component="h2" variant="h1">
@@ -115,35 +115,24 @@ const CreateDungeon = ({
 
           <FormGroup>
             <FormControl>
-              <TextField
+              <ChipInput
                 label="Požiadavky"
-                placeholder="Zadaj Požiadavku pre boj"
-                value={currentRequirement}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    updateValue(
-                      ['creatures', 0, 'requirements'],
-                      [...requirements, currentRequirement]
-                    )
-                    setCurrentRequirement('')
-                  }
-                }}
-                onChange={(e) => {
-                  setCurrentRequirement(e.target.value)
-                }}
+                placeholder="Zadaj požiadavky pre boj"
+                value={requirements}
+                onAdd={(req) =>
+                  updateValue(['creatures', 0, 'requirements'], [...requirements, req])
+                }
+                onDelete={(chip, index) =>
+                  updateValue(
+                    ['creatures', 0, 'requirements'],
+                    ...requirements.filter((_, i) => index !== i)
+                  )
+                }
               />
             </FormControl>
           </FormGroup>
-          <ChipPanel
-            chips={requirements}
-            onDelete={(index) =>
-              updateValue(
-                ['creatures', 0, 'requirements'],
-                requirements.filter((_, ind) => ind !== index)
-              )
-            }
-          />
         </div>
+
         <EntityImage
           currentImage={imageIndex !== -1 && creatureImages[imageIndex].image}
           imageClassName={classes.image}
@@ -159,8 +148,9 @@ const CreateDungeon = ({
         color="primary"
         size="large"
         onClick={() => updateValue(['page'], 'dungeon')}
+        disabled={isDisabled}
       >
-        Vytvor
+        {isDisabled ? 'Niektoré políčka sú neplatné!' : 'Vytvor'}
       </Button>
     </div>
   )
@@ -173,6 +163,5 @@ export default compose(
     }),
     { updateValue: _updateValue }
   ),
-  withState('currentRequirement', 'setCurrentRequirement', ''),
   withStyles(styles)
 )(CreateDungeon)
