@@ -22,13 +22,16 @@ const styles = (theme) => ({
     textAlign: 'center',
   },
   formWrapper: {
-    marginTop: theme.spacing.unit,
+    marginTop: 150,
     display: 'flex',
     '& > div': {
       width: '50%',
       margin: 'auto',
       marginLeft: theme.spacing.unit,
       marginRight: theme.spacing.unit,
+    },
+    [theme.breakpoints.down('lg')]: {
+      marginTop: theme.spacing.unit,
     },
   },
   form: {
@@ -37,13 +40,23 @@ const styles = (theme) => ({
     },
   },
   image: {
-    maxHeight: 500,
+    maxHeight: 600,
     margin: 'auto',
     maxWidth: '80%',
+    [theme.breakpoints.down('lg')]: {
+      maxHeight: 400,
+    },
+  },
+  buttonWrapper: {
+    display: 'flex',
+    margin: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 2,
+    [theme.breakpoints.down('lg')]: {
+      marginTop: theme.spacing.unit,
+    },
   },
   button: {
-    marginTop: theme.spacing.unit * 2,
-    margin: 'auto',
+    flex: 1,
     display: 'block',
   },
 })
@@ -142,16 +155,18 @@ const CreateDungeon = ({
           }}
         />
       </div>
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={() => updateValue(['page'], 'dungeon')}
-        disabled={isDisabled}
-      >
-        {isDisabled ? 'Niektoré políčka sú neplatné!' : 'Vytvor'}
-      </Button>
+      <div className={classes.buttonWrapper}>
+        <Button
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={() => updateValue(['page'], 'dungeon')}
+          disabled={isDisabled}
+        >
+          {isDisabled ? 'Niektoré políčka sú neplatné!' : 'Vytvor'}
+        </Button>
+      </div>
     </div>
   )
 }

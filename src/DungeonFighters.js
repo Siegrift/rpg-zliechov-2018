@@ -66,14 +66,22 @@ const styles = (theme) => ({
     marginTop: theme.spacing.unit / 4,
     marginBottom: theme.spacing.unit / 4,
   },
+  buttonWrapper: {
+    marginTop: theme.spacing.unit / 4,
+    display: 'flex',
+  },
   button: {
     margin: 'auto',
     display: 'block',
+    flex: 1,
   },
   closeButton: {
     position: 'absolute',
     right: theme.spacing.unit + 4,
     marginTop: -12,
+  },
+  fightersImagePanel: {
+    justifyContent: 'space-around',
   },
 })
 
@@ -124,6 +132,7 @@ const DungeonFighters = ({
           setSelectedFighter(index)
         }}
         selected={selectedFighter}
+        className={classes.fightersImagePanel}
       />
 
       <div className={classes.form}>
@@ -260,7 +269,6 @@ const DungeonFighters = ({
           }))}
           withTitle
         />
-        <Divider className={classes.divider} />
 
         <AutoComplete
           label="Predmety"
@@ -274,16 +282,18 @@ const DungeonFighters = ({
         <ImagePanel data={items.map((itemIndex) => itemImages[itemIndex])} withTitle />
         <Divider className={classes.divider} />
 
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          size="large"
-          onClick={() => updateValue(['page'], 'fight')}
-          disabled={isDisabled}
-        >
-          {isDisabled ? 'Niektoré políčka sú neplatné!' : 'Pokračuj na boj'}
-        </Button>
+        <div className={classes.buttonWrapper}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            size="large"
+            onClick={() => updateValue(['page'], 'fight')}
+            disabled={isDisabled}
+          >
+            {isDisabled ? 'Niektoré políčka sú neplatné!' : 'Pokračuj na boj'}
+          </Button>
+        </div>
       </div>
     </div>
   )

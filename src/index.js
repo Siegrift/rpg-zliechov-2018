@@ -19,6 +19,12 @@ const theme = createMuiTheme({
   shape: {
     borderRadius: 8,
   },
+  /*breakpoints: {
+    values: {
+      md: 1300,
+      lg: 2000,
+    },
+  },*/
 })
 
 ReactDOM.render(

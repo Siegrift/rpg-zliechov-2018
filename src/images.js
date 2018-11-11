@@ -1,10 +1,13 @@
 import { int } from './utils'
 
 export const creatureImages = [
+  { image: require('./assets/creatures/monster6.jpg') },
   { image: require('./assets/creatures/monster0.jpg') },
   { image: require('./assets/creatures/monster1.jpg') },
   { image: require('./assets/creatures/monster2.png') },
   { image: require('./assets/creatures/monster3.jpeg') },
+  { image: require('./assets/creatures/monster4.jpg') },
+  { image: require('./assets/creatures/monster5.jpg') },
 ]
 
 // all races have fixed spells (look in initialState.js for index<--->race mapping)
@@ -14,6 +17,9 @@ export const raceImages = [
     { image: require('./assets/races/mage/mage0.png') },
     { image: require('./assets/races/mage/mage1.png') },
     { image: require('./assets/races/mage/mage2.jpg') },
+    { image: require('./assets/creatures/monster4.jpg') },
+    { image: require('./assets/creatures/monster5.jpg') },
+    { image: require('./assets/creatures/monster6.jpg') },
   ],
   [
     { image: require('./assets/races/hunter/hunter0.jpg') },

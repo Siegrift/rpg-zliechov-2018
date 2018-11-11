@@ -15,7 +15,6 @@ const styles = (theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
     overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
@@ -32,6 +31,10 @@ const styles = (theme) => ({
     cursor: 'pointer',
     maxWidth: 120,
     maxHeight: 120,
+  },
+  smallTiles: {
+    maxWidth: 80,
+    maxHeight: 80,
   },
   image: {
     height: '100%',
@@ -96,6 +99,7 @@ class ImagePanel extends React.Component {
       animateOnClick,
       withTitle,
       state,
+      smallTiles,
     } = this.props
 
     const { animateIndex } = this.state
@@ -106,7 +110,7 @@ class ImagePanel extends React.Component {
             const Tile = (
               <GridListTile
                 key={i}
-                className={classes.tile}
+                className={classNames(classes.tile, smallTiles && classes.smallTiles)}
                 onClick={() => {
                   if (tile.isEnabled && !tile.isEnabled(state)) return
                   if (onClick) onClick(i)

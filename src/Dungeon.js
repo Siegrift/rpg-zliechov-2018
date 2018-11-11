@@ -16,18 +16,26 @@ import { creatureImages } from './images'
 
 const styles = (theme) => ({
   wrapper: {
-    width: '100%',
-    height: '100%',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
   card: {
-    maxWidth: 500,
+    maxWidth: 1000,
     margin: 'auto',
-    marginTop: '5em',
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: 500,
+    },
   },
   media: {
     objectFit: 'cover',
-    maxWidth: 500,
-    maxHeight: 500,
+    maxWidth: 1000,
+    maxHeight: 600,
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: 500,
+      maxHeight: 400,
+    },
   },
   requirement: {
     padding: theme.spacing.unit / 8,
@@ -52,7 +60,7 @@ const Dungeon = ({ name, requirements, imageIndex, classes, updateValue }) => {
               alt="Príšera"
               className={classes.media}
               image={creatureImages[imageIndex].image}
-              title="Príšera"
+              title={name}
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2" className={classes.title}>

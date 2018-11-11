@@ -31,7 +31,7 @@ const ImageDialog = ({ classes, onClose, images, index, setIndex }) => {
         <Button onClick={() => onClose(index)} color="primary" disabled={index === -1}>
           OK
         </Button>
-        <Button onClick={() => onClose(index)} color="primary">
+        <Button onClick={() => onClose(-1)} color="primary">
           Zavrieť
         </Button>
       </DialogActions>

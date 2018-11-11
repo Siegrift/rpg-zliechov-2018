@@ -55,6 +55,12 @@ const styles = (theme) => ({
     zIndex: 2,
     flex: 1,
   },
+  dialogRoot: {
+    maxHeight: 2000,
+    ' & > div': {
+      display: 'grid',
+    },
+  },
 })
 
 const giveUpText =
@@ -120,6 +126,9 @@ class Fight extends React.Component {
             onClose={this.setAppInitialState}
             TransitionComponent={Transition}
             aria-labelledby="form-dialog-title"
+            classes={{
+              paper: classes.dialogRoot,
+            }}
           >
             <DialogTitle id="form-dialog-title" className={classes.title}>
               Gratulujeme! Príšera "{creatureName}" zabitá!

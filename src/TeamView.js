@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControl from '@material-ui/core/FormControl'
 import produce from 'immer'
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import { withStyles } from '@material-ui/core/styles'
 import { compose, withState } from 'recompose'
 import { connect } from 'react-redux'
@@ -24,6 +25,7 @@ const styles = (theme) => ({
     border: '1px solid rgba(0, 0, 0, 0.2)',
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing.unit / 2,
+    height: '65vh',
   },
   heroDetails: {
     display: 'flex',
@@ -32,7 +34,7 @@ const styles = (theme) => ({
   },
   formPanel: {
     width: '50%',
-    margin: 'auto',
+    alignSelf: 'flex-end',
     '& > div': {
       marginTop: theme.spacing.unit / 4,
       marginBottom: theme.spacing.unit / 4,
@@ -40,8 +42,19 @@ const styles = (theme) => ({
   },
   image: {
     margin: 'auto',
-    width: '50%',
-    height: '50%',
+    width: 400,
+    height: 400,
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginBottom: theme.spacing.unit / 4,
+      alignSelf: 'flex-end',
+      height: 250,
+      width: 250,
+    },
+  },
+  imagePanel: {
+    justifyContent: 'space-around',
   },
 })
 
@@ -55,6 +68,7 @@ const TeamView = ({
   creatures,
   state,
   updateValue,
+  width,
 }) => {
   let imagePanelData
   let spellData
@@ -88,7 +102,13 @@ const TeamView = ({
 
   return (
     <div className={classNames(classes.wrapper, className)}>
-      <ImagePanel data={imagePanelData} selected={selected} onClick={setSelected} withTitle />
+      <ImagePanel
+        data={imagePanelData}
+        selected={selected}
+        onClick={setSelected}
+        withTitle
+        className={classes.imagePanel}
+      />
       <div className={classes.heroDetailsWrapper}>
         <div className={classes.heroDetails}>
           <div className={classes.formPanel}>
@@ -114,6 +134,7 @@ const TeamView = ({
               }}
               animateOnClick
               withTitle
+              smallTiles={isWidthDown('lg', width)}
             />
           </div>
           <img src={imageSrc} className={classes.image} alt="Fighter" />
@@ -141,5 +162,6 @@ export default compose(
     { updateValue: _updateValue }
   ),
   withState('selected', 'setSelected', 0),
+  withWidth(),
   withStyles(styles)
 )(TeamView)
