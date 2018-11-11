@@ -1,6 +1,7 @@
 import 'typeface-roboto'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { Provider } from 'react-redux'
 
@@ -29,9 +30,11 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider theme={theme}>
-      <App />
-    </MuiThemeProvider>
+    <CssBaseline>
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
+    </CssBaseline>
   </Provider>,
   document.getElementById('root')
 )
