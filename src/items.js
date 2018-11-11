@@ -1,6 +1,11 @@
 import { int } from './utils'
 
-export const itemImages = [
+/*
+Contains all items in a game. To add a new array look at './spells.js'.
+The item object is structurally similar to 'spell' object.
+*/
+
+export const items = [
   {
     image: require('./assets/items/agh.jpg'),
     title: 'Aghanim',
@@ -10,6 +15,6 @@ export const itemImages = [
     },
     isEnabled: (fighter) => fighter.power >= 100,
   },
-  { image: require('./assets/items/dagon.jpg'), title: 'Dagon', onInvoke: (fighter) => fighter },
-  { image: require('./assets/items/manta.png'), title: 'Manta', onInvoke: (fighter) => fighter },
+  { image: require('./assets/items/dagon.jpg'), title: 'Dagon' },
+  { image: require('./assets/items/manta.png'), title: 'Manta' },
 ]

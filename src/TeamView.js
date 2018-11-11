@@ -12,8 +12,8 @@ import { connect } from 'react-redux'
 import ImagePanel from './ImagePanel'
 import { updateValue as _updateValue } from './actions'
 import { raceImages, creatureImages } from './units'
-import { spellImages, creatureSpells } from './spells'
-import { itemImages } from './items'
+import { fighterSpells, creatureSpells } from './spells'
+import { items } from './items'
 
 const styles = (theme) => ({
   wrapper: {
@@ -89,18 +89,18 @@ const TeamView = ({
     imageSrc = creatureImages[imageIndex].image
     itemData = []
   } else {
-    const { race, spellLevels, imageIndex, items } = fighters[selected]
+    const { race, spellLevels, imageIndex, itemIndexes } = fighters[selected]
 
     imagePanelData = fighters.map(({ race, imageIndex, nick }) => ({
       image: isCreatureView ? creatureImages[imageIndex].image : raceImages[race][imageIndex].image,
       title: nick,
     }))
-    spellData = spellImages[race].map((spell, i) => ({
+    spellData = fighterSpells[race].map((spell, i) => ({
       ...spell,
       title: `${spell.title} (${spellLevels[i]})`,
     }))
     imageSrc = raceImages[race][imageIndex].image
-    itemData = items.map((index) => itemImages[index])
+    itemData = itemIndexes.map((index) => items[index])
   }
   const { power, agility, intelligence } = isCreatureView ? creatures[selected] : fighters[selected]
 

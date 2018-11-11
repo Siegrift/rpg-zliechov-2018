@@ -20,7 +20,7 @@ const mockedState = {
       agility: '50',
       intelligence: '50',
       spellLevels: [1, 1, 1, 1],
-      items: [0],
+      itemIndexes: [0],
       imageIndex: 1,
     },
     {
@@ -31,7 +31,7 @@ const mockedState = {
       agility: '70',
       intelligence: '70',
       spellLevels: [1, 1, 1, 1],
-      items: [1, 2],
+      itemIndexes: [1, 2],
       imageIndex: 0,
     },
   ],
@@ -40,7 +40,7 @@ const mockedState = {
   page: 'create',
 }
 
-export const createDefaultFighter = (mul = 1) => ({
+export const createDefaultFighter = () => ({
   nick: '',
   race: 0, // (0, 1, 2, 3, 4) = (Mág, Lovec, Kňaz, Černokňažník, Bojovník)
   level: '1',
@@ -48,7 +48,7 @@ export const createDefaultFighter = (mul = 1) => ({
   agility: '',
   intelligence: '',
   spellLevels: [1, 1, 1, 1],
-  items: [0],
+  itemIndexes: [0],
   imageIndex: 0,
 })
 
@@ -65,10 +65,10 @@ export const createDefaultCreature = () => ({
 const state = {
   // creatures[0] MUST be the one original
   creatures: [createDefaultCreature()],
-  fighters: [createDefaultFighter(2), createDefaultFighter()],
+  fighters: [createDefaultFighter()],
   selectedCreature: 0,
   selectedFighter: 0,
   page: 'create',
 }
 
-export default () => mockedState
+export default () => state

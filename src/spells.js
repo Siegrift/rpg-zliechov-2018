@@ -1,7 +1,29 @@
 import { int } from './utils'
 
+/*
+There are 2 categories of spells (fighter and creature). Both are represented as
+array of structurally the same objects. The structure looks as this
+
+{
+  image: require(<<path_to_image>>),
+  title: <<title>>,
+  onInvoke: (current_fighter, current_creature, whole_state) => {
+    ...
+  },
+  isEnabled: (current_fighter, current_creature, whole_state) => {
+    ...
+  },
+}
+
+Required fields of this object are only 'image' and 'title'. Leaving out
+onInvoke means no action, and isEnabled means the spell is always available.
+
+To add a new spell, just add an item to the following array and code the logic
+of the spell.
+*/
+
 // all races have fixed spells (look in initialState.js for index<--->race mapping)
-export const spellImages = [
+export const fighterSpells = [
   // TODO: find spell icons for all races
   [
     {

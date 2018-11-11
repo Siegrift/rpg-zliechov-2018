@@ -39,6 +39,7 @@ const styles = (theme) => ({
   },
   requirement: {
     padding: theme.spacing.unit / 8,
+    backgroundColor: 'transparent !important',
   },
   divider: {
     marginTop: theme.spacing.unit / 4,

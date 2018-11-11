@@ -23,8 +23,8 @@ import EntityPlaceholderImage from './assets/entityPlaceholder.png'
 import { updateValue as _updateValue } from './actions'
 import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
-import { itemImages } from './items'
-import { spellImages } from './spells'
+import { items } from './items'
+import { fighterSpells } from './spells'
 
 const styles = (theme) => ({
   wrapper: {
@@ -112,7 +112,7 @@ const DungeonFighters = ({
     intelligence,
     spellLevels,
     imageIndex,
-    items,
+    itemIndexes,
   } = fighters[selectedFighter]
   const fightersImageData = [
     ...fighters.map(({ imageIndex }, index) => ({
@@ -265,23 +265,24 @@ const DungeonFighters = ({
 
         <FormLabel component="legend">Kúzla</FormLabel>
         <ImagePanel
-          data={spellImages[race].map((spell, i) => ({
+          data={fighterSpells[race].map((spell, i) => ({
             ...spell,
             title: `${spell.title} (${spellLevels[i]})`,
           }))}
           withTitle
         />
+        <Divider className={classes.divider} />
 
         <AutoComplete
           label="Predmety"
-          data={itemImages}
+          data={items}
           placeholder="Zvoľ svoje itemy"
-          value={items}
+          value={itemIndexes}
           onChange={(value) => {
-            updateValue(['fighters', selectedFighter, 'items'], value.map((v) => v.ind))
+            updateValue(['fighters', selectedFighter, 'itemIndexes'], value.map((v) => v.ind))
           }}
         />
-        <ImagePanel data={items.map((itemIndex) => itemImages[itemIndex])} withTitle />
+        <ImagePanel data={itemIndexes.map((itemIndex) => items[itemIndex])} withTitle />
         <Divider className={classes.divider} />
 
         <div className={classes.buttonWrapper}>

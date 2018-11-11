@@ -2,7 +2,6 @@ import React from 'react'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
-import Tooltip from '@material-ui/core/Tooltip'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { compose } from 'recompose'
@@ -100,6 +99,10 @@ class ImagePanel extends React.Component {
       withTitle,
       state,
       smallTiles,
+      creatures,
+      fighters,
+      selectedFighter,
+      selectedCreature,
     } = this.props
 
     const { animateIndex } = this.state
@@ -111,7 +114,12 @@ class ImagePanel extends React.Component {
               key={i}
               className={classNames(classes.tile, smallTiles && classes.smallTiles)}
               onClick={() => {
-                if (tile.isEnabled && !tile.isEnabled(state)) return
+                if (
+                  tile.isEnabled &&
+                  !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)
+                ) {
+                  return
+                }
                 if (onClick) onClick(i)
                 if (animateOnClick) {
                   this.setAnimateIndex(i)
@@ -129,7 +137,9 @@ class ImagePanel extends React.Component {
               <span
                 className={classNames(classes.overlay, {
                   [classes.overlaySelected]: selected === i,
-                  [classes.overlayDisabled]: tile.isEnabled && !tile.isEnabled(state),
+                  [classes.overlayDisabled]:
+                    tile.isEnabled &&
+                    !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state),
                 })}
               />
               {withTitle && (
@@ -154,6 +164,7 @@ class ImagePanel extends React.Component {
 export default compose(
   connect((state) => ({
     state,
+    ...state,
   })),
   withStyles(styles)
 )(ImagePanel)
