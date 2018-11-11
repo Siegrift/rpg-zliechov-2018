@@ -22,7 +22,9 @@ import EntityImage from './EntityImage'
 import EntityPlaceholderImage from './assets/entityPlaceholder.png'
 import { updateValue as _updateValue } from './actions'
 import { createDefaultFighter } from './store/initialState'
-import { raceImages, addEntityImage, itemImages, spellImages } from './images'
+import { raceImages, addUnitImage } from './units'
+import { itemImages } from './items'
+import { spellImages } from './spells'
 
 const styles = (theme) => ({
   wrapper: {
@@ -117,7 +119,7 @@ const DungeonFighters = ({
       image: imageIndex === -1 ? EntityPlaceholderImage : raceImages[race][imageIndex].image,
       title: nick,
     })),
-    addEntityImage,
+    addUnitImage,
   ]
 
   const isDisabled = isSubmitDisabled(fighters)

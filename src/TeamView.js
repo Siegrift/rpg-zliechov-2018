@@ -6,12 +6,14 @@ import FormControl from '@material-ui/core/FormControl'
 import produce from 'immer'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import { withStyles } from '@material-ui/core/styles'
-import { compose, withState } from 'recompose'
+import { compose, withProps } from 'recompose'
 import { connect } from 'react-redux'
 
 import ImagePanel from './ImagePanel'
 import { updateValue as _updateValue } from './actions'
-import { raceImages, itemImages, spellImages, creatureSpells, creatureImages } from './images'
+import { raceImages, creatureImages } from './units'
+import { spellImages, creatureSpells } from './spells'
+import { itemImages } from './items'
 
 const styles = (theme) => ({
   wrapper: {
@@ -69,6 +71,8 @@ const TeamView = ({
   state,
   updateValue,
   width,
+  selectedCreature,
+  selectedFighter,
 }) => {
   let imagePanelData
   let spellData
@@ -130,7 +134,16 @@ const TeamView = ({
             <ImagePanel
               data={spellData}
               onClick={(ind) => {
-                updateValue([], produce(state, (draftState) => spellData[ind].onInvoke(draftState)))
+                updateValue(
+                  [],
+                  produce(state, (draftState) =>
+                    spellData[ind].onInvoke(
+                      draftState.fighters[selectedFighter],
+                      draftState.creatures[selectedCreature],
+                      draftState
+                    )
+                  )
+                )
               }}
               animateOnClick
               withTitle
@@ -142,7 +155,16 @@ const TeamView = ({
         <ImagePanel
           data={itemData}
           onClick={(ind) => {
-            updateValue([], produce(state, (draftState) => itemData[ind].onInvoke(draftState)))
+            updateValue(
+              [],
+              produce(state, (draftState) =>
+                itemData[ind].onInvoke(
+                  draftState.fighters[selectedFighter],
+                  draftState.creatures[selectedCreature],
+                  draftState
+                )
+              )
+            )
           }}
           animateOnClick
           withTitle
@@ -156,12 +178,15 @@ export default compose(
   connect(
     (state) => ({
       state,
-      fighters: state.fighters,
-      creatures: state.creatures,
+      ...state,
     }),
     { updateValue: _updateValue }
   ),
-  withState('selected', 'setSelected', 0),
+  withProps(({ isCreatureView, selectedCreature, selectedFighter, updateValue }) => ({
+    selected: isCreatureView ? selectedCreature : selectedFighter,
+    setSelected: (index) =>
+      updateValue([isCreatureView ? 'selectedCreature' : 'selectedFighter'], index),
+  })),
   withWidth(),
   withStyles(styles)
 )(TeamView)

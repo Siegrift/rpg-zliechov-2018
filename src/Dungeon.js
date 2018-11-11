@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 
 import List from './List'
 import { updateValue as _updateValue } from './actions'
-import { creatureImages } from './images'
+import { creatureImages } from './units'
 
 const styles = (theme) => ({
   wrapper: {

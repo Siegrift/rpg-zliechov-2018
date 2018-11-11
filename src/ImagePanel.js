@@ -106,53 +106,44 @@ class ImagePanel extends React.Component {
     return (
       <div className={classNames(classes.root, className)}>
         <GridList className={classes.gridList} cols={data.length}>
-          {data.map((tile, i) => {
-            const Tile = (
-              <GridListTile
-                key={i}
-                className={classNames(classes.tile, smallTiles && classes.smallTiles)}
-                onClick={() => {
-                  if (tile.isEnabled && !tile.isEnabled(state)) return
-                  if (onClick) onClick(i)
-                  if (animateOnClick) {
-                    this.setAnimateIndex(i)
-                    const now = Date.now()
-                    this.setState((state) => ({ ...state, cancelTime: now }))
-                    setTimeout(() => {
-                      if (this.mounted && now === this.state.cancelTime) {
-                        this.setAnimateIndex(-1)
-                      }
-                    }, ANIMATION_TIME * 1000 + 500)
-                  }
-                }}
-              >
-                <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
-                <span
-                  className={classNames(classes.overlay, {
-                    [classes.overlaySelected]: selected === i,
-                    [classes.overlayDisabled]: tile.isEnabled && !tile.isEnabled(state),
-                  })}
+          {data.map((tile, i) => (
+            <GridListTile
+              key={i}
+              className={classNames(classes.tile, smallTiles && classes.smallTiles)}
+              onClick={() => {
+                if (tile.isEnabled && !tile.isEnabled(state)) return
+                if (onClick) onClick(i)
+                if (animateOnClick) {
+                  this.setAnimateIndex(i)
+                  const now = Date.now()
+                  this.setState((state) => ({ ...state, cancelTime: now }))
+                  setTimeout(() => {
+                    if (this.mounted && now === this.state.cancelTime) {
+                      this.setAnimateIndex(-1)
+                    }
+                  }, ANIMATION_TIME * 1000 + 500)
+                }
+              }}
+            >
+              <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
+              <span
+                className={classNames(classes.overlay, {
+                  [classes.overlaySelected]: selected === i,
+                  [classes.overlayDisabled]: tile.isEnabled && !tile.isEnabled(state),
+                })}
+              />
+              {withTitle && (
+                <GridListTileBar
+                  title={tile.title}
+                  classes={{
+                    root: classes.titleBar,
+                    title: classes.title,
+                    titleWrap: classes.titleWrap,
+                  }}
                 />
-                {withTitle && (
-                  <GridListTileBar
-                    title={tile.title}
-                    classes={{
-                      root: classes.titleBar,
-                      title: classes.title,
-                      titleWrap: classes.titleWrap,
-                    }}
-                  />
-                )}
-              </GridListTile>
-            )
-            return withTitle ? (
-              <Tooltip key={i} title={tile.title}>
-                {Tile}
-              </Tooltip>
-            ) : (
-              Tile
-            )
-          })}
+              )}
+            </GridListTile>
+          ))}
         </GridList>
         <Animate image={animateIndex !== -1 ? data[animateIndex].image : null} />
       </div>

@@ -16,7 +16,7 @@ import TeamView from './TeamView'
 import Stats from './Stats'
 import withStatProps from './withStatProps'
 import { updateValue as _updateValue } from './actions'
-import { creatureImages } from './images'
+import { creatureImages } from './units'
 import { CARD_IMAGE_SIZE, ANIMATION_TIME } from './constants'
 import getInitialState from './store/initialState'
 
