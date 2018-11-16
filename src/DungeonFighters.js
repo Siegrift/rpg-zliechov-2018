@@ -89,7 +89,7 @@ const styles = (theme) => ({
 
 const isSubmitDisabled = (fighters) => {
   for (const f of fighters) {
-    if (f.nick === '' || f.level <= 0 || f.power <= 0 || f.agility <= 0 || f.intelligence <= 0) {
+    if (f.nick === '' || f.level <= 0 || f.power <= 0 || f.agi <= 0 || f.int <= 0) {
       return true
     }
   }
@@ -108,8 +108,8 @@ const DungeonFighters = ({
     race,
     level,
     power,
-    agility,
-    intelligence,
+    agi,
+    int,
     spellLevels,
     imageIndex,
     itemIndexes,
@@ -228,9 +228,9 @@ const DungeonFighters = ({
                   type="number"
                   label="Obratnosť"
                   placeholder="Zadaj svoju obratnosť"
-                  value={agility}
+                  value={agi}
                   onChange={(e) =>
-                    updateValue(['fighters', selectedFighter, 'agility'], e.target.value)
+                    updateValue(['fighters', selectedFighter, 'agi'], e.target.value)
                   }
                 />
               </FormControl>
@@ -242,9 +242,9 @@ const DungeonFighters = ({
                   type="number"
                   label="Inteligencia"
                   placeholder="Zadaj svoju inteligenciu"
-                  value={intelligence}
+                  value={int}
                   onChange={(e) =>
-                    updateValue(['fighters', selectedFighter, 'intelligence'], e.target.value)
+                    updateValue(['fighters', selectedFighter, 'int'], e.target.value)
                   }
                 />
               </FormControl>

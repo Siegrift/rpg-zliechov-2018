@@ -64,14 +64,14 @@ const styles = (theme) => ({
 const CreateDungeon = ({
   classes,
   power,
-  agility,
-  intelligence,
+  agi,
+  int,
   imageIndex,
   updateValue,
   requirements,
   name,
 }) => {
-  const isDisabled = name === '' || power <= 0 || agility <= 0 || intelligence <= 0
+  const isDisabled = name === '' || power <= 0 || agi <= 0 || int <= 0
   return (
     <div className={classes.panel}>
       <Typography className={classes.title} component="h2" variant="h1">
@@ -108,8 +108,8 @@ const CreateDungeon = ({
                 type="number"
                 label="Obratnosť"
                 placeholder="Zadaj obratnosť príšery"
-                value={agility}
-                onChange={(e) => updateValue(['creatures', 0, 'agility'], e.target.value)}
+                value={agi}
+                onChange={(e) => updateValue(['creatures', 0, 'agi'], e.target.value)}
               />
             </FormControl>
           </FormGroup>
@@ -120,8 +120,8 @@ const CreateDungeon = ({
                 type="number"
                 label="Inteligencia"
                 placeholder="Zadaj inteligenciu príšery"
-                value={intelligence}
-                onChange={(e) => updateValue(['creatures', 0, 'intelligence'], e.target.value)}
+                value={int}
+                onChange={(e) => updateValue(['creatures', 0, 'int'], e.target.value)}
               />
             </FormControl>
           </FormGroup>

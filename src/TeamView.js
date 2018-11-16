@@ -102,7 +102,7 @@ const TeamView = ({
     imageSrc = raceImages[race][imageIndex].image
     itemData = itemIndexes.map((index) => items[index])
   }
-  const { power, agility, intelligence } = isCreatureView ? creatures[selected] : fighters[selected]
+  const { power, agi, int } = isCreatureView ? creatures[selected] : fighters[selected]
 
   return (
     <div className={classNames(classes.wrapper, className)}>
@@ -123,12 +123,12 @@ const TeamView = ({
             </FormGroup>
             <FormGroup>
               <FormControl>
-                <TextField label="Obratnosť" value={agility} />
+                <TextField label="Obratnosť" value={agi} />
               </FormControl>
             </FormGroup>
             <FormGroup>
               <FormControl>
-                <TextField label="Inteligencia" value={intelligence} />
+                <TextField label="Inteligencia" value={int} />
               </FormControl>
             </FormGroup>
             <ImagePanel

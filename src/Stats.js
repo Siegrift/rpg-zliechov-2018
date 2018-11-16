@@ -20,7 +20,7 @@ const styles = (theme) => ({
   intelligenceBar: {
     backgroundColor: 'rgb(0, 0, 220)',
   },
-  intelligence: {
+  int: {
     height: 20,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'rgb(0, 0, 110)',
@@ -28,7 +28,7 @@ const styles = (theme) => ({
   agilityBar: {
     backgroundColor: 'rgb(0, 220, 0)',
   },
-  agility: {
+  agi: {
     height: 20,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: 'rgb(0, 110, 0)',
@@ -86,7 +86,7 @@ const Stats = ({
       <div className={classes.progressWrapper}>
         <LinearProgress
           classes={{
-            colorPrimary: classes.agility,
+            colorPrimary: classes.agi,
             barColorPrimary: classes.agilityBar,
           }}
           variant="determinate"
@@ -99,7 +99,7 @@ const Stats = ({
       <div className={classes.progressWrapper}>
         <LinearProgress
           classes={{
-            colorPrimary: classes.intelligence,
+            colorPrimary: classes.int,
             barColorPrimary: classes.intelligenceBar,
           }}
           variant="determinate"

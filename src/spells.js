@@ -1,4 +1,5 @@
 import { int } from './utils'
+import { powerDmg } from './damageHelpers'
 
 /*
 There are 2 categories of spells (fighter and creature). Both are represented as
@@ -37,21 +38,21 @@ export const fighterSpells = [
       image: require('./assets/spells/wex.png'),
       title: 'Wex',
       onInvoke: (figther) => {
-        figther.agility = int(figther.agility) + 50
+        figther.agi = int(figther.agi) + 50
       },
     },
     {
       image: require('./assets/spells/exort.png'),
       title: 'Exort',
       onInvoke: (figther) => {
-        figther.intelligence = int(figther.intelligence) + 50
+        figther.int = int(figther.int) + 50
       },
     },
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Invoke',
-      onInvoke: (figther) => {
-        figther.power -= 10
+      onInvoke: (figther, creature) => {
+        powerDmg(creature, 10)
       },
     },
   ],

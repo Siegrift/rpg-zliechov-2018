@@ -11,7 +11,7 @@ export const items = [
     title: 'Aghanim',
     onInvoke: (fighter) => {
       fighter.power = int(fighter.power) - 50
-      fighter.agility += 50
+      fighter.agi += 50
     },
     isEnabled: (fighter) => fighter.power >= 100,
   },
