@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import List from './List'
 import { updateValue as _updateValue } from './actions'
 import { creatureImages } from './units'
+import { itemTypes } from './items'
 
 const styles = (theme) => ({
   wrapper: {
@@ -22,22 +23,22 @@ const styles = (theme) => ({
     transform: 'translate(-50%, -50%)',
   },
   card: {
-    maxWidth: 1000,
+    maxWidth: 900,
     margin: 'auto',
     [theme.breakpoints.down('lg')]: {
-      maxWidth: 500,
+      maxWidth: 450,
     },
   },
   media: {
     objectFit: 'cover',
-    maxWidth: 1000,
-    maxHeight: 600,
+    maxWidth: 700,
+    maxHeight: 500,
     [theme.breakpoints.down('lg')]: {
-      maxWidth: 500,
-      maxHeight: 400,
+      maxWidth: 450,
+      maxHeight: 250,
     },
   },
-  requirement: {
+  listItem: {
     padding: theme.spacing.unit / 8,
     backgroundColor: 'transparent !important',
   },
@@ -50,7 +51,17 @@ const styles = (theme) => ({
   },
 })
 
-const Dungeon = ({ name, requirements, imageIndex, classes, updateValue }) => {
+const formatRewardItems = (rewardItems) => {
+  const formattedRewardItems = []
+  for (let i = 0; i < rewardItems.length; i++) {
+    if (parseInt(rewardItems[i], 10) !== 0) {
+      formattedRewardItems.push(`${rewardItems[i]}krát ${itemTypes[i].toLowerCase()}`)
+    }
+  }
+  return formattedRewardItems
+}
+
+const Dungeon = ({ name, requirements, imageIndex, classes, updateValue, rewardItems }) => {
   return (
     <div className={classes.wrapper}>
       <Tooltip title="Vyzvať príšeru">
@@ -64,15 +75,21 @@ const Dungeon = ({ name, requirements, imageIndex, classes, updateValue }) => {
               title={name}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
+              <Typography gutterBottom variant="h4" className={classes.title}>
                 {name}
               </Typography>
               <Divider className={classes.divider} />
 
-              <Typography gutterBottom variant="h6" component="h3" className={classes.title}>
+              <Typography gutterBottom variant="h6" className={classes.title}>
                 Podmienky na vyzvanie
               </Typography>
-              <List items={requirements} itemClassName={classes.requirement} />
+              <List items={requirements} itemClassName={classes.listItem} />
+              <Divider className={classes.divider} />
+
+              <Typography gutterBottom variant="h6" className={classes.title}>
+                Odmena
+              </Typography>
+              <List items={formatRewardItems(rewardItems)} itemClassName={classes.listItem} />
             </CardContent>
           </CardActionArea>
         </Card>

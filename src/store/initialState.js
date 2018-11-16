@@ -7,6 +7,7 @@ const mockedState = {
       agi: '100',
       int: '150',
       requirements: ['At least 5'],
+      rewardItems: ['1', '2', '0', '0'],
       spellIndexes: [0, 1],
       imageIndex: 2,
     },
@@ -58,6 +59,7 @@ export const createDefaultCreature = () => ({
   agi: '',
   int: '',
   requirements: [],
+  rewardItems: ['', '', '', ''],
   spellIndexes: [],
   imageIndex: 0,
 })

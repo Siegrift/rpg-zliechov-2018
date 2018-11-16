@@ -1,9 +1,8 @@
 chooseAlly: enum (1 = clovek, 2 = attribut...)
 chooseEnemy: ...
-special races, expressions
+special races, 
 base stats, bonus stats
 manapool = base inteligencia na zaciatku boja
-ake itemy padnu (4 typy idemov)
 spelly tolko levelovat ako level, to iste spelly, tooltip
 medziscreena pri pokracuj naboj
 ak ma prisera zomriet tak sa s nejkaou sancou nastavi na attributy skupiny a +1obratnost

@@ -32,3 +32,5 @@ export const items = [
     isEnabled: (fighter) => true,
   },
 ]
+
+export const itemTypes = ['Bežné', 'Vzácne', 'Legendárne', 'Prastaré']

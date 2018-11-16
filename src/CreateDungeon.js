@@ -4,15 +4,20 @@ import Typography from '@material-ui/core/Typography'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
+import FormLabel from '@material-ui/core/FormLabel'
 import ChipInput from 'material-ui-chip-input'
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import { withStyles } from '@material-ui/core/styles'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
-// import ChipPanel from './ChipPanel'
+import ImagePanel from './ImagePanel'
+import AutoComplete from './AutoComplete'
 import EntityImage from './EntityImage'
 import { updateValue as _updateValue } from './actions'
 import { creatureImages } from './units'
+import { itemTypes } from './items'
+import { creatureSpells } from './spells'
 
 const styles = (theme) => ({
   panel: {
@@ -42,7 +47,7 @@ const styles = (theme) => ({
   image: {
     maxHeight: 600,
     margin: 'auto',
-    maxWidth: '80%',
+    maxWidth: '100%',
     [theme.breakpoints.down('lg')]: {
       maxHeight: 400,
     },
@@ -59,6 +64,24 @@ const styles = (theme) => ({
     flex: 1,
     display: 'block',
   },
+  stats: {
+    display: 'flex',
+    '& > *': {
+      flex: 1,
+    },
+    '& > div:not(:first-child)': {
+      marginLeft: theme.spacing.unit / 8,
+    },
+    '& > div:not(:last-child)': {
+      marginRight: theme.spacing.unit / 8,
+    },
+  },
+  itemLabel: {
+    textAlign: 'center',
+    position: 'relative',
+    top: '50%',
+    transform: 'translateY(-50%)',
+  },
 })
 
 const CreateDungeon = ({
@@ -70,8 +93,16 @@ const CreateDungeon = ({
   updateValue,
   requirements,
   name,
+  rewardItems,
+  spellIndexes,
+  width,
 }) => {
-  const isDisabled = name === '' || power <= 0 || agi <= 0 || int <= 0
+  const isDisabled =
+    name === '' ||
+    power <= 0 ||
+    agi <= 0 ||
+    int <= 0 ||
+    rewardItems.find((item) => item < 0 || item === '') !== undefined
   return (
     <div className={classes.panel}>
       <Typography className={classes.title} component="h2" variant="h1">
@@ -90,41 +121,46 @@ const CreateDungeon = ({
             </FormControl>
           </FormGroup>
 
-          <FormGroup>
-            <FormControl>
-              <TextField
-                type="number"
-                label="Sila"
-                placeholder="Zadaj silu príšery"
-                value={power}
-                onChange={(e) => updateValue(['creatures', 0, 'power'], e.target.value)}
-              />
-            </FormControl>
-          </FormGroup>
+          <div className={classes.stats}>
+            <TextField
+              type="number"
+              label="Sila"
+              placeholder="Zadaj silu príšery"
+              value={power}
+              onChange={(e) => updateValue(['creatures', 0, 'power'], e.target.value)}
+            />
+            <TextField
+              type="number"
+              label="Obratnosť"
+              placeholder="Zadaj obratnosť príšery"
+              value={agi}
+              onChange={(e) => updateValue(['creatures', 0, 'agi'], e.target.value)}
+            />
+            <TextField
+              type="number"
+              label="Inteligencia"
+              placeholder="Zadaj inteligenciu príšery"
+              value={int}
+              onChange={(e) => updateValue(['creatures', 0, 'int'], e.target.value)}
+            />
+          </div>
 
-          <FormGroup>
-            <FormControl>
+          <div className={classes.stats}>
+            <div>
+              <FormLabel component="legend" value="left" className={classes.itemLabel}>
+                Získané predmety
+              </FormLabel>
+            </div>
+            {itemTypes.map((type, i) => (
               <TextField
+                key={i}
                 type="number"
-                label="Obratnosť"
-                placeholder="Zadaj obratnosť príšery"
-                value={agi}
-                onChange={(e) => updateValue(['creatures', 0, 'agi'], e.target.value)}
+                label={type}
+                value={rewardItems[i]}
+                onChange={(e) => updateValue(['creatures', 0, 'rewardItems', i], e.target.value)}
               />
-            </FormControl>
-          </FormGroup>
-
-          <FormGroup>
-            <FormControl>
-              <TextField
-                type="number"
-                label="Inteligencia"
-                placeholder="Zadaj inteligenciu príšery"
-                value={int}
-                onChange={(e) => updateValue(['creatures', 0, 'int'], e.target.value)}
-              />
-            </FormControl>
-          </FormGroup>
+            ))}
+          </div>
 
           <FormGroup>
             <FormControl>
@@ -144,6 +180,20 @@ const CreateDungeon = ({
               />
             </FormControl>
           </FormGroup>
+
+          <AutoComplete
+            label="Predmety"
+            data={creatureSpells}
+            placeholder="Zvoľ itemy príšery"
+            value={spellIndexes}
+            onChange={(value) => {
+              updateValue(['creatures', 0, 'spellIndexes'], value.map((v) => v.ind))
+            }}
+          />
+          <ImagePanel
+            data={spellIndexes.map((i) => creatureSpells[i])}
+            smallTiles={isWidthDown('lg', width)}
+          />
         </div>
 
         <EntityImage
@@ -178,5 +228,6 @@ export default compose(
     }),
     { updateValue: _updateValue }
   ),
+  withWidth(),
   withStyles(styles)
 )(CreateDungeon)

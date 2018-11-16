@@ -32,7 +32,7 @@ const styles = (theme) => ({
     overflow: 'hidden',
   },
   chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+    margin: `${theme.spacing.unit / 4}px ${theme.spacing.unit / 8}px`,
   },
   chipFocused: {
     backgroundColor: emphasize(
