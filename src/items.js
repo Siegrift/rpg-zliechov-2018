@@ -15,6 +15,20 @@ export const items = [
     },
     isEnabled: (fighter) => fighter.power >= 100,
   },
-  { image: require('./assets/items/dagon.jpg'), title: 'Dagon' },
-  { image: require('./assets/items/manta.png'), title: 'Manta' },
+  {
+    image: require('./assets/items/dagon.jpg'),
+    title: 'Dagon',
+    onInvoke: (fighter) => {
+      fighter.power = int(fighter.power) + 50
+    },
+    isEnabled: (fighter) => true,
+  },
+  {
+    image: require('./assets/items/manta.png'),
+    title: 'Manta',
+    onInvoke: (fighter) => {
+      fighter.power = int(fighter.power) + 50
+    },
+    isEnabled: (fighter) => true,
+  },
 ]

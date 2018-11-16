@@ -103,19 +103,11 @@ const DungeonFighters = ({
   fighters,
   updateValue,
 }) => {
-  const {
-    nick,
-    race,
-    level,
-    power,
-    agi,
-    int,
-    spellLevels,
-    imageIndex,
-    itemIndexes,
-  } = fighters[selectedFighter]
+  const { nick, race, level, power, agi, int, spellLevels, imageIndex, itemIndexes } = fighters[
+    selectedFighter
+  ]
   const fightersImageData = [
-    ...fighters.map(({ imageIndex }, index) => ({
+    ...fighters.map(({ race, imageIndex }, index) => ({
       image: imageIndex === -1 ? EntityPlaceholderImage : raceImages[race][imageIndex].image,
       title: nick,
     })),
