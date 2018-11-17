@@ -1,4 +1,3 @@
-import { int } from './utils'
 import { powerDmg } from './damageHelpers'
 
 /*
@@ -31,21 +30,21 @@ export const fighterSpells = [
       image: require('./assets/spells/quas.png'),
       title: 'Quas',
       onInvoke: (figther) => {
-        figther.power = int(figther.power) + 50
+        figther.power = figther.power + 50
       },
     },
     {
       image: require('./assets/spells/wex.png'),
       title: 'Wex',
       onInvoke: (figther) => {
-        figther.agi = int(figther.agi) + 50
+        figther.agi = figther.agi + 50
       },
     },
     {
       image: require('./assets/spells/exort.png'),
       title: 'Exort',
       onInvoke: (figther) => {
-        figther.int = int(figther.int) + 50
+        figther.int = figther.int + 50
       },
     },
     {

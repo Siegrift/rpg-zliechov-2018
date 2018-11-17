@@ -20,7 +20,10 @@ import ImagePanel from './ImagePanel'
 import AutoComplete from './AutoComplete'
 import EntityImage from './EntityImage'
 import EntityPlaceholderImage from './assets/entityPlaceholder.png'
-import { updateValue as _updateValue } from './actions'
+import {
+  updateValue as _updateValue,
+  convertFormStringsToNumbers as _convertFormStringsToNumbers,
+} from './actions'
 import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
 import { items } from './items'
@@ -114,6 +117,7 @@ const DungeonFighters = ({
   setSelectedFighter,
   fighters,
   updateValue,
+  convertFormStringsToNumbers,
 }) => {
   const {
     nick,
@@ -330,7 +334,10 @@ const DungeonFighters = ({
             color="primary"
             className={classes.button}
             size="large"
-            onClick={() => updateValue(['page'], 'fight')}
+            onClick={() => {
+              convertFormStringsToNumbers()
+              updateValue(['page'], 'fight')
+            }}
             disabled={isDisabled}
           >
             {isDisabled ? 'Niektoré políčka sú neplatné!' : 'Pokračuj na boj'}
@@ -346,7 +353,7 @@ export default compose(
     (state) => ({
       fighters: state.fighters,
     }),
-    { updateValue: _updateValue }
+    { updateValue: _updateValue, convertFormStringsToNumbers: _convertFormStringsToNumbers }
   ),
   withState('selectedFighter', 'setSelectedFighter', 0),
   withStyles(styles)
