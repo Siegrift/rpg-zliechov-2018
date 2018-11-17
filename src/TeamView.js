@@ -89,7 +89,7 @@ const TeamView = ({
     imageSrc = creatureImages[imageIndex].image
     itemData = []
   } else {
-    const { race, spellLevels, imageIndex, itemIndexes } = fighters[selected]
+    const { race, spellLevels, imageIndex, itemIndexes, itemLevels } = fighters[selected]
 
     imagePanelData = fighters.map(({ race, imageIndex, nick }) => ({
       image: isCreatureView ? creatureImages[imageIndex].image : raceImages[race][imageIndex].image,
@@ -100,7 +100,10 @@ const TeamView = ({
       title: `${spell.title} (${spellLevels[i]})`,
     }))
     imageSrc = raceImages[race][imageIndex].image
-    itemData = itemIndexes.map((index) => items[index])
+    itemData = itemIndexes.map((index, i) => ({
+      ...items[index],
+      title: `${items[index].title} (${itemLevels[i]})`,
+    }))
   }
   const { power, agi, int } = isCreatureView ? creatures[selected] : fighters[selected]
 

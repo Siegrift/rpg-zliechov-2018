@@ -25,6 +25,7 @@ import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
 import { items } from './items'
 import { fighterSpells } from './spells'
+import { canUpgradeSpell } from './spellHelpers'
 
 const styles = (theme) => ({
   wrapper: {
@@ -87,9 +88,20 @@ const styles = (theme) => ({
   },
 })
 
+const freeAttributes = ({ level, spellLevels }) => {
+  return level - spellLevels.reduce((acc, lvl) => acc + lvl, 0)
+}
+
 const isSubmitDisabled = (fighters) => {
   for (const f of fighters) {
-    if (f.nick === '' || f.level <= 0 || f.power <= 0 || f.agi <= 0 || f.int <= 0) {
+    if (
+      f.nick === '' ||
+      f.level <= 0 ||
+      f.power <= 0 ||
+      f.agi <= 0 ||
+      f.int <= 0 ||
+      freeAttributes(f) !== 0
+    ) {
       return true
     }
   }
@@ -103,9 +115,18 @@ const DungeonFighters = ({
   fighters,
   updateValue,
 }) => {
-  const { nick, race, level, power, agi, int, spellLevels, imageIndex, itemIndexes } = fighters[
-    selectedFighter
-  ]
+  const {
+    nick,
+    race,
+    level,
+    power,
+    agi,
+    int,
+    spellLevels,
+    imageIndex,
+    itemIndexes,
+    itemLevels,
+  } = fighters[selectedFighter]
   const fightersImageData = [
     ...fighters.map(({ race, imageIndex }, index) => ({
       image: imageIndex === -1 ? EntityPlaceholderImage : raceImages[race][imageIndex].image,
@@ -255,13 +276,20 @@ const DungeonFighters = ({
         </div>
         <Divider className={classes.divider} />
 
-        <FormLabel component="legend">Kúzla</FormLabel>
+        <FormLabel component="legend">{`Kúzla (ostáva ${freeAttributes(
+          fighters[selectedFighter]
+        )})`}</FormLabel>
         <ImagePanel
           data={fighterSpells[race].map((spell, i) => ({
             ...spell,
             title: `${spell.title} (${spellLevels[i]})`,
+            isEnabled: () =>
+              canUpgradeSpell(freeAttributes(fighters[selectedFighter]), i, spellLevels[i], level),
           }))}
           withTitle
+          onClick={(ind) => {
+            updateValue(['fighters', selectedFighter, 'spellLevels', ind], spellLevels[ind] + 1)
+          }}
         />
         <Divider className={classes.divider} />
 
@@ -271,10 +299,29 @@ const DungeonFighters = ({
           placeholder="Zvoľ svoje itemy"
           value={itemIndexes}
           onChange={(value) => {
-            updateValue(['fighters', selectedFighter, 'itemIndexes'], value.map((v) => v.ind))
+            const newIndexes = value.map((v) => v.ind)
+            const itemSet = new Map(itemIndexes.map((item, i) => [item, itemLevels[i]]))
+            updateValue(['fighters', selectedFighter, 'itemIndexes'], newIndexes)
+            updateValue(
+              ['fighters', selectedFighter, 'itemLevels'],
+              newIndexes.map((index) => {
+                if (itemSet.has(index)) return itemSet.get(index)
+                return 1
+              })
+            )
           }}
         />
-        <ImagePanel data={itemIndexes.map((itemIndex) => items[itemIndex])} withTitle />
+        <ImagePanel
+          data={itemIndexes.map((item, i) => ({
+            ...items[item],
+            title: `${items[item].title} (${itemLevels[i]})`,
+            isEnabled: () => true,
+          }))}
+          withTitle
+          onClick={(ind) => {
+            updateValue(['fighters', selectedFighter, 'itemLevels', ind], itemLevels[ind] + 1)
+          }}
+        />
         <Divider className={classes.divider} />
 
         <div className={classes.buttonWrapper}>

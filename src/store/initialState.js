@@ -20,8 +20,9 @@ const mockedState = {
       power: '50',
       agi: '50',
       int: '50',
-      spellLevels: [1, 1, 1, 1],
+      spellLevels: [1, 1, 0, 0],
       itemIndexes: [0],
+      itemLevels: [1],
       imageIndex: 1,
     },
     {
@@ -31,8 +32,9 @@ const mockedState = {
       power: '70',
       agi: '70',
       int: '70',
-      spellLevels: [1, 1, 1, 1],
+      spellLevels: [1, 0, 1, 0],
       itemIndexes: [1, 2],
+      itemLevels: [1, 1],
       imageIndex: 0,
     },
   ],
@@ -48,8 +50,9 @@ export const createDefaultFighter = () => ({
   power: '',
   agi: '',
   int: '',
-  spellLevels: [1, 1, 1, 1],
-  itemIndexes: [0],
+  spellLevels: [0, 0, 0, 0],
+  itemIndexes: [],
+  itemLevels: [],
   imageIndex: 0,
 })
 
