@@ -205,6 +205,8 @@ export const creatureSpells = [
     onInvoke: (figther) => {
       figther.power -= 10
     },
+    desc:
+      'Fire strike has hit bla bla and this caused and immerse pain to bla bla so this resulte in this buff...',
   },
   {
     image: require('./assets/creatureSpells/hidan.png'),
@@ -212,6 +214,8 @@ export const creatureSpells = [
     onInvoke: (figther) => {
       figther.power -= 10
     },
+    desc:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Turpis in eu mi bibendum neque egestas. Vel fringilla est ullamcorper eget nu',
   },
   {
     image: require('./assets/creatureSpells/sacrifice.jpg'),
@@ -219,5 +223,6 @@ export const creatureSpells = [
     onInvoke: (figther) => {
       figther.power -= 10
     },
+    desc: 'Lorem ipsum dolor sit amet',
   },
 ]

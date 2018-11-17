@@ -65,7 +65,7 @@ const Dungeon = ({ name, requirements, imageIndex, classes, updateValue, rewardI
   return (
     <div className={classes.wrapper}>
       <Tooltip title="Vyzvať príšeru">
-        <Card className={classes.card} onClick={() => updateValue(['page'], 'fighters')}>
+        <Card className={classes.card} onClick={() => updateValue(['page'], 'assemble')}>
           <CardActionArea>
             <CardMedia
               component="img"

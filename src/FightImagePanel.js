@@ -70,7 +70,7 @@ const styles = (theme) => ({
   },
 })
 
-class ImagePanel extends React.Component {
+class FightImagePanel extends React.Component {
   mounted = true
 
   constructor(props) {
@@ -262,4 +262,4 @@ export default compose(
     ...state,
   })),
   withStyles(styles)
-)(ImagePanel)
+)(FightImagePanel)

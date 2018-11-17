@@ -11,7 +11,7 @@ const mockedState = {
       requirements: ['At least 5'],
       rewardItems: ['1', '2', '0', '0'],
       spellIndexes: [0, 1],
-      imageIndex: 2,
+      imageIndex: 3,
     },
   ],
   fighters: [
@@ -50,7 +50,7 @@ const mockedState = {
   ],
   selectedCreature: 0,
   selectedFighter: 0,
-  page: 'fighters',
+  page: 'create',
 }
 
 export const createDefaultFighter = (strigified) => ({

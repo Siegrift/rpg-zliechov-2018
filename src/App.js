@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import CreateDungeon from './CreateDungeon'
 import Dungeon from './Dungeon'
 import DungeonFighters from './DungeonFighters'
+import CreatureBuff from './CreatureBuff'
 import Fight from './Fight'
 
 const App = ({ page }) => {
@@ -12,8 +13,10 @@ const App = ({ page }) => {
       return <CreateDungeon />
     case 'dungeon':
       return <Dungeon />
-    case 'fighters':
+    case 'assemble':
       return <DungeonFighters />
+    case 'creature_buff':
+      return <CreatureBuff />
     case 'fight':
       return <Fight />
     default:

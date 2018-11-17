@@ -23,6 +23,7 @@ import EntityPlaceholderImage from './assets/entityPlaceholder.png'
 import {
   updateValue as _updateValue,
   prepareStateForFight as _prepareStateForFight,
+  buffCreature as _buffCreature,
 } from './actions'
 import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
@@ -118,6 +119,7 @@ const DungeonFighters = ({
   fighters,
   updateValue,
   prepareStateForFight,
+  buffCreature,
 }) => {
   const {
     nick,
@@ -337,7 +339,8 @@ const DungeonFighters = ({
             size="large"
             onClick={() => {
               prepareStateForFight()
-              updateValue(['page'], 'fight')
+              buffCreature()
+              updateValue(['page'], 'creature_buff')
             }}
             disabled={isDisabled}
           >
@@ -354,7 +357,11 @@ export default compose(
     (state) => ({
       fighters: state.fighters,
     }),
-    { updateValue: _updateValue, prepareStateForFight: _prepareStateForFight }
+    {
+      updateValue: _updateValue,
+      prepareStateForFight: _prepareStateForFight,
+      buffCreature: _buffCreature,
+    }
   ),
   withState('selectedFighter', 'setSelectedFighter', 0),
   withStyles(styles)

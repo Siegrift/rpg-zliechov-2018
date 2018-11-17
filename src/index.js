@@ -20,12 +20,13 @@ const theme = createMuiTheme({
   shape: {
     borderRadius: 8,
   },
-  /*breakpoints: {
-    values: {
-      md: 1300,
-      lg: 2000,
+  overrides: {
+    MuiDialogTitle: {
+      root: {
+        textAlign: 'center',
+      },
     },
-  },*/
+  },
 })
 
 ReactDOM.render(

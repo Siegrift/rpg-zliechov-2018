@@ -1,6 +1,8 @@
 import produce from 'immer'
 import { setIn } from 'imuty'
 
+import { creatureSpells } from './spells'
+
 const int = (strNum) => parseInt(strNum, 10)
 
 export const updateValue = (path, data, type) => ({
@@ -38,5 +40,19 @@ export const prepareStateForFight = () => ({
         f.manaPool = f.int
       }
     })
+  },
+})
+
+export const buffCreature = () => ({
+  type: 'Buff creature',
+  reducer: (state) => {
+    let newState = state
+    const fn = (draft, spellIndex) => {
+      creatureSpells[spellIndex].onInvoke(draft.fighters[0], draft.creatures[0], draft)
+    }
+    for (const spellIndex of state.creatures[0].spellIndexes) {
+      newState = produce(newState, (draft) => fn(draft, spellIndex))
+    }
+    return newState
   },
 })
