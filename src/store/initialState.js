@@ -1,3 +1,5 @@
+import { RACES } from '../constants'
+
 // eslint-disable-next-line
 const mockedState = {
   creatures: [
@@ -15,7 +17,7 @@ const mockedState = {
   fighters: [
     {
       nick: 'Arabella',
-      race: 0,
+      race: RACES.MAGE,
       level: '2',
       power: '50',
       agi: '50',
@@ -23,7 +25,7 @@ const mockedState = {
       bonusPower: 0,
       bonusAgi: 0,
       bonusInt: 0,
-      manaPool: -1,
+      manaPool: 50,
       spellLevels: [1, 1, 0, 0],
       itemIndexes: [0],
       itemLevels: [1],
@@ -31,7 +33,7 @@ const mockedState = {
     },
     {
       nick: 'Berserk',
-      race: 1,
+      race: RACES.HUNTER,
       level: '2',
       power: '70',
       agi: '70',
@@ -39,7 +41,7 @@ const mockedState = {
       bonusPower: 0,
       bonusAgi: 0,
       bonusInt: 0,
-      manaPool: -1,
+      manaPool: 70,
       spellLevels: [1, 0, 1, 0],
       itemIndexes: [1, 2],
       itemLevels: [1, 1],
@@ -51,41 +53,41 @@ const mockedState = {
   page: 'fighters',
 }
 
-export const createDefaultFighter = () => ({
+export const createDefaultFighter = (strigified) => ({
   nick: '',
   race: 0, // (0, 1, 2, 3, 4) = (Mág, Lovec, Kňaz, Černokňažník, Bojovník)
-  level: '1',
-  power: '',
-  agi: '',
-  int: '',
+  level: strigified ? '1' : 1,
+  power: strigified ? '' : 0,
+  agi: strigified ? '' : 0,
+  int: strigified ? '' : 0,
   bonusPower: 0,
   bonusAgi: 0,
   bonusInt: 0,
-  manaPool: -1,
+  manaPool: 0,
   spellLevels: [0, 0, 0, 0],
   itemIndexes: [],
   itemLevels: [],
   imageIndex: 0,
 })
 
-export const createDefaultCreature = () => ({
+export const createDefaultCreature = (strigified) => ({
   name: '',
-  power: '',
-  agi: '',
-  int: '',
+  power: strigified ? '' : 0,
+  agi: strigified ? '' : 0,
+  int: strigified ? '' : 0,
   requirements: [],
-  rewardItems: ['', '', '', ''],
+  rewardItems: [strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0],
   spellIndexes: [],
   imageIndex: 0,
 })
 
 const state = {
   // creatures[0] MUST be the one original
-  creatures: [createDefaultCreature()],
-  fighters: [createDefaultFighter()],
+  creatures: [createDefaultCreature(true)],
+  fighters: [createDefaultFighter(true)],
   selectedCreature: 0,
   selectedFighter: 0,
   page: 'create',
 }
 
-export default () => mockedState
+export default () => state

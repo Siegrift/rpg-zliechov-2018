@@ -33,6 +33,8 @@ export const raceImages = [
   [{ image: require('./assets/races/hunter/hunter0.jpg') }],
   // warrior
   [{ image: require('./assets/races/hunter/hunter0.jpg') }],
+  // others
+  [{ image: require('./assets/races/other/morph.jpg') }],
 ]
 
 export const addUnitImage = { image: require('./assets/add.png'), title: 'Nový' }

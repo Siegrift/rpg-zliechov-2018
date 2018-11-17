@@ -146,7 +146,7 @@ const DungeonFighters = ({
         data={fightersImageData}
         onClick={(index) => {
           if (index === fighters.length) {
-            updateValue(['fighters'], [...fighters, createDefaultFighter()])
+            updateValue(['fighters'], [...fighters, createDefaultFighter(true)])
           }
           setSelectedFighter(index)
         }}

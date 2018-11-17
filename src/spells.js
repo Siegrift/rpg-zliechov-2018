@@ -1,5 +1,6 @@
 import { powerDmg } from './damageHelpers'
-import { CHOOSE } from './constants'
+import { CHOOSE, RACES } from './constants'
+import { createDefaultFighter } from './store/initialState'
 
 /*
 There are 2 categories of spells (fighter and creature). Both are represented as
@@ -26,6 +27,7 @@ of the spell.
 // all races have fixed spells (look in initialState.js for index<--->race mapping)
 export const fighterSpells = [
   // TODO: find spell icons for all races
+  // mage
   [
     {
       image: require('./assets/spells/quas.png'),
@@ -58,12 +60,15 @@ export const fighterSpells = [
       },
     },
   ],
+  // hunter
   [
     {
       image: require('./assets/spells/wex.png'),
       title: 'Wex',
-      onInvoke: (figther) => {
-        figther.power -= 10
+      onInvoke: (figther, creature, state) => {
+        const f = createDefaultFighter()
+        f.race = RACES.MORPH
+        state.fighters.push(f)
       },
     },
     {
@@ -88,6 +93,7 @@ export const fighterSpells = [
       },
     },
   ],
+  // priest
   [
     {
       image: require('./assets/spells/quas.png'),
@@ -118,6 +124,7 @@ export const fighterSpells = [
       },
     },
   ],
+  // black priest
   [
     {
       image: require('./assets/spells/exort.png'),
@@ -148,6 +155,7 @@ export const fighterSpells = [
       },
     },
   ],
+  // warrior
   [
     {
       image: require('./assets/spells/invoke.jpg'),
@@ -175,6 +183,16 @@ export const fighterSpells = [
       title: 'Invoke',
       onInvoke: (figther) => {
         figther.power -= 10
+      },
+    },
+  ],
+  // summons
+  [
+    {
+      image: require('./assets/spells/invoke.jpg'),
+      title: 'Invoke',
+      onInvoke: (figther, c) => {
+        c.power -= 10
       },
     },
   ],
