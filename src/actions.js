@@ -9,7 +9,7 @@ export const updateValue = (path, data, type) => ({
   reducer: (state) => setIn(state, path, data),
 })
 
-export const convertFormStringsToNumbers = () => ({
+export const prepareStateForFight = () => ({
   type: 'Convert input (number) strings to integers',
   reducer: (immutableState) => {
     return produce(immutableState, (state) => {
@@ -31,6 +31,11 @@ export const convertFormStringsToNumbers = () => ({
         fighters[i].agi = int(fighters[i].agi)
         fighters[i].int = int(fighters[i].int)
         fighters[i].level = int(fighters[i].level)
+      }
+
+      // set mana pool for each hero
+      for (const f of fighters) {
+        f.manaPool = f.int
       }
     })
   },

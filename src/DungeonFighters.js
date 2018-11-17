@@ -22,7 +22,7 @@ import EntityImage from './EntityImage'
 import EntityPlaceholderImage from './assets/entityPlaceholder.png'
 import {
   updateValue as _updateValue,
-  convertFormStringsToNumbers as _convertFormStringsToNumbers,
+  prepareStateForFight as _prepareStateForFight,
 } from './actions'
 import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
@@ -117,7 +117,7 @@ const DungeonFighters = ({
   setSelectedFighter,
   fighters,
   updateValue,
-  convertFormStringsToNumbers,
+  prepareStateForFight,
 }) => {
   const {
     nick,
@@ -132,7 +132,7 @@ const DungeonFighters = ({
     itemLevels,
   } = fighters[selectedFighter]
   const fightersImageData = [
-    ...fighters.map(({ race, imageIndex }, index) => ({
+    ...fighters.map(({ race, nick, imageIndex }, index) => ({
       image: imageIndex === -1 ? EntityPlaceholderImage : raceImages[race][imageIndex].image,
       title: nick,
     })),
@@ -152,6 +152,7 @@ const DungeonFighters = ({
         }}
         selected={selectedFighter}
         className={classes.fightersImagePanel}
+        withTitle
       />
 
       <div className={classes.form}>
@@ -335,7 +336,7 @@ const DungeonFighters = ({
             className={classes.button}
             size="large"
             onClick={() => {
-              convertFormStringsToNumbers()
+              prepareStateForFight()
               updateValue(['page'], 'fight')
             }}
             disabled={isDisabled}
@@ -353,7 +354,7 @@ export default compose(
     (state) => ({
       fighters: state.fighters,
     }),
-    { updateValue: _updateValue, convertFormStringsToNumbers: _convertFormStringsToNumbers }
+    { updateValue: _updateValue, prepareStateForFight: _prepareStateForFight }
   ),
   withState('selectedFighter', 'setSelectedFighter', 0),
   withStyles(styles)

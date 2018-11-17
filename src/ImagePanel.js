@@ -2,6 +2,7 @@ import React from 'react'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
+import Tooltip from '@material-ui/core/Tooltip'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { compose } from 'recompose'
@@ -108,53 +109,66 @@ class ImagePanel extends React.Component {
     return (
       <div className={classNames(classes.root, className)}>
         <GridList className={classes.gridList} cols={data.length}>
-          {data.map((tile, i) => (
-            <GridListTile
-              key={i}
-              className={classNames(classes.tile, smallTiles && classes.smallTiles)}
-              onClick={() => {
-                if (
-                  tile.isEnabled &&
-                  !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)
-                ) {
-                  return
-                }
-                if (onClick) onClick(i)
-                if (animateOnClick) {
-                  this.setAnimateIndex(i)
-                  const now = Date.now()
-                  this.setState((state) => ({ ...state, cancelTime: now }))
-                  setTimeout(() => {
-                    if (this.mounted && now === this.state.cancelTime) {
-                      this.setAnimateIndex(-1)
-                    }
-                  }, ANIMATION_TIME * 1000 + 500)
-                }
-              }}
-            >
-              <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
-              <span
-                className={classNames(classes.overlay, {
-                  [classes.overlaySelected]: selected === i,
-                  [classes.overlayDisabled]:
+          {data.map((tile, i) => {
+            const Component = (
+              <GridListTile
+                key={i}
+                className={classNames(classes.tile, smallTiles && classes.smallTiles)}
+                onClick={() => {
+                  if (
                     tile.isEnabled &&
-                    !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state),
-                })}
-              />
-              {withTitle && (
-                <GridListTileBar
-                  title={tile.title}
-                  classes={{
-                    root: classes.titleBar,
-                    title: classes.title,
-                    titleWrap: classes.titleWrap,
-                  }}
+                    !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)
+                  ) {
+                    return
+                  }
+                  if (onClick) onClick(i)
+                  if (animateOnClick) {
+                    this.setAnimateIndex(i)
+                    const now = Date.now()
+                    this.setState((state) => ({ ...state, cancelTime: now }))
+                    setTimeout(() => {
+                      if (this.mounted && now === this.state.cancelTime) {
+                        this.setAnimateIndex(-1)
+                      }
+                    }, ANIMATION_TIME * 1000 + 500)
+                  }
+                }}
+              >
+                <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
+                <span
+                  className={classNames(classes.overlay, {
+                    [classes.overlaySelected]: selected === i,
+                    [classes.overlayDisabled]:
+                      tile.isEnabled &&
+                      !tile.isEnabled(
+                        fighters[selectedFighter],
+                        creatures[selectedCreature],
+                        state
+                      ),
+                  })}
                 />
-              )}
-            </GridListTile>
-          ))}
+                {withTitle && (
+                  <GridListTileBar
+                    title={tile.title}
+                    classes={{
+                      root: classes.titleBar,
+                      title: classes.title,
+                      titleWrap: classes.titleWrap,
+                    }}
+                  />
+                )}
+              </GridListTile>
+            )
+            return withTitle ? (
+              <Tooltip key={i} title={tile.title}>
+                {Component}
+              </Tooltip>
+            ) : (
+              Component
+            )
+          })}
         </GridList>
-        <Animate image={animateIndex !== -1 ? data[animateIndex].image : null} />
+        {animateIndex !== -1 && <Animate image={data[animateIndex].image} />}
       </div>
     )
   }

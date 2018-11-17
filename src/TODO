@@ -1,8 +1,4 @@
 chooseAlly: enum (1 = clovek, 2 = attribut...)
 chooseEnemy: ...
 special races, 
-manapool = base inteligencia na zaciatku boja
 medziscreena pri pokracuj naboj
-ak ma prisera zomriet tak sa s nejkaou sancou nastavi na attributy skupiny a +1obratnost
-
-Tooltip?

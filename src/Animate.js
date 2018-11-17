@@ -27,11 +27,6 @@ const styles = (theme) => ({
 
 class Animate extends React.Component {
   state = {}
-  componentDidMount() {
-    // eslint-disable-next-line
-    if (!this.state.invokeSpell) this.setState({ invokeSpell: true })
-  }
-
   render() {
     const { image, classes } = this.props
     const { invokeSpell } = this.state
@@ -39,6 +34,9 @@ class Animate extends React.Component {
     if (!image) return null
     return (
       <img
+        onLoad={() => {
+          if (!this.state.invokeSpell) this.setState({ invokeSpell: true })
+        }}
         src={image}
         alt="Selected enchantment"
         className={classNames(classes.hidden, invokeSpell && classes.invokeSpellAnimation)}
