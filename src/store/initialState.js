@@ -48,7 +48,7 @@ const mockedState = {
   ],
   selectedCreature: 0,
   selectedFighter: 0,
-  page: 'create',
+  page: 'fighters',
 }
 
 export const createDefaultFighter = () => ({

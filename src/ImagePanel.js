@@ -8,9 +8,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
-import Animate from './Animate'
-import { ANIMATION_TIME } from './constants'
-
 const styles = (theme) => ({
   root: {
     display: 'flex',
@@ -73,21 +70,6 @@ const styles = (theme) => ({
 })
 
 class ImagePanel extends React.Component {
-  mounted = true
-
-  constructor(props) {
-    super(props)
-    this.state = { animateIndex: -1, cancelTime: null }
-  }
-
-  setAnimateIndex = (animateIndex) => {
-    this.setState((state) => ({ ...state, animateIndex }))
-  }
-
-  componentWillUnmount() {
-    this.mounted = false
-  }
-
   render() {
     const {
       classes,
@@ -95,7 +77,6 @@ class ImagePanel extends React.Component {
       data,
       onClick,
       selected,
-      animateOnClick,
       withTitle,
       state,
       smallTiles,
@@ -106,7 +87,6 @@ class ImagePanel extends React.Component {
       unclickable,
     } = this.props
 
-    const { animateIndex } = this.state
     return (
       <div className={classNames(classes.root, className)}>
         <GridList className={classes.gridList} cols={data.length}>
@@ -128,16 +108,6 @@ class ImagePanel extends React.Component {
                     return
                   }
                   if (onClick) onClick(i)
-                  if (animateOnClick) {
-                    this.setAnimateIndex(i)
-                    const now = Date.now()
-                    this.setState((state) => ({ ...state, cancelTime: now }))
-                    setTimeout(() => {
-                      if (this.mounted && now === this.state.cancelTime) {
-                        this.setAnimateIndex(-1)
-                      }
-                    }, ANIMATION_TIME * 1000 + 500)
-                  }
                 }}
               >
                 <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
@@ -174,7 +144,6 @@ class ImagePanel extends React.Component {
             )
           })}
         </GridList>
-        {animateIndex !== -1 && <Animate image={data[animateIndex].image} />}
       </div>
     )
   }

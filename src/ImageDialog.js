@@ -15,25 +15,42 @@ const styles = {
   },
 }
 
-const ImageDialog = ({ classes, onClose, images, index, setIndex }) => {
+const ImageDialog = ({
+  classes,
+  onClose,
+  images,
+  index,
+  setIndex,
+  forceOk,
+  imagePanelClassName,
+}) => {
   return (
     <Dialog
       open
       onClose={() => onClose(index)}
       aria-labelledby="form-dialog-title"
       classes={{ root: classes.root }}
+      disableEscapeKeyDown={forceOk}
+      disableBackdropClick={forceOk}
     >
       <DialogTitle id="form-dialog-title">Vyber obrázok</DialogTitle>
       <DialogContent>
-        <ImagePanel data={images} onClick={(index) => setIndex(index)} selected={index} />
+        <ImagePanel
+          data={images}
+          onClick={(index) => setIndex(index)}
+          selected={index}
+          className={imagePanelClassName}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => onClose(index)} color="primary" disabled={index === -1}>
           OK
         </Button>
-        <Button onClick={() => onClose(-1)} color="primary">
-          Zavrieť
-        </Button>
+        {!forceOk && (
+          <Button onClick={() => onClose(-1)} color="primary">
+            Zavrieť
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   )

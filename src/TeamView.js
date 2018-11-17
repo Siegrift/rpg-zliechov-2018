@@ -9,6 +9,7 @@ import { compose, withProps } from 'recompose'
 import { connect } from 'react-redux'
 
 import ImagePanel from './ImagePanel'
+import FightImagePanel from './FightImagePanel'
 import { updateValue as _updateValue } from './actions'
 import { raceImages, creatureImages } from './units'
 import { fighterSpells, creatureSpells } from './spells'
@@ -58,25 +59,24 @@ const TeamView = ({
   selectedCreature,
   selectedFighter,
 }) => {
-  let imagePanelData
   let spellData
   let itemData
+  const creaturesImageData = creatures.map(({ imageIndex, name }) => ({
+    image: creatureImages[imageIndex].image,
+    title: name,
+  }))
+  const fightersImageData = fighters.map(({ race, imageIndex, nick }) => ({
+    image: isCreatureView ? creatureImages[imageIndex].image : raceImages[race][imageIndex].image,
+    title: nick,
+  }))
+
   if (isCreatureView) {
     const { spellIndexes } = creatures[selected]
-
-    imagePanelData = creatures.map(({ imageIndex, name }) => ({
-      image: creatureImages[imageIndex].image,
-      title: name,
-    }))
     spellData = spellIndexes.map((ind) => ({ ...creatureSpells[ind], isEnabled: () => false }))
     itemData = []
   } else {
     const { race, spellLevels, itemIndexes, itemLevels } = fighters[selected]
 
-    imagePanelData = fighters.map(({ race, imageIndex, nick }) => ({
-      image: isCreatureView ? creatureImages[imageIndex].image : raceImages[race][imageIndex].image,
-      title: nick,
-    }))
     spellData = fighterSpells[race].map((spell, i) => ({
       ...spell,
       title: `${spell.title} (${spellLevels[i]})`,
@@ -87,6 +87,7 @@ const TeamView = ({
     }))
   }
   const { power, agi, int, manaPool } = isCreatureView ? creatures[selected] : fighters[selected]
+  const imagePanelData = isCreatureView ? creaturesImageData : fightersImageData
 
   return (
     <div className={classNames(classes.wrapper, className)}>
@@ -96,7 +97,7 @@ const TeamView = ({
         onClick={setSelected}
         withTitle
         className={classes.imagePanel}
-        unclickable={isCreatureView}
+        isCreatureView={isCreatureView}
       />
       <div className={classes.heroDetailsWrapper}>
         <div className={classes.heroDetails}>
@@ -123,41 +124,45 @@ const TeamView = ({
                 </FormControl>
               </FormGroup>
             )}
-            <ImagePanel
+            <FightImagePanel
+              fightersImages={imagePanelData}
+              creaturesImages={creaturesImageData}
               data={spellData}
-              onClick={(ind) => {
+              onInvoke={(ind, choose, unitIndex) => {
                 updateValue(
                   [],
                   produce(state, (draftState) =>
                     spellData[ind].onInvoke(
                       draftState.fighters[selectedFighter],
                       draftState.creatures[selectedCreature],
-                      draftState
+                      draftState,
+                      choose,
+                      unitIndex
                     )
                   )
                 )
               }}
-              animateOnClick
-              withTitle
             />
           </div>
         </div>
-        <ImagePanel
+        <FightImagePanel
+          fightersImages={imagePanelData}
+          creaturesImages={creaturesImageData}
           data={itemData}
-          onClick={(ind) => {
+          onInvoke={(ind, choose, unitIndex) => {
             updateValue(
               [],
               produce(state, (draftState) =>
                 itemData[ind].onInvoke(
                   draftState.fighters[selectedFighter],
                   draftState.creatures[selectedCreature],
-                  draftState
+                  draftState,
+                  choose,
+                  unitIndex
                 )
               )
             )
           }}
-          animateOnClick
-          withTitle
         />
       </div>
     </div>
