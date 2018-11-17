@@ -1,4 +1,5 @@
 import { powerDmg } from './damageHelpers'
+import { CHOOSE } from './enums'
 
 /*
 There are 2 categories of spells (fighter and creature). Both are represented as
@@ -29,6 +30,7 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/quas.png'),
       title: 'Quas',
+      chooseAlly: CHOOSE.ALLY,
       onInvoke: (figther) => {
         figther.power = figther.power + 50
       },
@@ -36,6 +38,7 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/wex.png'),
       title: 'Wex',
+      chooseEnemy: CHOOSE.ATTRIBUTE,
       onInvoke: (figther) => {
         figther.agi = figther.agi + 50
       },

@@ -68,7 +68,7 @@ const styles = (theme) => ({
     backgroundColor: 'rgba(0, 0, 255, 0.4) !important',
   },
   overlayDisabled: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5) !important',
+    backgroundColor: 'rgba(156, 156, 156, 0.75) !important',
   },
 })
 
@@ -103,6 +103,7 @@ class ImagePanel extends React.Component {
       fighters,
       selectedFighter,
       selectedCreature,
+      unclickable,
     } = this.props
 
     const { animateIndex } = this.state
@@ -116,8 +117,13 @@ class ImagePanel extends React.Component {
                 className={classNames(classes.tile, smallTiles && classes.smallTiles)}
                 onClick={() => {
                   if (
-                    tile.isEnabled &&
-                    !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)
+                    unclickable ||
+                    (tile.isEnabled &&
+                      !tile.isEnabled(
+                        fighters[selectedFighter],
+                        creatures[selectedCreature],
+                        state
+                      ))
                   ) {
                     return
                   }

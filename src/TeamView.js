@@ -68,7 +68,7 @@ const TeamView = ({
       image: creatureImages[imageIndex].image,
       title: name,
     }))
-    spellData = spellIndexes.map((ind) => creatureSpells[ind])
+    spellData = spellIndexes.map((ind) => ({ ...creatureSpells[ind], isEnabled: () => false }))
     itemData = []
   } else {
     const { race, spellLevels, itemIndexes, itemLevels } = fighters[selected]
@@ -96,6 +96,7 @@ const TeamView = ({
         onClick={setSelected}
         withTitle
         className={classes.imagePanel}
+        unclickable={isCreatureView}
       />
       <div className={classes.heroDetailsWrapper}>
         <div className={classes.heroDetails}>

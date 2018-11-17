@@ -1,4 +1,6 @@
-chooseAlly: enum (1 = clovek, 2 = attribut...)
-chooseEnemy: ...
 special races, 
 medziscreena pri pokracuj naboj
+
+
+chooseAlly: enum (1 = clovek, 2 = attribut...)
+chooseEnemy: ...
