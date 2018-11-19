@@ -17,7 +17,7 @@ const mockedState = {
   fighters: [
     {
       nick: 'Arabella',
-      race: RACES.MAGE,
+      race: RACES.PRIEST,
       level: '2',
       power: '50',
       agi: '50',
@@ -29,20 +29,20 @@ const mockedState = {
       spellLevels: [1, 1, 0, 0],
       itemIndexes: [0],
       itemLevels: [1],
-      imageIndex: 1,
+      imageIndex: 0,
     },
     {
       nick: 'Berserk',
-      race: RACES.HUNTER,
-      level: '2',
+      race: RACES.WARRIOR,
+      level: '7',
       power: '70',
       agi: '70',
-      int: '70',
+      int: '10',
       bonusPower: 0,
       bonusAgi: 0,
       bonusInt: 0,
-      manaPool: 70,
-      spellLevels: [1, 0, 1, 0],
+      manaPool: 2,
+      spellLevels: [1, 3, 2, 1],
       itemIndexes: [1, 2],
       itemLevels: [1, 1],
       imageIndex: 0,
@@ -90,4 +90,4 @@ const state = {
   page: 'create',
 }
 
-export default () => state
+export default () => mockedState

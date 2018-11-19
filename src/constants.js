@@ -13,7 +13,7 @@ export const RACES = {
   MAGE: 0,
   HUNTER: 1,
   PRIEST: 2,
-  BLACK_PRIEST: 3,
+  WARLOCK: 3,
   WARRIOR: 4,
   // other races are just summons of the races above
   MORPH: 5,

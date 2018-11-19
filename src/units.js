@@ -28,7 +28,11 @@ export const raceImages = [
     { image: require('./assets/races/hunter/hunter1.png') },
   ],
   // priest
-  [{ image: require('./assets/races/hunter/hunter0.jpg') }],
+  [
+    { image: require('./assets/races/mage/mage0.png') },
+    { image: require('./assets/races/mage/mage1.png') },
+    { image: require('./assets/races/mage/mage2.jpg') },
+  ],
   // dark magician
   [{ image: require('./assets/races/hunter/hunter0.jpg') }],
   // warrior
