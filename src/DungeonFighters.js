@@ -49,13 +49,14 @@ const styles = (theme) => ({
     margin: 'auto',
     maxWidth: '80%',
   },
+  imageWrapper: {
+    margin: theme.spacing.unit / 2,
+  },
   fighterDetails: {
     display: 'flex',
     '& > div': {
       width: '50%',
       margin: 'auto',
-      marginLeft: theme.spacing.unit,
-      marginRight: theme.spacing.unit,
     },
   },
   fighterDetailsForm: {
@@ -271,6 +272,7 @@ const DungeonFighters = ({
             </FormGroup>
           </div>
           <EntityImage
+            imageWrapperClassName={classes.imageWrapper}
             imageClassName={classes.image}
             images={raceImages[race]}
             currentImage={imageIndex !== -1 && raceImages[race][imageIndex].image}
@@ -283,9 +285,10 @@ const DungeonFighters = ({
         </div>
         <Divider className={classes.divider} />
 
-        <FormLabel component="legend">{`Kúzla (ostáva ${freeAttributes(
-          fighters[selectedFighter]
-        )})`}</FormLabel>
+        <FormLabel
+          component="legend"
+          style={{ marginBottom: '8px' }}
+        >{`Kúzla (ostáva ${freeAttributes(fighters[selectedFighter])})`}</FormLabel>
         <ImagePanel
           data={fighterSpells[race].map((spell, i) => ({
             ...spell,

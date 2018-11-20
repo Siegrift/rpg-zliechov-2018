@@ -100,22 +100,20 @@ export const fighterSpells = [
       title: 'Ľadové objatie',
       chooseAlly: CHOOSE.UNIT_OR_SELF,
       onInvoke: (fighter, monster, state, select) => {
-        var spellID = 0;
-        var levels = [null, 2, 6, 10];
-        var manaCost = [null, 1, 4, 7];
-        console.log(fighter);
-        console.log(monster);
-        console.log(state);
-        console.log(select);
-        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]];
+        const spellID = 0
+        const manaCost = [null, 1, 4, 7]
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: (fighter) => {
-        var spellID = 0;
-        var levels = [null, 2, 6, 10];
-        var manaCost = [null, 1, 4, 7];
-        if(fighter.spellLevels[spellID] == 0 || fighter.manaPool < manaCost[fighter.spellLevels[spellID]])
-          return false;
-        return true;
+        const spellID = 0
+        const manaCost = [null, 1, 4, 7]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {
@@ -177,64 +175,79 @@ export const fighterSpells = [
       image: require('./assets/spells/invoke.jpg'),
       title: 'Vzrušenie z boja',
       onInvoke: (fighter) => {
-        var levels = [null, 2, 2.5, 3];
-        var manaCost = [null, 1, 1, 1];
-        var spellID = 0;
-        fighter.power *= levels[fighter.spellLevels[spellID]];
-        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]];
+        const levels = [null, 2, 2.5, 3]
+        const manaCost = [null, 1, 1, 1]
+        const spellID = 0
+        fighter.power *= levels[fighter.spellLevels[spellID]]
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: (fighter) => {
-        var manaCost = [null, 1, 1, 1];
-        var spellID = 0;
-        if(fighter.spellLevels[spellID] == 0 || fighter.manaPool < manaCost[fighter.spellLevels[spellID]])
-          return false;
-        return true;
+        const manaCost = [null, 1, 1, 1]
+        const spellID = 0
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Posilnenie',
       onInvoke: (fighter) => {
-        var levels = [null, 3, 6, 9];
-        var manaCost = [null, 1, 1, 2];
-        var spellID = 1;
-        if(fighter.spellLevels[spellID] == 0 || fighter.manaPool < manaCost[fighter.spellLevels[spellID]])
-          return;
+        const levels = [null, 3, 6, 9]
+        const manaCost = [null, 1, 1, 2]
+        const spellID = 1
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return
+        }
         fighter.power += levels[fighter.spellLevels[spellID]]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: (fighter) => {
-        var manaCost = [null, 1, 1, 2];
-        var spellID = 1;
-        if(fighter.spellLevels[spellID] == 0 || fighter.manaPool < manaCost[fighter.spellLevels[spellID]])
-          return false;
-        return true;
+        const manaCost = [null, 1, 1, 2]
+        const spellID = 1
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Nával adrenalínu',
-      onInvoke: (fighter) => {
-      },
+      onInvoke: (fighter) => {},
     },
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Bojový pokrik',
       onInvoke: (fighter, monster, state) => {
-        var spellID = 3;
-        var manaCost = [null, 5];
-        var levels = [null, 4];
-        for(var f in state.fighters)
-          state.fighters[f].bonusPower += levels[fighter.spellLevels[spellID]];
-        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]];
+        const spellID = 3
+        const manaCost = [null, 5]
+        const levels = [null, 4]
+        for (const f of state.fighters) {
+          state.fighters[f].bonusPower += levels[fighter.spellLevels[spellID]]
+        }
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: (fighter) => {
-        var spellID = 3;
-        var manaCost = [null, 5];
-        var levels = [null, 4];
-        if(fighter.spellLevels[spellID] == 0 || fighter.manaPool < manaCost[fighter.spellLevels[spellID]])
-          return false;
-        return true;
+        const spellID = 3
+        const manaCost = [null, 5]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
   ],
