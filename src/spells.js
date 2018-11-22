@@ -246,12 +246,13 @@ export const fighterSpells = [
       onInvoke: ({ fighter, creature, state }) => {
         const spellID = 0
         const manaCost = [null, 1, 4, 8]
-        state.fighters.push(
-          createDefaultFighter({
+        const levels = [null, 4, 8, 12]
+        const f = createDefaultFighter({
             race: RACES.UNIT_WITHOUT_SPELLS,
             imageIndex: SUMMONS.ZOMBIE,
-          })
-        )
+        })
+        f.power = levels[fighter.spellLevels[spellID]]
+        state.fighters.push(f)
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
@@ -268,9 +269,32 @@ export const fighterSpells = [
     },
     {
       image: require('./assets/spells/exort.png'),
-      title: 'Exort',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Vyvolaj démona',
+      onInvoke: (fighter, monster, state) => {
+        const spellID = 1
+        const manaCost = [null, 1, 7, 12]
+        const levelsInt = [null, 1, 3, 5]
+        const levelsAgi = [null, 3, 6, 9]
+        const f = createDefaultFighter()
+        f.race = RACES.UNIT_WITHOUT_SPELLS
+        f.imageIndex = SUMMONS.DEMON
+        console.log(f.race, f.imageIndex)
+        f.int = levelsInt[fighter.spellLevels[spellID]]
+        f.agi = levelsAgi[fighter.spellLevels[spellID]]
+        state.fighters.push(f)
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+
+      },
+      isEnabled: (fighter) => {
+        const manaCost = [null, 1, 7, 12]
+        const spellID = 1
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {

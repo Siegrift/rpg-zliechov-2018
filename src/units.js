@@ -39,8 +39,9 @@ export const raceImages = [
   [{ image: require('./assets/races/hunter/hunter0.jpg') }],
   // symbiont
   [{ image: require('./assets/races/other/morph.jpg') }],
-  // unit without spells
-  [{ image: require('./assets/races/other/morph.jpg') }],
+  // unit without spells 
+  [{ image: require('./assets/races/other/morph.jpg') },
+   { image: require('./assets/races/mage/mage2.jpg') },],
 ]
 
 export const addUnitImage = { image: require('./assets/add.png'), title: 'Nový' }

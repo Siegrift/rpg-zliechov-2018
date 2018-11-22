@@ -17,6 +17,7 @@ export const RACES = {
 
 export const SUMMONS = {
   ZOMBIE: 0,
+  DEMON: 1,
 }
 
 export const LAST_HERO_INDEX = RACES.SYMBIONT
