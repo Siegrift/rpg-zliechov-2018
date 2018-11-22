@@ -1,6 +1,7 @@
 import { powerDmg } from './damageHelpers'
 import { CHOOSE, RACES } from './constants'
 import { createDefaultFighter } from './store/initialState'
+import { proxyTarget } from './utils'
 
 /*
 There are 2 categories of spells (fighter and creature). Both are represented as
@@ -100,7 +101,12 @@ export const fighterSpells = [
       title: 'Ľadové objatie',
       chooseAlly: CHOOSE.UNIT,
       onInvoke: (fighter, monster, state, select) => {
-        console.log(fighter, monster, state, select)
+        console.log(
+          proxyTarget(fighter),
+          proxyTarget(monster),
+          proxyTarget(state),
+          proxyTarget(select)
+        )
         const spellID = 0
         const manaCost = [null, 1, 4, 7]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
