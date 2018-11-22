@@ -130,7 +130,9 @@ const TeamView = ({
               fightersImages={imagePanelData}
               creaturesImages={creaturesImageData}
               data={spellData}
+              // TODO: fix to support attribute dialog
               onInvoke={(ind, choose, unitIndex) => {
+
                 updateValue(
                   [],
                   produce(state, (draftState) =>
@@ -138,7 +140,7 @@ const TeamView = ({
                       draftState.fighters[selectedFighter],
                       draftState.creatures[selectedCreature],
                       draftState,
-                      choose,
+                      draftState[isCreatureView ? 'creatures' : 'fighters'][choose],
                       unitIndex
                     )
                   )

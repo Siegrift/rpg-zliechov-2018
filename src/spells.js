@@ -98,7 +98,7 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/quas.png'),
       title: 'Ľadové objatie',
-      chooseAlly: CHOOSE.UNIT_OR_SELF,
+      chooseAlly: CHOOSE.UNIT,
       onInvoke: (fighter, monster, state, select) => {
         console.log(fighter, monster, state, select)
         const spellID = 0
