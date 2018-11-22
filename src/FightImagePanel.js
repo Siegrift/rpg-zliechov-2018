@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import Animate from './Animate'
 import ImageDialog from './ImageDialog'
 import AttributeDialog from './AttributeDialog'
-import { ANIMATION_TIME, CHOOSE } from './constants'
+import { ANIMATION_TIME, CHOOSE, CHOOSE_LOGIC } from './constants'
 
 const styles = (theme) => ({
   root: {
@@ -112,69 +112,40 @@ class FightImagePanel extends React.Component {
     const { itemIndex } = this.state
     const item = data[itemIndex]
 
-    if (item.chooseAlly === CHOOSE.OTHER_UNIT) {
+    if (item.chooseAlly) {
+      const Component = item.chooseAlly === CHOOSE.ATTRIBUTE ? AttributeDialog : ImageDialog
       return (
-        <ImageDialog
+        <Component
           imagePanelClassName={classes.imagePanel}
-          onClose={(index, choose) => {
+          onClose={(choose) => {
+            if (choose === -1) {
+              this.setState({ itemIndex: -1 })
+              return
+            }
             this.handleItemClick(itemIndex, choose)
           }}
           title="Zvoľ cieľ kúzla/predmetu"
-          forceOk
-          images={fightersImages.filter((_, i) => i !== selectedFighter)}
+          images={CHOOSE_LOGIC[item.chooseAlly].getEntities(fightersImages)}
         />
       )
-    }
-    if (item.chooseAlly === CHOOSE.UNIT_OR_SELF) {
+    } else if (item.chooseEnemy) {
+      const Component = item.chooseEnemy === CHOOSE.ATTRIBUTE ? AttributeDialog : ImageDialog
       return (
-        <ImageDialog
-          imagePanelClassName={classes.imagePanel}
-          onClose={(index, choose) => {
-            this.handleItemClick(itemIndex, choose)
-          }}
-          title="Zvoľ cieľ kúzla/predmetu"
-          forceOk
-          images={fightersImages}
-        />
-      )
-    }
-    if (item.chooseAlly === CHOOSE.ATTRIBUTE) {
-      return (
-        <AttributeDialog
-          onClose={(index, unitIndex, attribute) => {
+        <Component
+          onClose={(attribute, unitIndex) => {
+            if (attribute === -1) {
+              this.setState({ itemIndex: -1 })
+              return
+            }
             this.handleItemClick(itemIndex, attribute, unitIndex)
           }}
           title="Zvoľ cieľ kúzla/predmetu"
-          images={fightersImages}
+          images={CHOOSE_LOGIC[item.chooseEnemy].getEntities(creaturesImages)}
         />
       )
+    } else {
+      return null
     }
-
-    if (item.chooseEnemy === CHOOSE.UNIT_OR_SELF || item.chooseEnemy === CHOOSE.OTHER_UNIT) {
-      return (
-        <ImageDialog
-          imagePanelClassName={classes.imagePanel}
-          onClose={(index, choose) => {
-            this.handleItemClick(itemIndex, choose)
-          }}
-          title="Zvoľ cieľ kúzla/predmetu"
-          forceOk
-          images={fightersImages}
-        />
-      )
-    }
-    if (item.chooseEnemy === CHOOSE.ATTRIBUTE) {
-      return (
-        <AttributeDialog
-          onClose={(index, unitIndex, attribute) => {
-            this.handleItemClick(itemIndex, attribute, unitIndex)
-          }}
-          title="Zvoľ cieľ kúzla/predmetu"
-          images={creaturesImages}
-        />
-      )
-    }
-    return null
   }
 
   render() {

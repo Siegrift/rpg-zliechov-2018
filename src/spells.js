@@ -100,6 +100,7 @@ export const fighterSpells = [
       title: 'Ľadové objatie',
       chooseAlly: CHOOSE.UNIT_OR_SELF,
       onInvoke: (fighter, monster, state, select) => {
+        console.log(fighter, monster, state, select)
         const spellID = 0
         const manaCost = [null, 1, 4, 7]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
@@ -224,7 +225,9 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Nával adrenalínu',
-      onInvoke: (fighter) => {},
+      onInvoke: (fighter) => {
+        console.log(fighter)
+      },
     },
     {
       image: require('./assets/spells/invoke.jpg'),

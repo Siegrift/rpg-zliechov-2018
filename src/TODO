@@ -1,6 +1,4 @@
 prisera zomrie na udery nie automaticky
 ako sa implementuju passivne ability, ktore by sa mali zakazdym checkovat
-zobrazovat bonusPower a ostatne bonus staty v statoch hrdinu
 zmenit BLACK_PRIEST na WARLOCK (zatial je to len v konstantach)
 v CHOOSE by bolo fajn mat rozdelene, ci je to hrdina alebo vyvolana jednotka, cize mat moznosti OTHER_HERO, OTHER_UNIT, UNIT a HERO (vsetci aj on)
-!Ten select funguje nejak zvlastne, minimalne mi to vypisuje undefined, takze tam asi nie je dobra hodnota, pozri na to v priestovi!

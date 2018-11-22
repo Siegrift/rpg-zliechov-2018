@@ -86,7 +86,9 @@ const TeamView = ({
       title: `${items[index].title} (${itemLevels[i]})`,
     }))
   }
-  const { power, agi, int, manaPool } = isCreatureView ? creatures[selected] : fighters[selected]
+  const { power, bonusPower = 0, agi, bonusAgi = 0, int, bonusInt = 0, manaPool } = isCreatureView
+    ? creatures[selected]
+    : fighters[selected]
   const imagePanelData = isCreatureView ? creaturesImageData : fightersImageData
 
   return (
@@ -104,17 +106,17 @@ const TeamView = ({
           <div className={classes.formPanel}>
             <FormGroup>
               <FormControl>
-                <TextField label="Sila" value={power} />
+                <TextField label="Sila" value={power + bonusPower} />
               </FormControl>
             </FormGroup>
             <FormGroup>
               <FormControl>
-                <TextField label="Obratnosť" value={agi} />
+                <TextField label="Obratnosť" value={agi + bonusAgi} />
               </FormControl>
             </FormGroup>
             <FormGroup>
               <FormControl>
-                <TextField label="Inteligencia" value={int} />
+                <TextField label="Inteligencia" value={int + bonusInt} />
               </FormControl>
             </FormGroup>
             {manaPool && (

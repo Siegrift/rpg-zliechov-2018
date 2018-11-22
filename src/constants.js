@@ -7,6 +7,43 @@ export const CHOOSE = {
   OTHER_UNIT: 1,
   UNIT_OR_SELF: 2,
   ATTRIBUTE: 3,
+  HERO: 4,
+  OTHER_HERO: 5,
+  SUMMON: 6,
+  OTHER_SUMMON: 7,
+}
+
+// TODO: getEntities implementation, and also in ImageDialog and AttributeDialog
+// (index of selected item no longer enough)
+export const CHOOSE_LOGIC = {
+  [CHOOSE.OTHER_UNIT]: {
+    getEntities: (images) =>
+      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
+  },
+  [CHOOSE.UNIT_OR_SELF]: {
+    getEntities: (images) =>
+      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
+  },
+  [CHOOSE.ATTRIBUTE]: {
+    getEntities: (images) =>
+      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
+  },
+  [CHOOSE.HERO]: {
+    getEntities: (images) =>
+      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
+  },
+  [CHOOSE.OTHER_HERO]: {
+    getEntities: (images) =>
+      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
+  },
+  [CHOOSE.SUMMON]: {
+    getEntities: (images) =>
+      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
+  },
+  [CHOOSE.OTHER_SUMMON]: {
+    getEntities: (images) =>
+      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
+  },
 }
 
 export const RACES = {
