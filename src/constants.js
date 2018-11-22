@@ -51,7 +51,11 @@ export const RACES = {
   // race 5 is both unit and hero
   SYMBIONT: 5,
   // other races are just summons of the races above
-  MORPH: 6,
+  UNIT_WITHOUT_SPELLS: 6,
+}
+
+export const SUMMONS = {
+  ZOMBIE: 0,
 }
 
 export const LAST_HERO_INDEX = RACES.SYMBIONT

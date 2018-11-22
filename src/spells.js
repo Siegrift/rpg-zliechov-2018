@@ -1,5 +1,5 @@
 import { powerDmg, agiDmg, intDmg } from './damageHelpers'
-import { CHOOSE, RACES, LAST_HERO_INDEX, FIRST_SUMMON_INDEX } from './constants'
+import { CHOOSE, RACES, LAST_HERO_INDEX, FIRST_SUMMON_INDEX, SUMMONS } from './constants'
 import { createDefaultFighter } from './store/initialState'
 import { proxyTarget } from './utils'
 
@@ -229,13 +229,32 @@ export const fighterSpells = [
       },
     },
   ],
-  // black priest
+  // warlock
   [
     {
       image: require('./assets/spells/exort.png'),
-      title: 'Exort',
-      onInvoke: (figther) => {
-        figther.power -= 10
+      title: 'Vyvolaj zombie',
+      onInvoke: (fighter, monster, state) => {
+        var spellID = 0
+        var manaCost = [null, 1, 4, 8]
+        var levels = [null, 4, 8, 12]
+        const f = createDefaultFighter()
+        f.race = RACES.UNIT_WITHOUT_SPELLS
+        f.imageIndex = SUMMONS.ZOMBIE
+        console.log(f.race, f.imageIndex)
+        state.fighters.push(f)
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+      },
+      isEnabled: (fighter) => {
+        const manaCost = [null, 1, 4, 8]
+        const spellID = 0
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {
@@ -363,7 +382,7 @@ export const fighterSpells = [
       },
     },
   ],
-  // summons
+  // symbiont
   [
     {
       image: require('./assets/spells/invoke.jpg'),
@@ -373,6 +392,8 @@ export const fighterSpells = [
       },
     },
   ],
+  // summon without spells
+  [],
 ]
 
 export const creatureSpells = [

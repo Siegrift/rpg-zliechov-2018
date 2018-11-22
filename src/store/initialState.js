@@ -18,7 +18,7 @@ const mockedState = {
   fighters: [
     {
       nick: 'Arabella',
-      race: RACES.MAGE,
+      race: RACES.WARLOCK,
       level: '7',
       power: '50',
       agi: '50',
@@ -31,10 +31,11 @@ const mockedState = {
       itemIndexes: [0],
       itemLevels: [1],
       imageIndex: 0,
+      buffs: [],
     },
     {
       nick: 'Berserk',
-      race: RACES.WARRIOR,
+      race: RACES.MAGE,
       level: '7',
       power: '70',
       agi: '70',
@@ -47,11 +48,12 @@ const mockedState = {
       itemIndexes: [1, 2],
       itemLevels: [1, 1],
       imageIndex: 0,
+      buffs: [],
     },
   ],
   selectedCreature: 0,
   selectedFighter: 0,
-  page: 'create',
+  page: 'assemble',
 }
 
 export const createDefaultFighter = (strigified) => ({
@@ -69,6 +71,7 @@ export const createDefaultFighter = (strigified) => ({
   itemIndexes: [],
   itemLevels: [],
   imageIndex: 0,
+  buffs: [],
 })
 
 export const createDefaultCreature = (strigified) => ({
