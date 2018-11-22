@@ -1,5 +1,5 @@
-import { powerDmg } from './damageHelpers'
-import { CHOOSE, RACES, LAST_HERO_INDEX, FIRST_SUMMON_INDEX } from './constants'
+import { powerDmg, agiDmg, intDmg } from './damageHelpers'
+import { CHOOSE, RACES, LAST_HERO_INDEX, FIRST_SUMMON_INDEX, SUMMONS } from './constants'
 import { createDefaultFighter } from './store/initialState'
 import { proxyTarget } from './utils'
 
@@ -32,33 +32,117 @@ export const fighterSpells = [
   [
     {
       image: require('./assets/spells/quas.png'),
-      title: 'Quas',
-      chooseAlly: CHOOSE.OTHER_UNIT,
-      onInvoke: (figther) => {
-        figther.power = figther.power + 50
+      title: 'Ohnivá guľa',
+      onInvoke: (fighter, monster, state) => {
+        var spellID = 0
+        var levels = [null, 4, 8, 12]
+        var manaCost = [null, 1, 3, 6]
+        var multicast = fighterSpells[0][3].generateMulticast(fighter)
+        var ocista = 0
+        if (monster.debuffs.ocista !== undefined)
+          ocista = monster.debuffs.ocista
+        for (var i = 0; i < multicast; i++) {
+          agiDmg(monster, levels[fighter.spellLevels[spellID]] + ocista, state)
+        }
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
+      isEnabled: (fighter) => {
+        var spellID = 0
+        var manaCost = [null, 1, 3, 6]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true 
+      }
     },
     {
       image: require('./assets/spells/wex.png'),
-      title: 'Wex',
-      chooseEnemy: CHOOSE.ATTRIBUTE,
-      onInvoke: (figther) => {
-        figther.agi = figther.agi + 50
+      title: 'Očista',
+      onInvoke: (fighter, monster, state) => {
+        var spellID = 1
+        var levelsDmg = [null, 2, 5, 8]
+        var levelsPow = [null, 4, 10, 16]
+        var levelsBuff = [null, 2, 4, 6]
+        var manaCost = [null, 2, 5, 9]
+        var multicast = fighterSpells[0][3].generateMulticast(fighter)
+        for (var i = 0; i < multicast; i++) {
+          agiDmg(monster, levelsDmg[fighter.spellLevels[spellID]], state)
+          monster.power += levelsPow[fighter.spellLevels[spellID]]
+          if (monster.debuffs.ocista === undefined)
+            monster.debuffs.ocista = 0
+          monster.debuffs.ocista += levelsBuff[fighter.spellLevels[spellID]]
+        }
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
+      isEnabled: (fighter) => {
+        var spellID = 1
+        var manaCost = [null, 2, 5, 9]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true 
+      }
     },
     {
       image: require('./assets/spells/exort.png'),
-      title: 'Exort',
-      onInvoke: (figther) => {
-        figther.int = figther.int + 50
+      title: 'Tornádo',
+      onInvoke: (fighter, monster, state) => {
+        var spellID = 2
+        var levels = [null, 1, 3, 5]
+        var manaCost = [null, 2, 4, 7]
+        var multicast = fighterSpells[0][3].generateMulticast(fighter)
+        var ocista = 0
+        if (monster.debuffs.ocista !== undefined)
+          ocista = monster.debuffs.ocista
+        for (var i = 0; i < multicast; i++) {
+          powerDmg(monster, levels[fighter.spellLevels[spellID]], state)
+          agiDmg(monster, levels[fighter.spellLevels[spellID]] + ocista, state)
+          intDmg(monster, levels[fighter.spellLevels[spellID]], state)
+        }
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
+      isEnabled: (fighter) => {
+        var spellID = 2
+        var manaCost = [null, 2, 4, 7]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true 
+      }
     },
     {
       image: require('./assets/spells/invoke.jpg'),
-      title: 'Invoke',
-      onInvoke: (figther, creature) => {
-        powerDmg(creature, 10)
+      title: 'Multicast',
+      passive: true,
+      generateMulticast: (fighter) => {
+        var spellID = 3
+        if (fighter.spellLevels[spellID] === 0)
+          return 1
+        var randomValue = Math.random()
+        if (randomValue < 1/6)
+          return 3
+        if (randomValue < 1/3)
+          return 2
+        return 1
       },
+      onInvoke: (fighter) => {
+      },
+      isEnabled: (fighter) => {
+        const spellID = 2
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      }
     },
   ],
   // hunter
@@ -145,13 +229,32 @@ export const fighterSpells = [
       },
     },
   ],
-  // black priest
+  // warlock
   [
     {
       image: require('./assets/spells/exort.png'),
-      title: 'Exort',
-      onInvoke: (figther) => {
-        figther.power -= 10
+      title: 'Vyvolaj zombie',
+      onInvoke: (fighter, monster, state) => {
+        var spellID = 0
+        var manaCost = [null, 1, 4, 8]
+        var levels = [null, 4, 8, 12]
+        const f = createDefaultFighter()
+        f.race = RACES.UNIT_WITHOUT_SPELLS
+        f.imageIndex = SUMMONS.ZOMBIE
+        console.log(f.race, f.imageIndex)
+        state.fighters.push(f)
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+      },
+      isEnabled: (fighter) => {
+        const manaCost = [null, 1, 4, 8]
+        const spellID = 0
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {
@@ -248,7 +351,6 @@ export const fighterSpells = [
       },
       isEnabled: (fighter) => {
         const spellID = 2
-        const levels = [null, 1.5, 3, 5]
         if (fighter.spellLevels[spellID] === 0) {
           return false
         }
@@ -280,7 +382,7 @@ export const fighterSpells = [
       },
     },
   ],
-  // summons
+  // symbiont
   [
     {
       image: require('./assets/spells/invoke.jpg'),
@@ -290,6 +392,8 @@ export const fighterSpells = [
       },
     },
   ],
+  // summon without spells
+  [],
 ]
 
 export const creatureSpells = [
