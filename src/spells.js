@@ -269,7 +269,7 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/exort.png'),
       title: 'Vyvolaj démona',
-      onInvoke: ({fighter, monster, state}) => {
+      onInvoke: (fighter, monster, state) => {
         const spellID = 1
         const manaCost = [null, 1, 7, 12]
         const levelsInt = [null, 1, 3, 5]
