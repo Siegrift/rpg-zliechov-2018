@@ -1,7 +1,8 @@
 import produce from 'immer'
 import { setIn } from 'imuty'
 
-import { creatureSpells } from './spells'
+import { creatureSpells, fighterSpells } from './spells'
+import { items } from './items'
 
 const int = (strNum) => parseInt(strNum, 10)
 
@@ -64,5 +65,28 @@ export const computeCreatureStats = () => ({
     const creaturesAgi = state.creatures.reduce((acc, f) => acc + f.agi, 0)
     const creaturesInt = state.creatures.reduce((acc, f) => acc + f.int, 0)
     return { ...state, initialCreatureStats: [creaturesPower, creaturesAgi, creaturesInt] }
+  },
+})
+
+export const applyPassives = () => ({
+  type: 'Apply passives',
+  reducer: (state) => {
+    return produce(state, (draftState) => {
+      state.fighters.forEach((f, i) => {
+        // apply spell passives
+        for (let i = 0; i < f.spellLevels.length; i++) {
+          if (f.spellLevels[i] > 0 && fighterSpells[f.race][i].passive) {
+            fighterSpells[f.race][i].onInvoke(draftState.fighters[i], null, draftState)
+          }
+        }
+
+        // apply item passives
+        for (let i = 0; i < f.itemLevels.length; i++) {
+          if (items[f.itemIndexes[i]].passive) {
+            items[f.itemIndexes[i]].onInvoke(draftState.fighters[i], null, draftState)
+          }
+        }
+      })
+    })
   },
 })

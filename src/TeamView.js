@@ -44,6 +44,9 @@ const styles = (theme) => ({
   imagePanel: {
     justifyContent: 'space-around',
   },
+  bonusStat: {
+    color: 'green',
+  },
 })
 
 const TeamView = ({
@@ -75,15 +78,19 @@ const TeamView = ({
     spellData = spellIndexes.map((ind) => ({ ...creatureSpells[ind], isEnabled: () => false }))
     itemData = []
   } else {
-    const { race, spellLevels, itemIndexes, itemLevels } = fighters[selected]
+    const { race, spellLevels, itemIndexes, itemLevels, spellCasted, itemCasted } = fighters[
+      selected
+    ]
 
     spellData = fighterSpells[race].map((spell, i) => ({
       ...spell,
       title: `${spell.title} (${spellLevels[i]})`,
+      isEnabled: spellCasted[i] ? () => false : spell.isEnabled,
     }))
     itemData = itemIndexes.map((index, i) => ({
       ...items[index],
       title: `${items[index].title} (${itemLevels[i]})`,
+      isEnabled: itemCasted[i] ? () => false : items[index].isEnabled,
     }))
   }
   const { power, bonusPower = 0, agi, bonusAgi = 0, int, bonusInt = 0, manaPool } = isCreatureView
@@ -106,20 +113,38 @@ const TeamView = ({
           <div className={classes.formPanel}>
             <FormGroup>
               <FormControl>
-                <TextField label="Sila" value={power + bonusPower} />
+                <TextField
+                  InputProps={{
+                    endAdornment: <span className={classes.bonusStat}>{`+${bonusPower}`}</span>,
+                  }}
+                  label="Sila"
+                  value={power + bonusPower}
+                />
               </FormControl>
             </FormGroup>
             <FormGroup>
               <FormControl>
-                <TextField label="Obratnosť" value={agi + bonusAgi} />
+                <TextField
+                  InputProps={{
+                    endAdornment: <span className={classes.bonusStat}>{`+${bonusAgi}`}</span>,
+                  }}
+                  label="Obratnosť"
+                  value={agi + bonusAgi}
+                />
               </FormControl>
             </FormGroup>
             <FormGroup>
               <FormControl>
-                <TextField label="Inteligencia" value={int + bonusInt} />
+                <TextField
+                  InputProps={{
+                    endAdornment: <span className={classes.bonusStat}>{`+${bonusInt}`}</span>,
+                  }}
+                  label="Inteligencia"
+                  value={int + bonusInt}
+                />
               </FormControl>
             </FormGroup>
-            {manaPool && (
+            {!!manaPool && (
               <FormGroup>
                 <FormControl>
                   <TextField label="Mana pool" value={manaPool} />
@@ -130,12 +155,10 @@ const TeamView = ({
               fightersImages={imagePanelData}
               creaturesImages={creaturesImageData}
               data={spellData}
-              // TODO: fix to support attribute dialog
               onInvoke={(ind, choose, unitIndex) => {
-
                 updateValue(
                   [],
-                  produce(state, (draftState) =>
+                  produce(state, (draftState) => {
                     spellData[ind].onInvoke(
                       draftState.fighters[selectedFighter],
                       draftState.creatures[selectedCreature],
@@ -143,7 +166,8 @@ const TeamView = ({
                       draftState[isCreatureView ? 'creatures' : 'fighters'][choose],
                       unitIndex
                     )
-                  )
+                    draftState.fighters[selectedFighter].spellCasted[ind] = true
+                  })
                 )
               }}
             />
@@ -156,15 +180,16 @@ const TeamView = ({
           onInvoke={(ind, choose, unitIndex) => {
             updateValue(
               [],
-              produce(state, (draftState) =>
+              produce(state, (draftState) => {
                 itemData[ind].onInvoke(
                   draftState.fighters[selectedFighter],
                   draftState.creatures[selectedCreature],
                   draftState,
-                  choose,
+                  draftState[isCreatureView ? 'creatures' : 'fighters'][choose],
                   unitIndex
                 )
-              )
+                draftState.fighters[selectedFighter].itemCasted[ind] = true
+              })
             )
           }}
         />

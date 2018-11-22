@@ -61,11 +61,14 @@ const styles = (theme) => ({
       backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
   },
-  overlaySelected: {
-    backgroundColor: 'rgba(0, 0, 255, 0.4) !important',
+  selectedTile: {
+    border: '2px solid black',
   },
   overlayDisabled: {
     backgroundColor: 'rgba(156, 156, 156, 0.75) !important',
+  },
+  passiveTile: {
+    border: '2px solid red',
   },
 })
 
@@ -87,6 +90,14 @@ class ImagePanel extends React.Component {
       unclickable,
     } = this.props
 
+    const isDisabled = (tile) => {
+      return (
+        (tile.isEnabled &&
+          !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)) ||
+        tile.passive
+      )
+    }
+
     return (
       <div className={classNames(classes.root, className)}>
         <GridList className={classes.gridList} cols={data.length}>
@@ -94,17 +105,15 @@ class ImagePanel extends React.Component {
             const Component = (
               <GridListTile
                 key={i}
-                className={classNames(classes.tile, smallTiles && classes.smallTiles)}
+                classes={{
+                  root: classNames(classes.tile, smallTiles && classes.smallTiles),
+                  tile: classNames({
+                    [classes.selectedTile]: selected === i,
+                    [classes.passiveTile]: tile.passive,
+                  }),
+                }}
                 onClick={() => {
-                  if (
-                    unclickable ||
-                    (tile.isEnabled &&
-                      !tile.isEnabled(
-                        fighters[selectedFighter],
-                        creatures[selectedCreature],
-                        state
-                      ))
-                  ) {
+                  if (unclickable || isDisabled(tile)) {
                     return
                   }
                   if (onClick) onClick(i)
@@ -113,14 +122,7 @@ class ImagePanel extends React.Component {
                 <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
                 <span
                   className={classNames(classes.overlay, {
-                    [classes.overlaySelected]: selected === i,
-                    [classes.overlayDisabled]:
-                      tile.isEnabled &&
-                      !tile.isEnabled(
-                        fighters[selectedFighter],
-                        creatures[selectedCreature],
-                        state
-                      ),
+                    [classes.overlayDisabled]: isDisabled(tile),
                   })}
                 />
                 {withTitle && (

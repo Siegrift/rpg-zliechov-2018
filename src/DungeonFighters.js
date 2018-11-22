@@ -25,6 +25,7 @@ import {
   prepareStateForFight as _prepareStateForFight,
   buffCreature as _buffCreature,
   computeCreatureStats as _computeCreatureStats,
+  applyPassives as _applyPassives,
 } from './actions'
 import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
@@ -123,6 +124,7 @@ const DungeonFighters = ({
   prepareStateForFight,
   buffCreature,
   computeCreatureStats,
+  applyPassives,
 }) => {
   const {
     nick,
@@ -151,7 +153,7 @@ const DungeonFighters = ({
         data={fightersImageData}
         onClick={(index) => {
           if (index === fighters.length) {
-            updateValue(['fighters'], [...fighters, createDefaultFighter(true)])
+            updateValue(['fighters'], [...fighters, createDefaultFighter({ stringified: true })])
           }
           setSelectedFighter(index)
         }}
@@ -321,6 +323,7 @@ const DungeonFighters = ({
                 return 1
               })
             )
+            updateValue(['fighters', selectedFighter, 'itemCasted'], newIndexes.map(() => false))
           }}
         />
         <ImagePanel
@@ -345,6 +348,7 @@ const DungeonFighters = ({
             onClick={() => {
               prepareStateForFight()
               buffCreature()
+              applyPassives()
               computeCreatureStats()
               updateValue(['page'], 'creature_buff')
             }}
@@ -368,6 +372,7 @@ export default compose(
       prepareStateForFight: _prepareStateForFight,
       buffCreature: _buffCreature,
       computeCreatureStats: _computeCreatureStats,
+      applyPassives: _applyPassives,
     }
   ),
   withState('selectedFighter', 'setSelectedFighter', 0),

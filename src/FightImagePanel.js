@@ -181,6 +181,14 @@ class FightImagePanel extends React.Component {
       onInvoke,
     } = this.props
 
+    const isDisabled = (tile) => {
+      return (
+        (tile.isEnabled &&
+          !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)) ||
+        tile.passive
+      )
+    }
+
     const { animateIndex, itemIndex } = this.state
     return (
       <div className={classNames(classes.root, className)}>
@@ -191,15 +199,7 @@ class FightImagePanel extends React.Component {
                 key={i}
                 className={classNames(classes.tile)}
                 onClick={() => {
-                  if (
-                    isCreatureView ||
-                    (tile.isEnabled &&
-                      !tile.isEnabled(
-                        fighters[selectedFighter],
-                        creatures[selectedCreature],
-                        state
-                      ))
-                  ) {
+                  if (isCreatureView || isDisabled(tile)) {
                     return
                   }
                   if (tile.chooseAlly || tile.chooseEnemy) {
@@ -213,13 +213,7 @@ class FightImagePanel extends React.Component {
                 <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
                 <span
                   className={classNames(classes.overlay, {
-                    [classes.overlayDisabled]:
-                      tile.isEnabled &&
-                      !tile.isEnabled(
-                        fighters[selectedFighter],
-                        creatures[selectedCreature],
-                        state
-                      ),
+                    [classes.overlayDisabled]: isDisabled(tile),
                   })}
                 />
                 <GridListTileBar

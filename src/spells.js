@@ -130,7 +130,9 @@ export const fighterSpells = [
         if (randomValue < 1 / 3) return 2
         return 1
       },
-      onInvoke: (fighter) => {},
+      onInvoke: (fighter) => {
+        // TODO:
+      },
       isEnabled: (fighter) => {
         const spellID = 2
         if (fighter.spellLevels[spellID] === 0) {
@@ -145,10 +147,16 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/wex.png'),
       title: 'Wex',
+      passive: true,
       onInvoke: (figther, creature, state) => {
-        const f = createDefaultFighter()
-        f.race = RACES.MORPH
-        state.fighters.push(f)
+        state.fighters.push(
+          createDefaultFighter({
+            nick: 'Axaxa',
+            race: RACES.UNIT_WITHOUT_SPELLS,
+            spellLevels: [],
+            spellCasted: [],
+          })
+        )
       },
     },
     {
@@ -232,12 +240,12 @@ export const fighterSpells = [
       onInvoke: (fighter, monster, state) => {
         const spellID = 0
         const manaCost = [null, 1, 4, 8]
-        const levels = [null, 4, 8, 12]
-        const f = createDefaultFighter()
-        f.race = RACES.UNIT_WITHOUT_SPELLS
-        f.imageIndex = SUMMONS.ZOMBIE
-        console.log(f.race, f.imageIndex)
-        state.fighters.push(f)
+        state.fighters.push(
+          createDefaultFighter({
+            race: RACES.UNIT_WITHOUT_SPELLS,
+            imageIndex: SUMMONS.ZOMBIE,
+          })
+        )
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: (fighter) => {
@@ -333,16 +341,16 @@ export const fighterSpells = [
       onInvoke: (fighter, monster, state) => {
         const spellID = 2
         const levels = [null, 1.5, 3, 5]
-        let add_bonus_power = 0
+        let addBonusPower = 0
         for (const f of state.fighters) {
           if (
             f.race <= LAST_HERO_INDEX &&
             f.power + f.bonusPower < fighter.power + fighter.bonusPower
           ) {
-            add_bonus_power += levels[fighter.spellLevels[spellID]]
+            addBonusPower += levels[fighter.spellLevels[spellID]]
           }
         }
-        fighter.bonusPower += add_bonus_power
+        fighter.bonusPower += addBonusPower
       },
       isEnabled: (fighter) => {
         const spellID = 2
