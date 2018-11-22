@@ -5,7 +5,7 @@ export const MAX_SPELL_LEVELS = [3, 3, 3, 1]
 
 export const CHOOSE = {
   OTHER_UNIT: 1,
-  UNIT_OR_SELF: 2,
+  UNIT: 2,
   ATTRIBUTE: 3,
   HERO: 4,
   OTHER_HERO: 5,
@@ -20,11 +20,7 @@ export const CHOOSE_LOGIC = {
     getEntities: (images) =>
       images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
   },
-  [CHOOSE.UNIT_OR_SELF]: {
-    getEntities: (images) =>
-      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
-  },
-  [CHOOSE.ATTRIBUTE]: {
+  [CHOOSE.UNIT]: {
     getEntities: (images) =>
       images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
   },
