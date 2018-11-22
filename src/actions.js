@@ -56,3 +56,13 @@ export const buffCreature = () => ({
     return newState
   },
 })
+
+export const computeCreatureStats = () => ({
+  type: 'Compute creature base stats',
+  reducer: (state) => {
+    const creaturesPower = state.creatures.reduce((acc, f) => acc + f.power, 0)
+    const creaturesAgi = state.creatures.reduce((acc, f) => acc + f.agi, 0)
+    const creaturesInt = state.creatures.reduce((acc, f) => acc + f.int, 0)
+    return { ...state, initialCreatureStats: [creaturesPower, creaturesAgi, creaturesInt] }
+  },
+})

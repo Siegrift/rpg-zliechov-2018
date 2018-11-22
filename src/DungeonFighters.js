@@ -24,6 +24,7 @@ import {
   updateValue as _updateValue,
   prepareStateForFight as _prepareStateForFight,
   buffCreature as _buffCreature,
+  computeCreatureStats as _computeCreatureStats,
 } from './actions'
 import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
@@ -121,6 +122,7 @@ const DungeonFighters = ({
   updateValue,
   prepareStateForFight,
   buffCreature,
+  computeCreatureStats,
 }) => {
   const {
     nick,
@@ -343,6 +345,7 @@ const DungeonFighters = ({
             onClick={() => {
               prepareStateForFight()
               buffCreature()
+              computeCreatureStats()
               updateValue(['page'], 'creature_buff')
             }}
             disabled={isDisabled}
@@ -364,6 +367,7 @@ export default compose(
       updateValue: _updateValue,
       prepareStateForFight: _prepareStateForFight,
       buffCreature: _buffCreature,
+      computeCreatureStats: _computeCreatureStats,
     }
   ),
   withState('selectedFighter', 'setSelectedFighter', 0),

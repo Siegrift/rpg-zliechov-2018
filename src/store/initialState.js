@@ -12,7 +12,7 @@ const mockedState = {
       rewardItems: ['1', '2', '0', '0'],
       spellIndexes: [0, 1],
       imageIndex: 3,
-      debuffs: {}
+      debuffs: {},
     },
   ],
   fighters: [
@@ -83,7 +83,7 @@ export const createDefaultCreature = (strigified) => ({
   rewardItems: [strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0],
   spellIndexes: [],
   imageIndex: 0,
-  debuffs: {}
+  debuffs: {},
 })
 
 const state = {
@@ -92,7 +92,9 @@ const state = {
   fighters: [createDefaultFighter(true)],
   selectedCreature: 0,
   selectedFighter: 0,
-  page: 'create',
+  // will be set dynamically
+  initialCreaturePower: [],
+  page: 'page',
 }
 
 export default () => mockedState
