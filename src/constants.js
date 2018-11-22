@@ -52,6 +52,11 @@ export const RACES = {
   PRIEST: 2,
   WARLOCK: 3,
   WARRIOR: 4,
+  // race 5 is both unit and hero
+  SYMBIONT: 5,
   // other races are just summons of the races above
-  MORPH: 5,
+  MORPH: 6,
 }
+
+export const LAST_HERO_INDEX = RACES.SYMBIONT
+export const FIRST_SUMMON_INDEX = RACES.SYMBIONT

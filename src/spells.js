@@ -1,5 +1,5 @@
 import { powerDmg } from './damageHelpers'
-import { CHOOSE, RACES } from './constants'
+import { CHOOSE, RACES, LAST_HERO_INDEX, FIRST_SUMMON_INDEX } from './constants'
 import { createDefaultFighter } from './store/initialState'
 
 /*
@@ -224,10 +224,30 @@ export const fighterSpells = [
     },
     {
       image: require('./assets/spells/invoke.jpg'),
-      title: 'Nával adrenalínu',
-      onInvoke: (fighter) => {
-        console.log(fighter)
+      title: 'Zdravé sebavedomie',
+      passive: true,
+      onInvoke: (fighter, monster, state) => {
+        const spellID = 2
+        const levels = [null, 1.5, 3, 5]
+        var add_bonus_power = 0
+        for (const f of state.fighters) {
+          if (
+            f.race <= LAST_HERO_INDEX &&
+            f.power + f.bonusPower < fighter.power + fighter.bonusPower
+          ) {
+            add_bonus_power += levels[fighter.spellLevels[spellID]]
+          }
+        }
+        fighter.bonusPower += add_bonus_power
       },
+      isEnabled: (fighter) => {
+        const spellID = 2
+        const levels = [null, 1.5, 3, 5]
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      }
     },
     {
       image: require('./assets/spells/invoke.jpg'),
@@ -237,7 +257,7 @@ export const fighterSpells = [
         const manaCost = [null, 5]
         const levels = [null, 4]
         for (const f of state.fighters) {
-          state.fighters[f].bonusPower += levels[fighter.spellLevels[spellID]]
+          f.bonusPower += levels[fighter.spellLevels[spellID]]
         }
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
