@@ -247,9 +247,10 @@ export const fighterSpells = [
         const spellID = 0
         const manaCost = [null, 1, 4, 8]
         const levels = [null, 4, 8, 12]
-        const f = createDefaultFighter()
-        f.race = RACES.UNIT_WITHOUT_SPELLS
-        f.imageIndex = SUMMONS.ZOMBIE
+        const f = createDefaultFighter({
+            race: RACES.UNIT_WITHOUT_SPELLS,
+            imageIndex: SUMMONS.ZOMBIE,
+        })
         f.power = levels[fighter.spellLevels[spellID]]
         state.fighters.push(f)
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
