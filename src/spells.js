@@ -188,12 +188,6 @@ export const fighterSpells = [
       title: 'Ľadové objatie',
       chooseAlly: CHOOSE.UNIT,
       onInvoke: (fighter, monster, state, select) => {
-        console.log(
-          proxyTarget(fighter),
-          proxyTarget(monster),
-          proxyTarget(state),
-          proxyTarget(select)
-        )
         const spellID = 0
         const manaCost = [null, 1, 4, 7]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]

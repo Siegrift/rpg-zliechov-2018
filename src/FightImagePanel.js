@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import Animate from './Animate'
 import ImageDialog from './ImageDialog'
 import AttributeDialog from './AttributeDialog'
-import { ANIMATION_TIME, CHOOSE, CHOOSE_LOGIC } from './constants'
+import { ANIMATION_TIME, CHOOSE_LOGIC } from './constants'
 
 const styles = (theme) => ({
   root: {
