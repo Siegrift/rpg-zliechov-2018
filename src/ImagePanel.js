@@ -93,7 +93,11 @@ class ImagePanel extends React.Component {
     const isDisabled = (tile) => {
       return (
         (tile.isEnabled &&
-          !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)) ||
+          !tile.isEnabled({
+            fighter: fighters[selectedFighter],
+            creature: creatures[selectedCreature],
+            state,
+          })) ||
         tile.passive
       )
     }

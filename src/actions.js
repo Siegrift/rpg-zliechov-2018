@@ -49,7 +49,11 @@ export const buffCreature = () => ({
   reducer: (state) => {
     let newState = state
     const fn = (draft, spellIndex) => {
-      creatureSpells[spellIndex].onInvoke(draft.fighters[0], draft.creatures[0], draft)
+      creatureSpells[spellIndex].onInvoke({
+        fighter: draft.fighters[0],
+        creature: draft.creatures[0],
+        state: draft,
+      })
     }
     for (const spellIndex of state.creatures[0].spellIndexes) {
       newState = produce(newState, (draft) => fn(draft, spellIndex))
@@ -76,14 +80,17 @@ export const applyPassives = () => ({
         // apply spell passives
         for (let i = 0; i < f.spellLevels.length; i++) {
           if (f.spellLevels[i] > 0 && fighterSpells[f.race][i].passive) {
-            fighterSpells[f.race][i].onInvoke(draftState.fighters[i], null, draftState)
+            fighterSpells[f.race][i].onInvoke({
+              fighter: draftState.fighters[i],
+              state: draftState,
+            })
           }
         }
 
         // apply item passives
         for (let i = 0; i < f.itemLevels.length; i++) {
           if (items[f.itemIndexes[i]].passive) {
-            items[f.itemIndexes[i]].onInvoke(draftState.fighters[i], null, draftState)
+            items[f.itemIndexes[i]].onInvoke({ fighter: draftState.fighters[i], state: draftState })
           }
         }
       })

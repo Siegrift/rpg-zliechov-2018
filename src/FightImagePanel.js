@@ -103,7 +103,7 @@ class FightImagePanel extends React.Component {
 
   handleItemClick = (i, choice, attribute) => {
     this.setState({ itemIndex: -1 })
-    this.props.onInvoke(i, choice, attribute)
+    this.props.onItemClick(i, choice, attribute)
     this.animateItem(i)
   }
 
@@ -178,13 +178,17 @@ class FightImagePanel extends React.Component {
       selectedFighter,
       selectedCreature,
       isCreatureView,
-      onInvoke,
+      onItemClick,
     } = this.props
 
     const isDisabled = (tile) => {
       return (
         (tile.isEnabled &&
-          !tile.isEnabled(fighters[selectedFighter], creatures[selectedCreature], state)) ||
+          !tile.isEnabled({
+            fighter: fighters[selectedFighter],
+            creature: creatures[selectedCreature],
+            state,
+          })) ||
         tile.passive
       )
     }
@@ -205,7 +209,7 @@ class FightImagePanel extends React.Component {
                   if (tile.chooseAlly || tile.chooseEnemy) {
                     this.setState({ ...this.state, itemIndex: i })
                   } else {
-                    onInvoke(i)
+                    onItemClick(i)
                     this.animateItem(i)
                   }
                 }}

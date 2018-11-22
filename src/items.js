@@ -7,27 +7,27 @@ export const items = [
   {
     image: require('./assets/items/agh.jpg'),
     title: 'Aghanim',
-    onInvoke: (fighter) => {
+    onInvoke: ({ fighter }) => {
       fighter.power = fighter.power - 50
       fighter.agi += 50
     },
-    isEnabled: (fighter) => fighter.power >= 100,
+    isEnabled: ({ fighter }) => fighter.power >= 100,
   },
   {
     image: require('./assets/items/dagon.jpg'),
     title: 'Dagon',
-    onInvoke: (fighter) => {
+    onInvoke: ({ fighter }) => {
       fighter.power = fighter.power + 50
     },
-    isEnabled: (fighter) => true,
+    isEnabled: ({ fighter }) => true,
   },
   {
     image: require('./assets/items/manta.png'),
     title: 'Manta',
-    onInvoke: (fighter) => {
+    onInvoke: ({ fighter }) => {
       fighter.power = fighter.power + 50
     },
-    isEnabled: (fighter) => true,
+    isEnabled: ({ fighter }) => true,
   },
 ]
 

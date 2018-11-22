@@ -155,17 +155,17 @@ const TeamView = ({
               fightersImages={imagePanelData}
               creaturesImages={creaturesImageData}
               data={spellData}
-              onInvoke={(ind, choose, unitIndex) => {
+              onItemClick={(ind, chosenIndex, attribute) => {
                 updateValue(
                   [],
                   produce(state, (draftState) => {
-                    spellData[ind].onInvoke(
-                      draftState.fighters[selectedFighter],
-                      draftState.creatures[selectedCreature],
-                      draftState,
-                      draftState[isCreatureView ? 'creatures' : 'fighters'][choose],
-                      unitIndex
-                    )
+                    spellData[ind].onInvoke({
+                      fighter: draftState.fighters[selectedFighter],
+                      creature: draftState.creatures[selectedCreature],
+                      state: draftState,
+                      chosen: draftState[isCreatureView ? 'creatures' : 'fighters'][chosenIndex],
+                      attribute,
+                    })
                     draftState.fighters[selectedFighter].spellCasted[ind] = true
                   })
                 )
@@ -177,17 +177,17 @@ const TeamView = ({
           fightersImages={imagePanelData}
           creaturesImages={creaturesImageData}
           data={itemData}
-          onInvoke={(ind, choose, unitIndex) => {
+          onItemClick={(ind, chosenIndex, attribute) => {
             updateValue(
               [],
               produce(state, (draftState) => {
-                itemData[ind].onInvoke(
-                  draftState.fighters[selectedFighter],
-                  draftState.creatures[selectedCreature],
-                  draftState,
-                  draftState[isCreatureView ? 'creatures' : 'fighters'][choose],
-                  unitIndex
-                )
+                itemData[ind].onInvoke({
+                  fighter: draftState.fighters[selectedFighter],
+                  creature: draftState.creatures[selectedCreature],
+                  state: draftState,
+                  chosen: draftState[isCreatureView ? 'creatures' : 'fighters'][chosenIndex],
+                  attribute,
+                })
                 draftState.fighters[selectedFighter].itemCasted[ind] = true
               })
             )
