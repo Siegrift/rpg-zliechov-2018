@@ -5,3 +5,9 @@ passivky
     getEntities: (images) =>
       images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
   },
+
+
+Namiesto zamodreneho vybraneho obrazku mat zlaty okraj
+Staty zobrazovat ako staty+bonusstaty (a bonusstaty zelenou)
+vizualizacia multicastu
+prisera umiera ak uz ma vsetkych statov 0 a mizne

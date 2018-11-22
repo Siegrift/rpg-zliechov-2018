@@ -12,13 +12,14 @@ const mockedState = {
       rewardItems: ['1', '2', '0', '0'],
       spellIndexes: [0, 1],
       imageIndex: 3,
+      debuffs: {}
     },
   ],
   fighters: [
     {
       nick: 'Arabella',
-      race: RACES.PRIEST,
-      level: '2',
+      race: RACES.MAGE,
+      level: '7',
       power: '50',
       agi: '50',
       int: '50',
@@ -26,7 +27,7 @@ const mockedState = {
       bonusAgi: 0,
       bonusInt: 0,
       manaPool: 50,
-      spellLevels: [1, 1, 0, 0],
+      spellLevels: [2, 3, 1, 1],
       itemIndexes: [0],
       itemLevels: [1],
       imageIndex: 0,
@@ -79,6 +80,7 @@ export const createDefaultCreature = (strigified) => ({
   rewardItems: [strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0],
   spellIndexes: [],
   imageIndex: 0,
+  debuffs: {}
 })
 
 const state = {
