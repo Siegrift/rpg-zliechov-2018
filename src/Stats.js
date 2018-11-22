@@ -56,18 +56,7 @@ const styles = (theme) => ({
   },
 })
 
-const Stats = ({
-  classes,
-  fightersPower,
-  fightersAgi,
-  fightersInt,
-  creaturesPower,
-  creaturesAgi,
-  creaturesInt,
-  sumPower,
-  sumAgi,
-  sumInt,
-}) => {
+const Stats = ({ classes, creaturesPower, creaturesAgi, creaturesInt, initialCreatureStats }) => {
   return (
     <div className={classes.wrapper}>
       <div className={classes.progressWrapper}>
@@ -77,10 +66,10 @@ const Stats = ({
             barColorPrimary: classes.powerBar,
           }}
           variant="determinate"
-          value={(fightersPower / sumPower) * 100}
+          value={(creaturesPower / initialCreatureStats[0]) * 100}
         />
         <span className={classes.barText}>Sila</span>
-        <span className={classes.barTextEnd}>{`${fightersPower}/${sumPower}`}</span>
+        <span className={classes.barTextEnd}>{`${creaturesPower}/${initialCreatureStats[0]}`}</span>
       </div>
 
       <div className={classes.progressWrapper}>
@@ -90,10 +79,10 @@ const Stats = ({
             barColorPrimary: classes.agilityBar,
           }}
           variant="determinate"
-          value={(fightersAgi / sumAgi) * 100}
+          value={(creaturesAgi / initialCreatureStats[1]) * 100}
         />
         <span className={classes.barText}>Obratnost</span>
-        <span className={classes.barTextEnd}>{`${fightersAgi}/${sumAgi}`}</span>
+        <span className={classes.barTextEnd}>{`${creaturesAgi}/${initialCreatureStats[1]}`}</span>
       </div>
 
       <div className={classes.progressWrapper}>
@@ -103,10 +92,10 @@ const Stats = ({
             barColorPrimary: classes.intelligenceBar,
           }}
           variant="determinate"
-          value={(fightersInt / sumInt) * 100}
+          value={(creaturesInt / initialCreatureStats[2]) * 100}
         />
         <span className={classes.barText}>Inteligencia</span>
-        <span className={classes.barTextEnd}>{`${fightersInt}/${sumInt}`}</span>
+        <span className={classes.barTextEnd}>{`${creaturesInt}/${initialCreatureStats[2]}`}</span>
       </div>
     </div>
   )
@@ -116,6 +105,7 @@ export default compose(
   connect((state) => ({
     creatures: state.creatures,
     fighters: state.fighters,
+    initialCreatureStats: state.initialCreatureStats,
   })),
   withStatProps,
   withStyles(styles)

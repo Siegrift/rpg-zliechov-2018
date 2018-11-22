@@ -5,6 +5,11 @@ By convention, the function receives three params
 3) whole state
 */
 
+/*
+WHAT TO HANDLE:
+- creature cannt go bellow 0
+*/
+
 export const powerDmg = (creature, amount, state) => {
   creature.power -= amount
   console.log('Power' + amount)

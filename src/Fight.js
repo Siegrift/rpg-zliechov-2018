@@ -89,9 +89,6 @@ class Fight extends React.Component {
   render() {
     const {
       classes,
-      fightersPower,
-      fightersAgi,
-      fightersInt,
       creaturesPower,
       creaturesAgi,
       creaturesInt,
@@ -100,12 +97,7 @@ class Fight extends React.Component {
     } = this.props
     const { showWinDialog, showGiveUpDialog } = this.state
 
-    if (
-      !showWinDialog &&
-      fightersPower >= creaturesPower &&
-      fightersAgi >= creaturesAgi &&
-      fightersInt >= creaturesInt
-    ) {
+    if (!showWinDialog && creaturesPower <= 0 && creaturesAgi <= 0 && creaturesInt <= 0) {
       // use setTimeut to show the dialog after spell/item ends
       setTimeout(() => {
         if (this.mounted) this.setState((state) => ({ ...state, showWinDialog: true }))
