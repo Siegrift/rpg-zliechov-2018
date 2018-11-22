@@ -1,5 +1,6 @@
 prisera zomrie na udery nie automaticky
 passivky
+attribute
 
 [CHOOSE.ATTRIBUTE]: {
     getEntities: (images) =>
