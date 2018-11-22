@@ -25,7 +25,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "fix": "prettier-eslint --write \"{src}/**/*.{js,jsx,json,css}\""
+    "fix": "prettier-eslint --write \"{src}/**/*.{js,jsx,json,css}\"",
+    "lint": "eslint . || exit 0"
   },
   "browserslist": [
     ">0.2%",

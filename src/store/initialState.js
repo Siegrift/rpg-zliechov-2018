@@ -28,8 +28,10 @@ const mockedState = {
       bonusInt: 0,
       manaPool: 50,
       spellLevels: [2, 3, 1, 1],
+      spellCasted: [false, false, false, false],
       itemIndexes: [0],
       itemLevels: [1],
+      itemCasted: [false],
       imageIndex: 0,
       buffs: [],
     },
@@ -45,8 +47,10 @@ const mockedState = {
       bonusInt: 0,
       manaPool: 2,
       spellLevels: [1, 3, 2, 1],
+      spellCasted: [false, false, false, false],
       itemIndexes: [1, 2],
       itemLevels: [1, 1],
+      itemCasted: [false, false],
       imageIndex: 0,
       buffs: [],
     },
@@ -56,9 +60,16 @@ const mockedState = {
   page: 'assemble',
 }
 
-export const createDefaultFighter = (strigified) => ({
-  nick: '',
-  race: 0, // (0, 1, 2, 3, 4) = (Mág, Lovec, Kňaz, Černokňažník, Bojovník)
+export const createDefaultFighter = ({
+  strigified,
+  race,
+  spellLevels,
+  spellCasted,
+  imageIndex,
+  nick,
+}) => ({
+  nick: nick || '',
+  race: race || 0, // (0, 1, 2, 3, 4) = (Mág, Lovec, Kňaz, Černokňažník, Bojovník)
   level: strigified ? '1' : 1,
   power: strigified ? '' : 0,
   agi: strigified ? '' : 0,
@@ -67,14 +78,16 @@ export const createDefaultFighter = (strigified) => ({
   bonusAgi: 0,
   bonusInt: 0,
   manaPool: 0,
-  spellLevels: [0, 0, 0, 0],
+  spellLevels: spellLevels || [0, 0, 0, 0],
+  spellCasted: spellCasted || [false, false, false, false],
   itemIndexes: [],
   itemLevels: [],
-  imageIndex: 0,
+  itemCasted: [],
+  imageIndex: imageIndex || 0,
   buffs: [],
 })
 
-export const createDefaultCreature = (strigified) => ({
+export const createDefaultCreature = ({ strigified }) => ({
   name: '',
   power: strigified ? '' : 0,
   agi: strigified ? '' : 0,
@@ -88,8 +101,8 @@ export const createDefaultCreature = (strigified) => ({
 
 const state = {
   // creatures[0] MUST be the one original
-  creatures: [createDefaultCreature(true)],
-  fighters: [createDefaultFighter(true)],
+  creatures: [createDefaultCreature({ stringified: true })],
+  fighters: [createDefaultFighter({ stringified: true })],
   selectedCreature: 0,
   selectedFighter: 0,
   // will be set dynamically

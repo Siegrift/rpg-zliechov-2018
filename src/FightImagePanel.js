@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import Animate from './Animate'
 import ImageDialog from './ImageDialog'
 import AttributeDialog from './AttributeDialog'
-import { ANIMATION_TIME, CHOOSE, CHOOSE_LOGIC } from './constants'
+import { ANIMATION_TIME, CHOOSE_LOGIC } from './constants'
 
 const styles = (theme) => ({
   root: {
@@ -103,7 +103,7 @@ class FightImagePanel extends React.Component {
 
   handleItemClick = (i, choice, attribute) => {
     this.setState({ itemIndex: -1 })
-    this.props.onInvoke(i, choice, attribute)
+    this.props.onItemClick(i, choice, attribute)
     this.animateItem(i)
   }
 
@@ -178,8 +178,20 @@ class FightImagePanel extends React.Component {
       selectedFighter,
       selectedCreature,
       isCreatureView,
-      onInvoke,
+      onItemClick,
     } = this.props
+
+    const isDisabled = (tile) => {
+      return (
+        (tile.isEnabled &&
+          !tile.isEnabled({
+            fighter: fighters[selectedFighter],
+            creature: creatures[selectedCreature],
+            state,
+          })) ||
+        tile.passive
+      )
+    }
 
     const { animateIndex, itemIndex } = this.state
     return (
@@ -191,21 +203,13 @@ class FightImagePanel extends React.Component {
                 key={i}
                 className={classNames(classes.tile)}
                 onClick={() => {
-                  if (
-                    isCreatureView ||
-                    (tile.isEnabled &&
-                      !tile.isEnabled(
-                        fighters[selectedFighter],
-                        creatures[selectedCreature],
-                        state
-                      ))
-                  ) {
+                  if (isCreatureView || isDisabled(tile)) {
                     return
                   }
                   if (tile.chooseAlly || tile.chooseEnemy) {
                     this.setState({ ...this.state, itemIndex: i })
                   } else {
-                    onInvoke(i)
+                    onItemClick(i)
                     this.animateItem(i)
                   }
                 }}
@@ -213,13 +217,7 @@ class FightImagePanel extends React.Component {
                 <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
                 <span
                   className={classNames(classes.overlay, {
-                    [classes.overlayDisabled]:
-                      tile.isEnabled &&
-                      !tile.isEnabled(
-                        fighters[selectedFighter],
-                        creatures[selectedCreature],
-                        state
-                      ),
+                    [classes.overlayDisabled]: isDisabled(tile),
                   })}
                 />
                 <GridListTileBar
