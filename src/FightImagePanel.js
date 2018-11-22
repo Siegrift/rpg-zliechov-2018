@@ -101,46 +101,65 @@ class FightImagePanel extends React.Component {
     }, ANIMATION_TIME * 1000 + 500)
   }
 
-  handleItemClick = (i, choice, unitIndex) => {
+  handleItemClick = (i, choice, attribute) => {
     this.setState({ itemIndex: -1 })
-    this.props.onInvoke(i, choice, unitIndex)
+    this.props.onInvoke(i, choice, attribute)
     this.animateItem(i)
   }
 
   renderDialogs = () => {
-    const { data, fightersImages, creaturesImages, selectedFighter, classes } = this.props
+    const {
+      data,
+      fightersImages,
+      creaturesImages,
+      selectedFighter,
+      selectedCreature,
+      classes,
+      fighters,
+      creatures,
+    } = this.props
     const { itemIndex } = this.state
     const item = data[itemIndex]
 
     if (item.chooseAlly) {
-      const Component = item.chooseAlly === CHOOSE.ATTRIBUTE ? AttributeDialog : ImageDialog
+      const Component = item.chooseAttribute ? AttributeDialog : ImageDialog
       return (
         <Component
+          enabledAttributes={item.chooseAttribute}
           imagePanelClassName={classes.imagePanel}
-          onClose={(choose) => {
-            if (choose === -1) {
+          onClose={(chooseIndex, attribute) => {
+            if (chooseIndex === -1) {
               this.setState({ itemIndex: -1 })
               return
             }
-            this.handleItemClick(itemIndex, choose)
+            this.handleItemClick(itemIndex, chooseIndex, attribute)
           }}
           title="Zvoľ cieľ kúzla/predmetu"
-          images={CHOOSE_LOGIC[item.chooseAlly].getEntities(fightersImages)}
+          images={CHOOSE_LOGIC[item.chooseAlly].getEntities(
+            fightersImages,
+            selectedFighter,
+            creatures[selectedFighter]
+          )}
         />
       )
     } else if (item.chooseEnemy) {
-      const Component = item.chooseEnemy === CHOOSE.ATTRIBUTE ? AttributeDialog : ImageDialog
+      const Component = item.chooseAttribute ? AttributeDialog : ImageDialog
       return (
         <Component
-          onClose={(attribute, unitIndex) => {
-            if (attribute === -1) {
+          enabledAttributes={item.chooseAttribute}
+          onClose={(chooseIndex, attribute) => {
+            if (chooseIndex === -1) {
               this.setState({ itemIndex: -1 })
               return
             }
-            this.handleItemClick(itemIndex, attribute, unitIndex)
+            this.handleItemClick(itemIndex, chooseIndex, attribute)
           }}
           title="Zvoľ cieľ kúzla/predmetu"
-          images={CHOOSE_LOGIC[item.chooseEnemy].getEntities(creaturesImages)}
+          images={CHOOSE_LOGIC[item.chooseEnemy].getEntities(
+            creaturesImages,
+            selectedCreature,
+            fighters[selectedCreature]
+          )}
         />
       )
     } else {

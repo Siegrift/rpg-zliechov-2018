@@ -1,13 +1,4 @@
-prisera zomrie na udery nie automaticky
 passivky
-attribute
-
-[CHOOSE.ATTRIBUTE]: {
-    getEntities: (images) =>
-      images.map((im, i) => ({ ...im, isEnabled: i === 0 ? () => false : im.isEnabled })),
-  },
-
-
 Namiesto zamodreneho vybraneho obrazku mat zlaty okraj
 Staty zobrazovat ako staty+bonusstaty (a bonusstaty zelenou)
 vizualizacia multicastu

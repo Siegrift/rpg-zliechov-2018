@@ -27,7 +27,7 @@ const ImageDialog = ({
   return (
     <Dialog
       open
-      onClose={() => onClose(index)}
+      onClose={() => onClose(-1)}
       aria-labelledby="form-dialog-title"
       classes={{ root: classes.root }}
       disableEscapeKeyDown={forceOk}

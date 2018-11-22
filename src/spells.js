@@ -338,7 +338,7 @@ export const fighterSpells = [
       onInvoke: (fighter, monster, state) => {
         const spellID = 2
         const levels = [null, 1.5, 3, 5]
-        var add_bonus_power = 0
+        let add_bonus_power = 0
         for (const f of state.fighters) {
           if (
             f.race <= LAST_HERO_INDEX &&
@@ -355,7 +355,7 @@ export const fighterSpells = [
           return false
         }
         return true
-      }
+      },
     },
     {
       image: require('./assets/spells/invoke.jpg'),
