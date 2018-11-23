@@ -43,6 +43,8 @@ export const raceImages = [
   // unit without spells 
   [{ image: require('./assets/races/other/morph.jpg') },
    { image: require('./assets/races/mage/mage2.jpg') },],
+   // archimond
+  [{ image: require('./assets/creatures/monster2.png') },],
 ]
 
 export const addUnitImage = { image: require('./assets/add.png'), title: 'Nový' }

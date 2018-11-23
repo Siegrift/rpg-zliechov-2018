@@ -12,7 +12,7 @@ const mockedState = {
       rewardItems: ['1', '2', '0', '0'],
       spellIndexes: [0, 1],
       imageIndex: 3,
-      debuffs: {},
+      buffs: {},
     },
   ],
   fighters: [
@@ -33,7 +33,7 @@ const mockedState = {
       itemLevels: [1],
       itemCasted: [false],
       imageIndex: 0,
-      buffs: [],
+      buffs: {},
     },
     {
       nick: 'Berserk',
@@ -52,7 +52,7 @@ const mockedState = {
       itemLevels: [1, 1],
       itemCasted: [false, false],
       imageIndex: 0,
-      buffs: [],
+      buffs: {},
     },
   ],
   selectedCreature: 0,
@@ -84,7 +84,7 @@ export const createDefaultFighter = ({
   itemLevels: [],
   itemCasted: [],
   imageIndex: imageIndex || 0,
-  buffs: [],
+  buffs: {},
 })
 
 export const createDefaultCreature = ({ strigified }) => ({
@@ -96,7 +96,7 @@ export const createDefaultCreature = ({ strigified }) => ({
   rewardItems: [strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0, strigified ? '' : 0],
   spellIndexes: [],
   imageIndex: 0,
-  debuffs: {},
+  buffs: {},
 })
 
 const state = {
