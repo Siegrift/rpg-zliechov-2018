@@ -51,8 +51,8 @@ export const fighterSpells = [
         const manaCost = [null, 1, 3, 6]
         const multicast = fighterSpells[0][3].generateMulticast(fighter)
         let ocista = 0
-        if (creature.debuffs.ocista !== undefined) {
-          ocista = creature.debuffs.ocista
+        if (creature.buffs.ocista !== undefined) {
+          ocista = creature.buffs.ocista
         }
         for (let i = 0; i < multicast; i++) {
           agiDmg(creature, levels[fighter.spellLevels[spellID]] + ocista, state)
@@ -84,8 +84,8 @@ export const fighterSpells = [
         for (let i = 0; i < multicast; i++) {
           agiDmg(creature, levelsDmg[fighter.spellLevels[spellID]], state)
           creature.power += levelsPow[fighter.spellLevels[spellID]]
-          if (creature.debuffs.ocista === undefined) creature.debuffs.ocista = 0
-          creature.debuffs.ocista += levelsBuff[fighter.spellLevels[spellID]]
+          if (creature.buffs.ocista === undefined) creature.buffs.ocista = 0
+          creature.buffs.ocista += levelsBuff[fighter.spellLevels[spellID]]
         }
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
@@ -110,7 +110,7 @@ export const fighterSpells = [
         const manaCost = [null, 2, 4, 7]
         const multicast = fighterSpells[0][3].generateMulticast(fighter)
         let ocista = 0
-        if (creature.debuffs.ocista !== undefined) ocista = creature.debuffs.ocista
+        if (creature.buffs.ocista !== undefined) ocista = creature.buffs.ocista
         for (let i = 0; i < multicast; i++) {
           powerDmg(creature, levels[fighter.spellLevels[spellID]], state)
           agiDmg(creature, levels[fighter.spellLevels[spellID]] + ocista, state)
@@ -143,10 +143,9 @@ export const fighterSpells = [
         return 1
       },
       onInvoke: ({ fighter }) => {
-        // TODO:
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 2
+        const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
           return false
         }
@@ -253,7 +252,7 @@ export const fighterSpells = [
         })
         f.power = levels[fighter.spellLevels[spellID]]
         state.fighters.push(f)
-        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+        fighter.manaPool -= fighterSpells[3][2].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
       },
       isEnabled: ({ fighter }) => {
         const manaCost = [null, 1, 4, 8]
@@ -270,22 +269,21 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/exort.png'),
       title: 'Vyvolaj démona',
-      onInvoke: (fighter, monster, state) => {
+      onInvoke: ({fighter, monster, state}) => {
         const spellID = 1
         const manaCost = [null, 1, 7, 12]
         const levelsInt = [null, 1, 3, 5]
         const levelsAgi = [null, 3, 6, 9]
-        const f = createDefaultFighter()
-        f.race = RACES.UNIT_WITHOUT_SPELLS
-        f.imageIndex = SUMMONS.DEMON
-        console.log(f.race, f.imageIndex)
+        const f = createDefaultFighter({
+          race: RACES.UNIT_WITHOUT_SPELLS,
+          imageIndex: SUMMONS.DEMON,
+        })
         f.int = levelsInt[fighter.spellLevels[spellID]]
         f.agi = levelsAgi[fighter.spellLevels[spellID]]
         state.fighters.push(f)
-        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
-
+        fighter.manaPool -= fighterSpells[3][2].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
       },
-      isEnabled: (fighter) => {
+      isEnabled: ({fighter}) => {
         const manaCost = [null, 1, 7, 12]
         const spellID = 1
         if (
@@ -299,16 +297,64 @@ export const fighterSpells = [
     },
     {
       image: require('./assets/spells/exort.png'),
-      title: 'Exort',
+      title: 'Krvavá obeta',
+      passive: true,
+      manaDiscount: (fighter, manaCost) => {
+        const spellID = 2
+        const levels = [null, 0.25, 0.5, 0.75]
+        if (fighter.spellLevels[spellID] === 0) {
+          return manaCost
+        }
+        const randomValue = Math.random()
+        if (randomValue < levels[fighter.spellLevels[spellID]]) {
+          return Math.floor(manaCost/2)
+        }
+        return manaCost
+      },
       onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      },
+      isEnabled: ({ fighter }) => {
+        const spellID = 2
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
       },
     },
     {
       image: require('./assets/spells/exort.png'),
-      title: 'Exort',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Vyvolaj Archimonda',
+      chooseAlly: CHOOSE.UNIT,
+      onInvoke: ({ fighter, state, chosen }) => {
+        console.log(chosen)
+        console.log(state.fighters.indexOf(chosen))
+        const spellID = 3
+        const manaCost = [null, 16]
+        const attributes = 20
+        const negativeAura = 1
+        state.fighters.splice(state.fighters.indexOf(chosen), 1)
+        const f = createDefaultFighter({
+          race: RACES.ARCHIMOND,
+          imageIndex: SUMMONS.ARCHIMOND,
+          spellLevels: [1],
+        })
+        f.power = attributes
+        f.int = attributes
+        f.agi = attributes
+        state.fighters.push(f)
+        fighter.manaPool -= fighterSpells[3][2].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
+        fighterSpells[RACES.ARCHIMOND][0].applyAura(state, negativeAura, f)
+      },
+      isEnabled: ({fighter}) => {
+        const manaCost = [null, 16]
+        const spellID = 3
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
   ],
@@ -427,6 +473,32 @@ export const fighterSpells = [
   ],
   // summon without spells
   [],
+  // Archimond
+  [
+    {
+      image: require('./assets/spells/invoke.jpg'),
+      title: 'Morová nákaza',
+      passive: true,
+      applyAura: (state, aura, sourceOfAura) => {
+        for (const f of state.fighters.concat(state.creatures)) {
+          if (f === sourceOfAura) {
+            continue
+          }
+          f.power -= aura
+          f.int -= aura
+          f.agi -= aura
+          if (f.buffs.mor === undefined) {
+            f.buffs.mor = 1
+          }
+          else {
+            f.buffs.mor += 1
+          }
+        }
+      },
+      onInvoke: ({ }) => {
+      },
+    },
+  ],
 ]
 
 export const creatureSpells = [
