@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import Animate from './Animate'
 import ImageDialog from './ImageDialog'
 import AttributeDialog from './AttributeDialog'
+import SimpleAttributeDialog from './SimpleAttributeDialog'
 import { ANIMATION_TIME, CHOOSE_LOGIC } from './constants'
 
 const styles = (theme) => ({
@@ -162,6 +163,19 @@ class FightImagePanel extends React.Component {
           )}
         />
       )
+    } else if (item.chooseAttribute) {
+      return (
+        <SimpleAttributeDialog
+          enabledAttributes={item.chooseAttribute}
+          onClose={(attribute) => {
+            if (attribute === -1) {
+              this.setState({ itemIndex: -1 })
+              return
+            }
+            this.handleItemClick(itemIndex, -1, attribute)
+          }}
+        />
+      )
     } else {
       return null
     }
@@ -206,7 +220,7 @@ class FightImagePanel extends React.Component {
                   if (isCreatureView || isDisabled(tile)) {
                     return
                   }
-                  if (tile.chooseAlly || tile.chooseEnemy) {
+                  if (tile.chooseAlly || tile.chooseEnemy || tile.chooseAttribute) {
                     this.setState({ ...this.state, itemIndex: i })
                   } else {
                     onItemClick(i)

@@ -8,14 +8,9 @@ import classNames from 'classnames'
 import { withState, compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles'
 
-import ImagePanel from './ImagePanel'
-
 const styles = (theme) => ({
   root: {
     zIndex: 100000,
-  },
-  imagePanel: {
-    justifyContent: 'center',
   },
   attribute2: {
     marginTop: theme.spacing.unit / 2,
@@ -46,16 +41,13 @@ const styles = (theme) => ({
   },
 })
 
-const AttributeDialog = ({
+const SimpleAttributeDialog = ({
   enabledAttributes,
   classes,
   onClose,
   images,
-  index,
-  setIndex,
   attribute,
   setAttribute,
-  title,
 }) => {
   return (
     <Dialog
@@ -64,14 +56,8 @@ const AttributeDialog = ({
       classes={{ root: classes.root }}
       onClose={() => onClose(-1, null)}
     >
-      <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+      <DialogTitle id="form-dialog-title">Vyber atribút</DialogTitle>
       <DialogContent>
-        <ImagePanel
-          data={images}
-          onClick={(index) => setIndex(index)}
-          selected={index}
-          className={classes.imagePanel}
-        />
         {['Sila', 'Obratnosť', 'Inteligencia'].map((title, i) => (
           <Button
             key={i}
@@ -85,11 +71,7 @@ const AttributeDialog = ({
         ))}
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => onClose(index, attribute)}
-          color="primary"
-          disabled={index === -1 || attribute === null}
-        >
+        <Button onClick={() => onClose(attribute)} color="primary" disabled={attribute === null}>
           OK
         </Button>
         <Button onClick={() => onClose(-1)} color="primary">
@@ -101,7 +83,6 @@ const AttributeDialog = ({
 }
 
 export default compose(
-  withState('index', 'setIndex', -1),
   withState('attribute', 'setAttribute', null),
   withStyles(styles)
-)(AttributeDialog)
+)(SimpleAttributeDialog)
