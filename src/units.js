@@ -45,6 +45,8 @@ export const raceImages = [
    { image: require('./assets/races/mage/mage2.jpg') },],
    // archimond
   [{ image: require('./assets/creatures/monster2.png') },],
+  // hunter's pet
+  [{ image: require('./assets/creatures/monster1.jpg') },],
 ]
 
 export const addUnitImage = { image: require('./assets/add.png'), title: 'Nový' }
