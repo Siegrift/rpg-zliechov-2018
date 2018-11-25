@@ -159,8 +159,8 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/wex.png'),
       title: 'Wex',
-      passive: true,
-      onInvoke: ({ fighter, creature, state }) => {
+      chooseAttribute: [1, 0, 1],
+      onInvoke: ({ fighter, creature, state, attribute }) => {
         state.fighters.push(
           createDefaultFighter({
             nick: 'Axaxa',
