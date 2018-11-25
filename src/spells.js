@@ -157,24 +157,72 @@ export const fighterSpells = [
   [
     {
       image: require('./assets/spells/wex.png'),
-      title: 'Wex',
-      chooseAttribute: [1, 0, 1],
-      onInvoke: ({ fighter, creature, state, attribute }) => {
-        state.fighters.push(
-          createDefaultFighter({
-            nick: 'Axaxa',
-            race: RACES.UNIT_WITHOUT_SPELLS,
-            spellLevels: [],
-            spellCasted: [],
-          })
-        )
+      title: 'Zvierací spoločník',
+      chooseAttribute: [true, true, true],
+      onInvoke: ({ fighter, state, attribute }) => {
+        const spellID = 0
+        const manaCost = [null, 1, 1, 1]
+        const levels = [null, 2, 4, 6]
+        const f = createDefaultFighter({
+            race: RACES.HUNTERS_PET,
+            imageIndex: SUMMONS.DIREWOLF,
+            nick: 'Zlovlk',
+        })
+        f.power = Math.ceil(fighter.power / 2)
+        f.agi = Math.ceil(fighter.agi / 2)
+        f.owner = fighter
+        state.fighters.push(f)
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+      },
+      isEnabled: ({ fighter }) => {
+        const spellID = 0
+        const manaCost = [null, 1, 1, 1]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {
       image: require('./assets/spells/wex.png'),
-      title: 'Wex',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Symbióza',
+      onInvoke: ({ fighter, state }) => {
+        const spellID = 1
+        const manaCost = [null, 1, 2, 3]
+        const levels = [null, 1, 2, 3]
+        let pet = undefined
+        for (const f of state.fighters) {
+          if (f.owner === fighter) {
+            pet = f
+          }
+        }
+        const symbiont = createDefaultFighter({
+          race: RACES.SYMBIONT,
+          imageIndex: 0,
+          nick: fighter.nick
+        })
+        //f.power = 
+      },
+      isEnabled: ({ fighter, state }) => {
+        const spellID = 1
+        const manaCost = [null, 1, 2, 3]
+        let exist_owner = false
+        for (const f of state.fighters) {
+          if (f.owner === fighter) {
+            exist_owner = true
+          }
+        }
+        console.log(exist_owner)
+        if (
+          fighter.spellLevels[spellID] === 0 || !exist_owner ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
     {
@@ -499,6 +547,8 @@ export const fighterSpells = [
       },
     },
   ],
+  // hunter's pet
+  [],
 ]
 
 export const creatureSpells = [

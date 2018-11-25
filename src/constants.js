@@ -14,12 +14,14 @@ export const RACES = {
   // other races are just summons of the races above
   UNIT_WITHOUT_SPELLS: 6,
   ARCHIMOND: 7,
+  HUNTERS_PET: 8,
 }
 
 export const SUMMONS = {
   ZOMBIE: 0,
   DEMON: 1,
   ARCHIMOND: 0,
+  DIREWOLF: 0
 }
 
 export const LAST_HERO_INDEX = RACES.SYMBIONT
