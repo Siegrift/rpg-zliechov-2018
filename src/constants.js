@@ -3,6 +3,12 @@ export const SPELL_ANIMATION_SIZE = 350
 export const ANIMATION_TIME = 0.5
 export const MAX_SPELL_LEVELS = [3, 3, 3, 1]
 
+export const ATTRIBUTES = {
+  POWER: 0,
+  AGILITY: 1,
+  INTELLIGENCE: 2,
+}
+
 export const RACES = {
   MAGE: 0,
   HUNTER: 1,

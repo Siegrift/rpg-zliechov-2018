@@ -18,7 +18,7 @@ const mockedState = {
   fighters: [
     {
       nick: 'Arabella',
-      race: RACES.HUNTER,
+      race: RACES.PRIEST,
       level: '7',
       power: '50',
       agi: '50',
@@ -37,7 +37,7 @@ const mockedState = {
     },
     {
       nick: 'Berserk',
-      race: RACES.MAGE,
+      race: RACES.WARLOCK,
       level: '7',
       power: '70',
       agi: '70',

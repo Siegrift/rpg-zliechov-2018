@@ -1,5 +1,5 @@
 import { powerDmg, agiDmg, intDmg } from './damageHelpers'
-import { CHOOSE, RACES, LAST_HERO_INDEX, SUMMONS } from './constants'
+import { CHOOSE, RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES } from './constants'
 import { createDefaultFighter } from './store/initialState'
 // eslint-disable-next-line
 import { proxyTarget } from './utils'
@@ -158,7 +158,7 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/wex.png'),
       title: 'Zvierací spoločník',
-      chooseAttribute: [true, true, true],
+      chooseAttribute: [true, true, false],
       onInvoke: ({ fighter, state, attribute }) => {
         const spellID = 0
         const manaCost = [null, 1, 1, 1]
@@ -170,6 +170,12 @@ export const fighterSpells = [
         })
         f.power = Math.ceil(fighter.power / 2)
         f.agi = Math.ceil(fighter.agi / 2)
+        if (attribute == ATTRIBUTES.POWER) {
+          f.power += levels[fighter.spellLevels[spellID]]
+        }
+        else if (attribute == ATTRIBUTES.AGILITY) {
+          f.agi += levels[fighter.spellLevels[spellID]]
+        }
         f.owner = fighter
         state.fighters.push(f)
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
@@ -195,27 +201,35 @@ export const fighterSpells = [
         const levels = [null, 1, 2, 3]
         let pet = undefined
         for (const f of state.fighters) {
+          console.log(f.owner)
           if (f.owner === fighter) {
+            console.log('nasiel som')
             pet = f
           }
         }
-        const symbiont = createDefaultFighter({
-          race: RACES.SYMBIONT,
-          imageIndex: 0,
-          nick: fighter.nick
-        })
-        //f.power = 
+        console.log(pet)
+        /*fighter.race = RACES.SYMBIONT
+        fighter.power += pet.power
+        fighter.int += pet.int
+        fighter.agi += pet.agi
+        fighter.bonusPower += pet.bonusPower + levels[fighter.spellLevels[spellID]]
+        fighter.bonusInt += pet.bonusInt + levels[fighter.spellLevels[spellID]]
+        fighter.bonusAgi += pet.bonusAgi + levels[fighter.spellLevels[spellID]]
+        fighter.imageIndex = 0
+        fighter.spellLevels = [fighter.spellLevels[2], fighter.spellLevels[3]]
+        fighter.spellCasted = [fighter.spellCasted[2], fighter.spellLevels[3]]
+        state.fighters.splice(state.fighters.indexOf(pet), 1)*/
       },
       isEnabled: ({ fighter, state }) => {
         const spellID = 1
         const manaCost = [null, 1, 2, 3]
         let exist_owner = false
         for (const f of state.fighters) {
+          console.log(f.owner)
           if (f.owner === fighter) {
             exist_owner = true
           }
         }
-        console.log(exist_owner)
         if (
           fighter.spellLevels[spellID] === 0 || !exist_owner ||
           fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
@@ -227,16 +241,37 @@ export const fighterSpells = [
     },
     {
       image: require('./assets/spells/wex.png'),
-      title: 'Wex',
+      title: 'TODO',
       onInvoke: ({ fighter }) => {
         fighter.power -= 10
       },
     },
     {
       image: require('./assets/spells/wex.png'),
-      title: 'Wex',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Presná muška',
+      chooseAttribute: [true, true, true],
+      onInvoke: ({ fighter, creature, attribute }) => {
+        var spellID = 3
+        var manaCost = [null, 5]
+        var levels = [null, 30]
+        if (attribute == ATTRIBUTES.POWER) {
+          powerDmg(creature, levels[fighter.spellLevels[spellID]])
+        } else if (attribute == ATTRIBUTES.AGILITY) {
+          agiDmg(creature, levels[fighter.spellLevels[spellID]])
+        } else if (attribute == ATTRIBUTES.INTELLIGENCE) {
+          intDmg(creature, levels[fighter.spellLevels[spellID]])
+        }
+      },
+      isEnabled: ({ fighter }) => {
+        const spellID = 3
+        const manaCost = [null, 5]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
       },
     },
   ],
@@ -245,10 +280,17 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/quas.png'),
       title: 'Ľadové objatie',
-      chooseAlly: CHOOSE.UNIT,
-      onInvoke: ({ fighter, creature, state }) => {
+      chooseAlly: CHOOSE.OTHER_HERO,
+      onInvoke: ({ fighter, chosen }) => {
         const spellID = 0
         const manaCost = [null, 1, 4, 7]
+        const levels = [null, 2, 6, 10]
+        if (chosen.buffs.objatie === undefined || !chosen.buffs.objatie) {
+          chosen.power += levels[fighter.spellLevels[spellID]]
+          chosen.agi = 0
+          chosen.bonusAgi = 0
+          chosen.buffs.objatie = true
+        }
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
@@ -265,21 +307,37 @@ export const fighterSpells = [
     },
     {
       image: require('./assets/spells/quas.png'),
-      title: 'Quas',
+      title: 'Svätý cieľ',
+      chooseAlly: CHOOSE.OTHER_UNIT,
+      onInvoke: ({ fighter, chosen }) => {
+        const spellID = 1
+        const manaCost = [null, 1, 3, 6]
+        const levels = [null, 1.5, 2, 2.5]
+        chosen.buffs.svatyCiel = true
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+      },
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        const manaCost = [null, 1, 3, 6]
+        if (
+          fighter.spellLevels[spellID] === 0 ||
+          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
+        ) {
+          return false
+        }
+        return true
+      },
+    },
+    {
+      image: require('./assets/spells/quas.png'),
+      title: 'TODO',
       onInvoke: ({ fighter }) => {
         fighter.power -= 10
       },
     },
     {
       image: require('./assets/spells/quas.png'),
-      title: 'Quas',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
-      },
-    },
-    {
-      image: require('./assets/spells/quas.png'),
-      title: 'Quas',
+      title: 'TODO',
       onInvoke: ({ fighter }) => {
         fighter.power -= 10
       },
@@ -374,8 +432,6 @@ export const fighterSpells = [
       title: 'Vyvolaj Archimonda',
       chooseAlly: CHOOSE.UNIT,
       onInvoke: ({ fighter, state, chosen }) => {
-        console.log(chosen)
-        console.log(state.fighters.indexOf(chosen))
         const spellID = 3
         const manaCost = [null, 16]
         const attributes = 20
