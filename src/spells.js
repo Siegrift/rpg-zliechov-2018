@@ -170,10 +170,10 @@ export const fighterSpells = [
         })
         f.power = Math.ceil(fighter.power / 2)
         f.agi = Math.ceil(fighter.agi / 2)
-        if (attribute == ATTRIBUTES.POWER) {
+        if (attribute === ATTRIBUTES.POWER) {
           f.power += levels[fighter.spellLevels[spellID]]
         }
-        else if (attribute == ATTRIBUTES.AGILITY) {
+        else if (attribute === ATTRIBUTES.AGILITY) {
           f.agi += levels[fighter.spellLevels[spellID]]
         }
         f.owner = fighter
@@ -208,7 +208,8 @@ export const fighterSpells = [
           }
         }
         console.log(pet)
-        /*fighter.race = RACES.SYMBIONT
+        //TODO - doesnt work
+        fighter.race = RACES.SYMBIONT
         fighter.power += pet.power
         fighter.int += pet.int
         fighter.agi += pet.agi
@@ -218,7 +219,7 @@ export const fighterSpells = [
         fighter.imageIndex = 0
         fighter.spellLevels = [fighter.spellLevels[2], fighter.spellLevels[3]]
         fighter.spellCasted = [fighter.spellCasted[2], fighter.spellLevels[3]]
-        state.fighters.splice(state.fighters.indexOf(pet), 1)*/
+        state.fighters.splice(state.fighters.indexOf(pet), 1)
       },
       isEnabled: ({ fighter, state }) => {
         const spellID = 1
@@ -254,11 +255,11 @@ export const fighterSpells = [
         var spellID = 3
         var manaCost = [null, 5]
         var levels = [null, 30]
-        if (attribute == ATTRIBUTES.POWER) {
+        if (attribute === ATTRIBUTES.POWER) {
           powerDmg(creature, levels[fighter.spellLevels[spellID]])
-        } else if (attribute == ATTRIBUTES.AGILITY) {
+        } else if (attribute === ATTRIBUTES.AGILITY) {
           agiDmg(creature, levels[fighter.spellLevels[spellID]])
-        } else if (attribute == ATTRIBUTES.INTELLIGENCE) {
+        } else if (attribute === ATTRIBUTES.INTELLIGENCE) {
           intDmg(creature, levels[fighter.spellLevels[spellID]])
         }
       },
