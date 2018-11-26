@@ -72,14 +72,23 @@ const styles = (theme) => ({
 
 class FightImagePanel extends React.Component {
   mounted = true
+  state = {
+    animateIndex: -1,
+    cancelTime: null,
+    itemIndex: -1,
+    selectedFighter: -1,
+  }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      animateIndex: -1,
-      cancelTime: null,
-      itemIndex: -1,
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.selectedFighter !== prevState.selectedFighter) {
+      return {
+        animateIndex: -1,
+        cancelTime: null,
+        itemIndex: -1,
+        selectedFighter: nextProps.selectedFighter,
+      }
     }
+    return {}
   }
 
   setAnimateIndex = (animateIndex) => {
@@ -196,13 +205,12 @@ class FightImagePanel extends React.Component {
 
     const isDisabled = (tile) => {
       return (
-        (tile.isEnabled &&
-          !tile.isEnabled({
-            fighter: fighters[selectedFighter],
-            creature: creatures[selectedCreature],
-            state,
-          })) ||
-        tile.passive
+        tile.isEnabled &&
+        !tile.isEnabled({
+          fighter: fighters[selectedFighter],
+          creature: creatures[selectedCreature],
+          state,
+        })
       )
     }
 
@@ -216,7 +224,7 @@ class FightImagePanel extends React.Component {
                 key={i}
                 className={classNames(classes.tile)}
                 onClick={() => {
-                  if (isCreatureView || isDisabled(tile)) {
+                  if (isCreatureView || isDisabled(tile) || tile.passive) {
                     return
                   }
                   if (tile.chooseAlly || tile.chooseEnemy || tile.chooseAttribute) {
