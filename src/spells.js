@@ -209,7 +209,7 @@ export const fighterSpells = [
         }
         console.log(pet)
         //TODO - doesnt work
-        fighter.race = RACES.SYMBIONT
+        /*fighter.race = RACES.SYMBIONT
         fighter.power += pet.power
         fighter.int += pet.int
         fighter.agi += pet.agi
@@ -219,7 +219,7 @@ export const fighterSpells = [
         fighter.imageIndex = 0
         fighter.spellLevels = [fighter.spellLevels[2], fighter.spellLevels[3]]
         fighter.spellCasted = [fighter.spellCasted[2], fighter.spellLevels[3]]
-        state.fighters.splice(state.fighters.indexOf(pet), 1)
+        state.fighters.splice(state.fighters.indexOf(pet), 1)*/
       },
       isEnabled: ({ fighter, state }) => {
         const spellID = 1
