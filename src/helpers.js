@@ -42,11 +42,11 @@ export const levelAndManaCostEnabled = (fighter, spellID, manaCost) => {
 
 // Crate fighters helpers
 
-export const addFighter = (state, newFighter) => {
+export const addFighter = (newFighter, state) => {
 	// apply auras from others to new fighter
 	for (const fighter of state.fighters) {
 		for (const spell of fighterSpells[fighter.race]) {
-			if (spell.passive && spell.isEnabled && spell.isEnabled({fighter}) && spell.doesApply && spell.DoesApply(newFighter, fighter, state)) {
+			if (spell.passive && spell.isEnabled && spell.isEnabled({fighter}) && spell.doesApply && spell.doesApply(newFighter, fighter, state)) {
 				spell.applyAura(newFighter, fighter, state)
 			}
 		}
@@ -62,7 +62,7 @@ export const addFighter = (state, newFighter) => {
 	// apply auras from new fighter to others
 	for (const spell of fighterSpells[newFighter.race]) {
 		for (const fighter of state.fighters) {
-			if (spell.passive && spell.isEnabled && spell.isEnabled({newFighter}) && spell.doesApply && spell.DoesApply(fighter, newFighter, state)) {
+			if (spell.passive && spell.isEnabled && spell.isEnabled({fighter: newFighter}) && spell.doesApply && spell.doesApply(fighter, newFighter, state)) {
 				spell.applyAura(fighter, newFighter, state)
 			}
 		}
@@ -70,9 +70,34 @@ export const addFighter = (state, newFighter) => {
 	// apply auras from new fighter to monsters
 	for (const spell of fighterSpells[newFighter.race]) {
 		for (const monster of state.creatures) {
-			if (spell.passive && spell.isEnabled && spell.isEnabled({newFighter}) && spell.doesApply && spell.DoesApply(monster, newFighter, state)) {
+			if (spell.passive && spell.isEnabled && spell.isEnabled({fighter: newFighter}) && spell.doesApply && spell.doesApply(monster, newFighter, state)) {
 				spell.applyAura(monster, newFighter, state)
 			}
 		}
 	}
+  // add fighter to state
+  state.fighters.push(newFighter)
+}
+
+export const removeFighter = (removedFighter, state) => {
+  // remove auras of this fighter from other fighters
+  for (const fighter of state.fighters) {
+    if (fighter.buffs[removedFighter.id] !== undefined) {
+      for (const spellID of fighter.buffs[removedFighter.id]) {
+        fighterSpells[removedFighter.race][spellID].detachAura(fighter, removedFighter, state)
+      }
+      // TODO: toto sa da urcite lepsie odtial odstranit
+      fighter.buffs[removedFighter.id] = []
+    }
+  }
+  // remove auras of this fighter from monsters
+  for (const monster of state.creatures) {
+    if (monster.buffs[{removedFighter}] !== undefined) {
+      for (const spellID of monster.buffs[{removedFighter}]) {
+        fighterSpells[removedFighter.race][spellID].detachAura(monster, removedFighter, state)
+      }
+    }
+  }
+  // remove fighter
+  state.fighters.splice(state.fighters.indexOf(removedFighter), 1)
 }

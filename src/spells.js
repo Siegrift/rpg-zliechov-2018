@@ -1,5 +1,5 @@
 import * as helpers from './helpers'
-import { CHOOSE, RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES } from './constants'
+import { CHOOSE, RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES, UNIT_TYPES, FIRST_SUMMON_INDEX } from './constants'
 import { createDefaultFighter } from './store/initialState'
 // eslint-disable-next-line
 import { proxyTarget } from './utils'
@@ -321,16 +321,64 @@ export const fighterSpells = [
     },
     {
       image: require('./assets/spells/quas.png'),
-      title: 'TODO',
+      title: 'Aura požehnania',
+      passive: true,
       onInvoke: ({ fighter }) => {
-        fighter.power -= 10
       },
+      isEnabled: ({ fighter }) => {
+        const spellID = 3
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      doesApply: (affected) => {
+        if (affected.type === UNIT_TYPES.FIGHTER && affected.race >= FIRST_SUMMON_INDEX) {
+          return true
+        }
+        return false
+      },
+      applyAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower += levels[source.spellLevels[spellID]]
+        affected.bonusAgi += levels[source.spellLevels[spellID]]
+        if (affected.buffs[source.id] === undefined) {
+          affected.buffs[source.id] = []
+        }
+        affected.buffs[source.id].push(spellID)
+      },
+      detachAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower -= levels[source.spellLevels[spellID]]
+        affected.bonusAgi -= levels[source.spellLevels[spellID]]
+      }
     },
     {
       image: require('./assets/spells/quas.png'),
-      title: 'TODO',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Strážny anjel',
+      onInvoke: ({ fighter, state }) => {
+        const spellID = 4
+        const manaCost = [null, 10]
+        const angel = createDefaultFighter({
+          race: RACES.GUARDIAN_ANGEL,
+          imageIndex: SUMMONS.ANGEL,
+          spellLevels: [0, fighter.spellLevels[3]],
+          spellCasted: [false, false],
+          nick: 'Strážny anjel',
+          power: fighter.power,
+          agi: fighter.power,
+          int: fighter.int,
+        })
+        helpers.addFighter(angel, state)
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+        helpers.removeFighter(fighter, state)
+      },
+      isEnabled: ({ fighter }) => {
+        const manaCost = [null, 10]
+        const spellID = 4
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
   ],
@@ -357,7 +405,7 @@ export const fighterSpells = [
             imageIndex: SUMMONS.ZOMBIE,
         })
         f.power = levels[fighter.spellLevels[spellID]]
-        state.fighters.push(f)
+        helpers.addFighter(f, state)
         fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
       },
       isEnabled: ({ fighter }) => {
@@ -380,7 +428,7 @@ export const fighterSpells = [
         })
         f.int = levelsInt[fighter.spellLevels[spellID]]
         f.agi = levelsAgi[fighter.spellLevels[spellID]]
-        state.fighters.push(f)
+        helpers.addFighter(f, state)
         fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
       },
       isEnabled: ({fighter}) => {
@@ -424,18 +472,18 @@ export const fighterSpells = [
         const manaCost = [null, 16]
         const attributes = 20
         const negativeAura = 1
-        state.fighters.splice(state.fighters.indexOf(chosen), 1)
+        helpers.removeFighter(chosen, state)
+        //state.fighters.splice(state.fighters.indexOf(chosen), 1)
         const f = createDefaultFighter({
           race: RACES.ARCHIMOND,
           imageIndex: SUMMONS.ARCHIMOND,
-          spellLevels: [1],
+          spellLevels: [0, 1],
         })
         f.power = attributes
         f.int = attributes
         f.agi = attributes
-        state.fighters.push(f)
+        helpers.addFighter(f, state)
         fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
-        fighterSpells[RACES.ARCHIMOND][1].applyAura(state, negativeAura, f)
       },
       isEnabled: ({fighter}) => {
         const manaCost = [null, 16]
@@ -584,7 +632,35 @@ export const fighterSpells = [
       image: require('./assets/spells/invoke.jpg'),
       title: 'Morová nákaza',
       passive: true,
-      applyAura: (state, aura, sourceOfAura) => {
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      doesApply: (affected) => {
+        return true
+      },
+      applyAura: (affected, source) => {
+        const spellID = 1
+        const auraStrength = 1
+        affected.power -= auraStrength
+        affected.agi -= auraStrength
+        affected.int -= auraStrength
+        if (affected.buffs[source.id] === undefined) {
+          affected.buffs[source.id] = []
+        }
+        affected.buffs[source.id].push(spellID)
+      },
+      detachAura: (affected, source) => {
+        const spellID = 3
+        const auraStrength = 1
+        affected.power += auraStrength
+        affected.agi += auraStrength
+        affected.int += auraStrength
+      },
+      /*applyAura: (state, aura, sourceOfAura) => {
         for (const f of state.fighters.concat(state.creatures)) {
           if (f === sourceOfAura) {
             continue
@@ -598,8 +674,7 @@ export const fighterSpells = [
           else {
             f.buffs.mor += 1
           }
-        }
-      },
+        }*/
       onInvoke: ({ }) => {
       },
     },
@@ -614,6 +689,56 @@ export const fighterSpells = [
         helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
         helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
       },
+    },
+  ],
+  // guardian angel
+  [
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
+        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
+        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+      },
+    },
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Božia aura požehnania',
+      passive: true,
+      onInvoke: ({ fighter }) => {
+      },
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      doesApply: (affected) => {
+        if (affected.type === UNIT_TYPES.FIGHTER) {
+          return true
+        }
+        return false
+      },
+      applyAura: (affected, source) => {
+        const spellID = 1
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower += levels[source.spellLevels[spellID]]
+        affected.bonusAgi += levels[source.spellLevels[spellID]]
+        affected.bonusInt += levels[source.spellLevels[spellID]]
+        if (affected.buffs[source.id] === undefined) {
+          affected.buffs[source.id] = []
+        }
+        affected.buffs[source.id].push(spellID)
+      },
+      detachAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower -= levels[source.spellLevels[spellID]]
+        affected.bonusAgi -= levels[source.spellLevels[spellID]]
+        affected.bonusInt -= levels[source.spellLevels[spellID]]
+      }
     },
   ],
 ]

@@ -9,6 +9,11 @@ export const ATTRIBUTES = {
   INTELLIGENCE: 2,
 }
 
+export const UNIT_TYPES = {
+  FIGHTER: 0,
+  MONSTER: 1,
+}
+
 export const RACES = {
   MAGE: 0,
   HUNTER: 1,
@@ -21,13 +26,15 @@ export const RACES = {
   UNIT_WITHOUT_SPELLS: 6,
   ARCHIMOND: 7,
   HUNTERS_PET: 8,
+  GUARDIAN_ANGEL: 9,
 }
 
 export const SUMMONS = {
   ZOMBIE: 0,
   DEMON: 1,
   ARCHIMOND: 0,
-  DIREWOLF: 0
+  DIREWOLF: 0,
+  ANGEL: 0,
 }
 
 export const LAST_HERO_INDEX = RACES.SYMBIONT

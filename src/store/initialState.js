@@ -1,9 +1,12 @@
-import { RACES } from '../constants'
+import { RACES, UNIT_TYPES } from '../constants'
+import { uniqueId } from 'lodash'
 
 // eslint-disable-next-line
 const mockedState = {
   creatures: [
     {
+      id: uniqueId(),
+      type: UNIT_TYPES.MONSTER,
       name: 'Mocked creature',
       power: '250',
       agi: '100',
@@ -17,8 +20,10 @@ const mockedState = {
   ],
   fighters: [
     {
+      id: uniqueId(),
+      type: UNIT_TYPES.FIGHTER,
       nick: 'Arabella',
-      race: RACES.MAGE,
+      race: RACES.WARLOCK,
       level: '7',
       power: '50',
       agi: '50',
@@ -36,8 +41,10 @@ const mockedState = {
       buffs: {},
     },
     {
+      id: uniqueId(),
+      type: UNIT_TYPES.FIGHTER,
       nick: 'Berserk',
-      race: RACES.WARLOCK,
+      race: RACES.PRIEST,
       level: '7',
       power: '70',
       agi: '70',
@@ -62,6 +69,7 @@ const mockedState = {
 
 export const createDefaultFighter = ({
   strigified,
+  id,
   race,
   spellLevels,
   spellCasted,
@@ -87,6 +95,8 @@ export const createDefaultFighter = ({
     int: strigified ? '' : 0,
   }
   return {
+    id: id || uniqueId(),
+    type: UNIT_TYPES.FIGHTER,
     nick: nick || '',
     race: race || 0, // (0, 1, 2, 3, 4) = (Mág, Lovec, Kňaz, Černokňažník, Bojovník)
     level: level || defaults.level,
@@ -109,6 +119,7 @@ export const createDefaultFighter = ({
 
 export const createDefaultCreature = ({
   strigified,
+  id,
   name,
   power,
   agi,
@@ -117,10 +128,12 @@ export const createDefaultCreature = ({
   rewardItems,
   spellIndexes,
   imageIndex,
-  debuffs,
+  buffs,
 }) => {
   const defaultValue = strigified ? '' : 0
   return {
+    id: id || uniqueId(),
+    type: UNIT_TYPES.MONSTER,
     name: name || '',
     power: power || defaultValue,
     agi: agi || defaultValue,
@@ -129,7 +142,7 @@ export const createDefaultCreature = ({
     rewardItems: rewardItems || [defaultValue, defaultValue, defaultValue, defaultValue],
     spellIndexes: spellIndexes || [],
     imageIndex: imageIndex || 0,
-    debuffs: debuffs || {},
+    buffs: buffs || {},
   }
 }
 
