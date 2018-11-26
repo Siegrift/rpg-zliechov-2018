@@ -68,9 +68,10 @@ const TeamView = ({
     image: creatureImages[imageIndex].image,
     title: name,
   }))
-  const fightersImageData = fighters.map(({ race, imageIndex, nick }) => ({
+  const fightersImageData = fighters.map(({ race, imageIndex, nick, isChief }) => ({
     image: isCreatureView ? creatureImages[imageIndex].image : raceImages[race][imageIndex].image,
     title: nick,
+    isChief,
   }))
 
   if (isCreatureView) {

@@ -300,7 +300,7 @@ const DungeonFighters = ({
             isEnabled: () =>
               canUpgradeSpell(freeAttributes(fighters[selectedFighter]), i, spellLevels[i], level),
           }))}
-          withTitle
+          withTooltip
           onClick={(ind) => {
             updateValue(['fighters', selectedFighter, 'spellLevels', ind], spellLevels[ind] + 1)
           }}
@@ -332,7 +332,7 @@ const DungeonFighters = ({
             title: `${items[item].title} (${itemLevels[i]})`,
             isEnabled: () => true,
           }))}
-          withTitle
+          withTooltip
           onClick={(ind) => {
             updateValue(['fighters', selectedFighter, 'itemLevels', ind], itemLevels[ind] + 1)
           }}
