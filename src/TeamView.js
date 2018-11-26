@@ -156,6 +156,7 @@ const TeamView = ({
               fightersImages={imagePanelData}
               creaturesImages={creaturesImageData}
               data={spellData}
+              selectedFighter={selectedFighter}
               onItemClick={(ind, chosenIndex, attribute) => {
                 updateValue(
                   [],
@@ -178,6 +179,7 @@ const TeamView = ({
           fightersImages={imagePanelData}
           creaturesImages={creaturesImageData}
           data={itemData}
+          selectedFighter={selectedFighter}
           onItemClick={(ind, chosenIndex, attribute) => {
             updateValue(
               [],

@@ -102,13 +102,12 @@ class ImagePanel extends React.Component {
 
     const isDisabled = (tile) => {
       return (
-        (tile.isEnabled &&
-          !tile.isEnabled({
-            fighter: fighters[selectedFighter],
-            creature: creatures[selectedCreature],
-            state,
-          })) ||
-        tile.passive
+        tile.isEnabled &&
+        !tile.isEnabled({
+          fighter: fighters[selectedFighter],
+          creature: creatures[selectedCreature],
+          state,
+        })
       )
     }
 
@@ -127,7 +126,7 @@ class ImagePanel extends React.Component {
                   }),
                 }}
                 onClick={() => {
-                  if (unclickable || isDisabled(tile)) {
+                  if (unclickable || isDisabled(tile) || tile.passive) {
                     return
                   }
                   if (onClick) onClick(i)
