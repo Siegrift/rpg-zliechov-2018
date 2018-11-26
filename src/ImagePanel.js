@@ -8,6 +8,8 @@ import { withStyles } from '@material-ui/core/styles'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
+import Chief from './assets/chief.png'
+
 const styles = (theme) => ({
   root: {
     display: 'flex',
@@ -70,6 +72,13 @@ const styles = (theme) => ({
   passiveTile: {
     border: '2px solid red',
   },
+  chief: {
+    position: 'absolute',
+    width: '50px',
+    right: '-6px',
+    transform: 'none',
+    top: '-6px',
+  },
 })
 
 class ImagePanel extends React.Component {
@@ -81,6 +90,7 @@ class ImagePanel extends React.Component {
       onClick,
       selected,
       withTitle,
+      withTooltip,
       state,
       smallTiles,
       creatures,
@@ -124,6 +134,7 @@ class ImagePanel extends React.Component {
                 }}
               >
                 <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
+                {tile.isChief && <img src={Chief} className={classes.chief} />}
                 <span
                   className={classNames(classes.overlay, {
                     [classes.overlayDisabled]: isDisabled(tile),
@@ -141,7 +152,7 @@ class ImagePanel extends React.Component {
                 )}
               </GridListTile>
             )
-            return withTitle ? (
+            return withTitle || withTooltip ? (
               <Tooltip key={i} title={tile.title}>
                 {Component}
               </Tooltip>

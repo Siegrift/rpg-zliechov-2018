@@ -1,7 +1,6 @@
 import React from 'react'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
-import GridListTileBar from '@material-ui/core/GridListTileBar'
 import Tooltip from '@material-ui/core/Tooltip'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
@@ -233,14 +232,6 @@ class FightImagePanel extends React.Component {
                   className={classNames(classes.overlay, {
                     [classes.overlayDisabled]: isDisabled(tile),
                   })}
-                />
-                <GridListTileBar
-                  title={tile.title}
-                  classes={{
-                    root: classes.titleBar,
-                    title: classes.title,
-                    titleWrap: classes.titleWrap,
-                  }}
                 />
               </GridListTile>
             )

@@ -12,6 +12,7 @@ export const creatureImages = [
   { image: require('./assets/creatures/monster2.png') },
   { image: require('./assets/creatures/monster3.jpeg') },
   { image: require('./assets/creatures/monster4.jpg') },
+  { image: require('./assets/creatures/skeleton.jpg') },
 ]
 
 // TODO: find race images for all races

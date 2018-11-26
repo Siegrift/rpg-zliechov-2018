@@ -15,10 +15,10 @@ import Dead from './assets/dead.png'
 import TeamView from './TeamView'
 import Stats from './Stats'
 import withStatProps from './withStatProps'
-import { updateValue as _updateValue } from './actions'
+import getInitialState from './store/initialState'
+import { updateValue as _updateValue, giveUpFight as _giveUpFight } from './actions'
 import { creatureImages } from './units'
 import { CARD_IMAGE_SIZE, ANIMATION_TIME } from './constants'
-import getInitialState from './store/initialState'
 
 const styles = (theme) => ({
   wrapper: {
@@ -94,6 +94,7 @@ class Fight extends React.Component {
       creaturesInt,
       imageIndex,
       creatureName,
+      giveUpFight,
     } = this.props
     const { showWinDialog, showGiveUpDialog } = this.state
 
@@ -147,7 +148,7 @@ class Fight extends React.Component {
               <DialogContentText>{giveUpText}</DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.setAppInitialState} color="primary">
+              <Button onClick={giveUpFight} color="primary">
                 Áno
               </Button>
               <Button
@@ -182,7 +183,7 @@ export default compose(
       imageIndex: state.creatures[0].imageIndex,
       creatureName: state.creatures[0].name,
     }),
-    { updateValue: _updateValue }
+    { updateValue: _updateValue, giveUpFight: _giveUpFight }
   ),
   withStatProps,
   withStyles(styles)

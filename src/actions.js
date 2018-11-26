@@ -1,6 +1,8 @@
 import produce from 'immer'
+import { pick } from 'lodash'
 import { setIn } from 'imuty'
 
+import getInitialState from './store/initialState'
 import { creatureSpells, fighterSpells } from './spells'
 import { items } from './items'
 
@@ -23,8 +25,10 @@ export const prepareStateForFight = () => ({
         creatures[i].power = int(creatures[i].power)
         creatures[i].agi = int(creatures[i].agi)
         creatures[i].int = int(creatures[i].int)
-        for (let r = 0; r < creatures[i].rewardItems.length; r++) {
-          creatures[i].rewardItems[r] = int(creatures[i].rewardItems[r])
+        if (creatures[i].rewardItems) {
+          for (let r = 0; r < creatures[i].rewardItems.length; r++) {
+            creatures[i].rewardItems[r] = int(creatures[i].rewardItems[r])
+          }
         }
       }
 
@@ -40,6 +44,17 @@ export const prepareStateForFight = () => ({
       for (const f of fighters) {
         f.manaPool = f.int
       }
+
+      // determine the figthters chief
+      let chief
+      let maxLevel = -1
+      for (let i = 0; i < fighters.length; i++) {
+        if (maxLevel < fighters[i].level) {
+          maxLevel = fighters[i].level
+          chief = fighters[i]
+        }
+      }
+      chief.isChief = true
     })
   },
 })
@@ -94,6 +109,33 @@ export const applyPassives = () => ({
           }
         }
       })
+    })
+  },
+})
+
+export const giveUpFight = () => ({
+  type: 'Give up fight',
+  reducer: (state) => {
+    return produce(state, (draft) => {
+      const chief = draft.fighters.find((f) => f.isChief)
+      const creatures = draft.creatures
+      const initialState = getInitialState()
+      const keys = Object.keys(initialState)
+      const draftKeys = Object.keys(draft)
+
+      for (const key of draftKeys) {
+        if (keys.includes(key)) draft[key] = initialState[key]
+        else delete draft[key]
+      }
+
+      creatures.push({
+        ...pick(chief, 'power', 'agi', 'int'),
+        name: 'Kostlivec',
+        imageIndex: 5,
+        spellIndexes: [],
+      })
+      draft.creatures = creatures
+      draft.page = 'dungeon'
     })
   },
 })
