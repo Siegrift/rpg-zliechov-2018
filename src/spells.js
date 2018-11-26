@@ -28,6 +28,16 @@ array of structurally the same objects. The structure looks as this
     ...
   },
   passive: <<bool>>,
+  doesApply: (
+    affected: <<who is affected by aura>>
+    source: <<whose aura it is>>
+    state: <<whole state>> 
+  )
+  applyAura: (
+    affected: <<who is affected by aura>>
+    source: <<whose aura it is>>
+    state: <<whole state>> 
+  )
 }
 
 Required fields of this object are only 'image' and 'title'. Leaving out
