@@ -31,7 +31,7 @@ import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
 import { items } from './items'
 import { fighterSpells } from './spells'
-import { canUpgradeSpell } from './spellHelpers'
+import { canUpgradeSpell } from './helpers'
 
 const styles = (theme) => ({
   wrapper: {

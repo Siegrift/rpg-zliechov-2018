@@ -3,8 +3,8 @@ import { pick } from 'lodash'
 import { setIn } from 'imuty'
 
 import getInitialState from './store/initialState'
-import { creatureSpells, fighterSpells } from './spells'
-import { items } from './items'
+import { addFighter } from './helpers'
+import { creatureSpells } from './spells'
 
 const int = (strNum) => parseInt(strNum, 10)
 
@@ -92,28 +92,9 @@ export const applyPassives = () => ({
   type: 'Apply passives',
   reducer: (state) => {
     return produce(state, (draftState) => {
+      draftState.fighters = []
       state.fighters.forEach((f, i) => {
-        // apply spell passives
-        for (let i = 0; i < f.spellLevels.length; i++) {
-          if (f.spellLevels[i] > 0 && fighterSpells[f.race][i].passive) {
-            fighterSpells[f.race][i].onInvoke({
-              fighter: draftState.fighters[i],
-              state: draftState,
-              index: i,
-            })
-          }
-        }
-
-        // apply item passives
-        for (let i = 0; i < f.itemLevels.length; i++) {
-          if (items[f.itemIndexes[i]].passive) {
-            items[f.itemIndexes[i]].onInvoke({
-              fighter: draftState.fighters[i],
-              state: draftState,
-              index: i,
-            })
-          }
-        }
+        addFighter(f, draftState)
       })
     })
   },

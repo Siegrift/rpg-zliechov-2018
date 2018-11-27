@@ -11,6 +11,11 @@ WHAT TO HANDLE:
 */
 import { creatureSpells, fighterSpells } from './spells'
 import { items } from './items'
+import { MAX_SPELL_LEVELS } from './constants'
+
+export const canUpgradeSpell = (freeAttr, spellIndex, spellLevel, level) => {
+  return freeAttr !== 0 && spellLevel !== MAX_SPELL_LEVELS[spellIndex]
+}
 
 // Damage helpers
 export const powerDmg = (creature, amount, state) => {
@@ -143,18 +148,14 @@ export const dealCombatDamage = (fighter, monster, state) => {
     int: fighter.int + fighter.bonusInt,
   }
   for (const spell of fighterSpells[fighter.race]) {
-    if (
-      spell.isEnabled &&
-      spell.isEnabled({ fighter, state}) &&
-      spell.combatModifier
-    ) {
+    if (spell.isEnabled && spell.isEnabled({ fighter, state }) && spell.combatModifier) {
       attributes = spell.combatModifier(fighter, attributes, state)
     }
   }
   for (let i = 0; i < fighter.itemIndexes; i++) {
     if (
       items[fighter.itemIndexes[i]].isEnabled &&
-      items[fighter.itemIndexes[i]].isEnabled({ fighter, state}) &&
+      items[fighter.itemIndexes[i]].isEnabled({ fighter, state }) &&
       items[fighter.itemIndexes[i]].combatModifier
     ) {
       attributes = items[fighter.itemIndexes[i]].combatModifier(fighter, attributes, state)
