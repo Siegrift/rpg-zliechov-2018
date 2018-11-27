@@ -97,7 +97,16 @@ export const addFighter = (newFighter, state) => {
       }
     }
   }
-  // TODO: apply auras to yourself from items
+  // apply auras to yourself from items
+  for (let i = 0; i < newFighter.itemIndexes.length; i++) {
+    if (
+      items[newFighter.itemIndexes[i]].isEnabled &&
+      items[newFighter.itemIndexes[i]].isEnabled({ fighter: newFighter }) &&
+      items[newFighter.itemIndexes[i]].applyAura
+    ) {
+      items[newFighter.itemIndexes[i]].applyAura(newFighter, state)
+    }
+  }
   // add fighter to state
   state.fighters.push(newFighter)
 }
@@ -134,13 +143,21 @@ export const dealCombatDamage = (fighter, monster, state) => {
     int: fighter.int + fighter.bonusInt,
   }
   for (const spell of fighterSpells[fighter.race]) {
-    if (spell.combatModifier) {
-      attributes = spell.combatModifier(fighter, attributes)
+    if (
+      spell.isEnabled &&
+      spell.isEnabled({ fighter, state}) &&
+      spell.combatModifier
+    ) {
+      attributes = spell.combatModifier(fighter, attributes, state)
     }
   }
   for (let i = 0; i < fighter.itemIndexes; i++) {
-    if (items[fighter.itemIndexes[i]].combatModifier) {
-      attributes = items[fighter.itemIndexes[i]].combatModifier(fighter, attributes)
+    if (
+      items[fighter.itemIndexes[i]].isEnabled &&
+      items[fighter.itemIndexes[i]].isEnabled({ fighter, state}) &&
+      items[fighter.itemIndexes[i]].combatModifier
+    ) {
+      attributes = items[fighter.itemIndexes[i]].combatModifier(fighter, attributes, state)
     }
   }
   powerDmg(monster, attributes.power, state)

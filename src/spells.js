@@ -164,9 +164,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
@@ -183,6 +181,8 @@ export const fighterSpells = [
           nick: 'Zlovlk',
           power: Math.ceil(fighter.power / 2),
           agi: Math.ceil(fighter.agi / 2),
+          spellLevels: [0, fighter.spellLevels[3]],
+          spellCasted: [false, false],
         })
         if (attribute === ATTRIBUTES.POWER) {
           pet.power += levels[fighter.spellLevels[spellID]]
@@ -216,7 +216,7 @@ export const fighterSpells = [
         const symbiont = createDefaultFighter({
           race: RACES.SYMBIONT,
           spellLevels: [0, fighter.spellLevels[3], fighter.spellLevels[4]],
-          spellCasted: [false, false, fighter.spellCasted[4]],
+          spellCasted: [fighter.spellCasted[0], false, fighter.spellCasted[4]],
           imageIndex: SUMMONS.SYMBIONT,
           nick: fighter.nick,
           level: fighter.level,
@@ -253,9 +253,24 @@ export const fighterSpells = [
     },
     {
       image: require('./assets/spells/wex.png'),
-      title: 'TODO',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Kritický úder',
+      passive: true,
+      onInvoke: ({}) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 3
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      combatModifier: (fighter, attributes) => {
+        const spellID = 3
+        const levels = [null, 0.25, 0.33, 0.5]
+        const randomValue = Math.random()
+        if (randomValue < levels[fighter.spellLevels[spellID]]) {
+          attributes.agi += fighter.agi
+        }
+        return attributes
       },
     },
     {
@@ -288,9 +303,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
@@ -400,9 +413,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
@@ -517,9 +528,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
@@ -618,16 +627,29 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/invoke.jpg'),
-      title: 'Invoke',
-      onInvoke: ({ fighter, creature }) => {
-        creature.power -= 10
+      image: require('./assets/spells/wex.png'),
+      title: 'Kritický úder',
+      passive: true,
+      onInvoke: ({}) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      combatModifier: (fighter, attributes) => {
+        const spellID = 1
+        const levels = [null, 0.33, 0.50, 0.75]
+        const randomValue = Math.random()
+        if (randomValue < levels[fighter.spellLevels[spellID]]) {
+          attributes.agi += fighter.agi
+        }
+        return attributes
       },
     },
     {
@@ -660,9 +682,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
   ],
@@ -672,9 +692,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
@@ -718,9 +736,29 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
+      image: require('./assets/spells/wex.png'),
+      title: 'Kritický úder',
+      passive: true,
+      onInvoke: ({}) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      combatModifier: (fighter, attributes) => {
+        const spellID = 1
+        const levels = [null, 0.25, 0.33, 0.5]
+        const randomValue = Math.random()
+        if (randomValue < levels[fighter.spellLevels[spellID]]) {
+          attributes.agi += fighter.agi
+        }
+        return attributes
       },
     },
   ],
@@ -730,9 +768,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
