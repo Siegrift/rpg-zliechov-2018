@@ -40,15 +40,17 @@ export const raceImages = [
   [{ image: require('./assets/races/hunter/hunter0.jpg') }],
   // symbiont
   [{ image: require('./assets/races/other/morph.jpg') }],
-  // unit without spells 
-  [{ image: require('./assets/races/other/morph.jpg') },
-   { image: require('./assets/races/mage/mage2.jpg') },],
-   // archimond
-  [{ image: require('./assets/creatures/monster2.png') },],
+  // unit without spells
+  [
+    { image: require('./assets/races/other/morph.jpg') },
+    { image: require('./assets/races/mage/mage2.jpg') },
+  ],
+  // archimond
+  [{ image: require('./assets/creatures/monster2.png') }],
   // hunter's pet
-  [{ image: require('./assets/creatures/monster1.jpg') },],
+  [{ image: require('./assets/creatures/monster1.jpg') }],
   // guardian angel
-  [{ image: require('./assets/races/mage/mage1.png') },],
+  [{ image: require('./assets/races/mage/mage1.png') }],
 ]
 
 export const addUnitImage = { image: require('./assets/add.png'), title: 'Nový' }

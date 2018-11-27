@@ -76,16 +76,16 @@ class FightImagePanel extends React.Component {
     animateIndex: -1,
     cancelTime: null,
     itemIndex: -1,
-    selectedFighter: -1,
+    selectedFighterId: -1,
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.selectedFighter !== prevState.selectedFighter) {
+    if (nextProps.selectedFighterId !== prevState.selectedFighterId) {
       return {
         animateIndex: -1,
         cancelTime: null,
         itemIndex: -1,
-        selectedFighter: nextProps.selectedFighter,
+        selectedFighterId: nextProps.selectedFighterId,
       }
     }
     return {}
@@ -202,6 +202,7 @@ class FightImagePanel extends React.Component {
       isCreatureView,
       onItemClick,
     } = this.props
+    const { animateIndex, itemIndex } = this.state
 
     const isDisabled = (tile) => {
       return (
@@ -214,7 +215,6 @@ class FightImagePanel extends React.Component {
       )
     }
 
-    const { animateIndex, itemIndex } = this.state
     return (
       <div className={classNames(classes.root, className)}>
         <GridList className={classes.gridList} cols={data.length}>
