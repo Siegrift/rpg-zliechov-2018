@@ -1,5 +1,13 @@
 import * as helpers from './helpers'
-import { CHOOSE, RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES, UNIT_TYPES, FIRST_SUMMON_INDEX } from './constants'
+import {
+  CHOOSE,
+  RACES,
+  LAST_HERO_INDEX,
+  SUMMONS,
+  ATTRIBUTES,
+  UNIT_TYPES,
+  FIRST_SUMMON_INDEX,
+} from './constants'
 import { createDefaultFighter } from './store/initialState'
 // eslint-disable-next-line
 import { proxyTarget } from './utils'
@@ -31,12 +39,12 @@ array of structurally the same objects. The structure looks as this
   doesApply: (
     affected: <<who is affected by aura>>
     source: <<whose aura it is>>
-    state: <<whole state>> 
+    state: <<whole state>>
   )
   applyAura: (
     affected: <<who is affected by aura>>
     source: <<whose aura it is>>
-    state: <<whole state>> 
+    state: <<whole state>>
   )
 }
 
@@ -142,8 +150,7 @@ export const fighterSpells = [
         if (randomValue < 1 / 3) return 2
         return 1
       },
-      onInvoke: ({ fighter }) => {
-      },
+      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 4
         if (fighter.spellLevels[spellID] === 0) {
@@ -173,16 +180,15 @@ export const fighterSpells = [
         const manaCost = [null, 1, 1, 1]
         const levels = [null, 2, 4, 6]
         const f = createDefaultFighter({
-            race: RACES.HUNTERS_PET,
-            imageIndex: SUMMONS.DIREWOLF,
-            nick: 'Zlovlk',
+          race: RACES.HUNTERS_PET,
+          imageIndex: SUMMONS.DIREWOLF,
+          nick: 'Zlovlk',
         })
         f.power = Math.ceil(fighter.power / 2)
         f.agi = Math.ceil(fighter.agi / 2)
         if (attribute === ATTRIBUTES.POWER) {
           f.power += levels[fighter.spellLevels[spellID]]
-        }
-        else if (attribute === ATTRIBUTES.AGILITY) {
+        } else if (attribute === ATTRIBUTES.AGILITY) {
           f.agi += levels[fighter.spellLevels[spellID]]
         }
         f.owner = fighter
@@ -202,7 +208,7 @@ export const fighterSpells = [
         const spellID = 2
         const manaCost = [null, 1, 2, 3]
         const levels = [null, 1, 2, 3]
-        let pet = undefined
+        let pet
         for (const f of state.fighters) {
           console.log(f.owner)
           if (f.owner === fighter) {
@@ -251,9 +257,9 @@ export const fighterSpells = [
       title: 'Presná muška',
       chooseAttribute: [true, true, true],
       onInvoke: ({ fighter, creature, attribute }) => {
-        var spellID = 4
-        var manaCost = [null, 5]
-        var levels = [null, 30]
+        const spellID = 4
+        const manaCost = [null, 5]
+        const levels = [null, 30]
         if (attribute === ATTRIBUTES.POWER) {
           helpers.powerDmg(creature, levels[fighter.spellLevels[spellID]])
         } else if (attribute === ATTRIBUTES.AGILITY) {
@@ -323,8 +329,7 @@ export const fighterSpells = [
       image: require('./assets/spells/quas.png'),
       title: 'Aura požehnania',
       passive: true,
-      onInvoke: ({ fighter }) => {
-      },
+      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
@@ -353,7 +358,7 @@ export const fighterSpells = [
         const levels = [null, 1, 3, 5]
         affected.bonusPower -= levels[source.spellLevels[spellID]]
         affected.bonusAgi -= levels[source.spellLevels[spellID]]
-      }
+      },
     },
     {
       image: require('./assets/spells/quas.png'),
@@ -401,12 +406,15 @@ export const fighterSpells = [
         const manaCost = [null, 1, 4, 8]
         const levels = [null, 4, 8, 12]
         const f = createDefaultFighter({
-            race: RACES.UNIT_WITHOUT_SPELLS,
-            imageIndex: SUMMONS.ZOMBIE,
+          race: RACES.UNIT_WITHOUT_SPELLS,
+          imageIndex: SUMMONS.ZOMBIE,
         })
         f.power = levels[fighter.spellLevels[spellID]]
         helpers.addFighter(f, state)
-        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
+        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(
+          fighter,
+          manaCost[fighter.spellLevels[spellID]]
+        )
       },
       isEnabled: ({ fighter }) => {
         const manaCost = [null, 1, 4, 8]
@@ -417,7 +425,7 @@ export const fighterSpells = [
     {
       image: require('./assets/spells/exort.png'),
       title: 'Vyvolaj démona',
-      onInvoke: ({fighter, monster, state}) => {
+      onInvoke: ({ fighter, monster, state }) => {
         const spellID = 2
         const manaCost = [null, 1, 7, 12]
         const levelsInt = [null, 1, 3, 5]
@@ -429,9 +437,12 @@ export const fighterSpells = [
         f.int = levelsInt[fighter.spellLevels[spellID]]
         f.agi = levelsAgi[fighter.spellLevels[spellID]]
         helpers.addFighter(f, state)
-        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
+        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(
+          fighter,
+          manaCost[fighter.spellLevels[spellID]]
+        )
       },
-      isEnabled: ({fighter}) => {
+      isEnabled: ({ fighter }) => {
         const manaCost = [null, 1, 7, 12]
         const spellID = 2
         return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
@@ -449,12 +460,11 @@ export const fighterSpells = [
         }
         const randomValue = Math.random()
         if (randomValue < levels[fighter.spellLevels[spellID]]) {
-          return Math.floor(manaCost/2)
+          return Math.floor(manaCost / 2)
         }
         return manaCost
       },
-      onInvoke: ({ fighter }) => {
-      },
+      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
@@ -483,9 +493,12 @@ export const fighterSpells = [
         f.int = attributes
         f.agi = attributes
         helpers.addFighter(f, state)
-        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
+        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(
+          fighter,
+          manaCost[fighter.spellLevels[spellID]]
+        )
       },
-      isEnabled: ({fighter}) => {
+      isEnabled: ({ fighter }) => {
         const manaCost = [null, 16]
         const spellID = 4
         return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
@@ -675,8 +688,7 @@ export const fighterSpells = [
             f.buffs.mor += 1
           }
         }*/
-      onInvoke: ({ }) => {
-      },
+      onInvoke: () => {},
     },
   ],
   // hunter's pet
@@ -706,8 +718,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Božia aura požehnania',
       passive: true,
-      onInvoke: ({ fighter }) => {
-      },
+      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 1
         if (fighter.spellLevels[spellID] === 0) {
@@ -738,7 +749,7 @@ export const fighterSpells = [
         affected.bonusPower -= levels[source.spellLevels[spellID]]
         affected.bonusAgi -= levels[source.spellLevels[spellID]]
         affected.bonusInt -= levels[source.spellLevels[spellID]]
-      }
+      },
     },
   ],
 ]

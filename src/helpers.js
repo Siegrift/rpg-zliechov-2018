@@ -27,11 +27,10 @@ export const intDmg = (creature, amount, state) => {
   console.log(`Int${amount}`)
 }
 
-
 // Enabler helpers
 
 export const levelAndManaCostEnabled = (fighter, spellID, manaCost) => {
-	if (
+  if (
     fighter.spellLevels[spellID] === 0 ||
     fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
   ) {
@@ -43,38 +42,60 @@ export const levelAndManaCostEnabled = (fighter, spellID, manaCost) => {
 // Crate fighters helpers
 
 export const addFighter = (newFighter, state) => {
-	// apply auras from others to new fighter
-	for (const fighter of state.fighters) {
-		for (const spell of fighterSpells[fighter.race]) {
-			if (spell.passive && spell.isEnabled && spell.isEnabled({fighter}) && spell.doesApply && spell.doesApply(newFighter, fighter, state)) {
-				spell.applyAura(newFighter, fighter, state)
-			}
-		}
-	}
-	// apply auras from monsters to new fighter
-	for (const monster of state.creatures) {
-		for (let i = 0; i < monster.spellIndexes.length; i++) {
-			if (monster.spellIndexes[i] && creatureSpells[i].doesApply && creatureSpells[i].doesApply(newFighter, monster, state)) {
-				creatureSpells[i].applyAura(newFighter, monster, state)
-			}
-		}
-	}
-	// apply auras from new fighter to others
-	for (const spell of fighterSpells[newFighter.race]) {
-		for (const fighter of state.fighters) {
-			if (spell.passive && spell.isEnabled && spell.isEnabled({fighter: newFighter}) && spell.doesApply && spell.doesApply(fighter, newFighter, state)) {
-				spell.applyAura(fighter, newFighter, state)
-			}
-		}
-	}
-	// apply auras from new fighter to monsters
-	for (const spell of fighterSpells[newFighter.race]) {
-		for (const monster of state.creatures) {
-			if (spell.passive && spell.isEnabled && spell.isEnabled({fighter: newFighter}) && spell.doesApply && spell.doesApply(monster, newFighter, state)) {
-				spell.applyAura(monster, newFighter, state)
-			}
-		}
-	}
+  // apply auras from others to new fighter
+  for (const fighter of state.fighters) {
+    for (const spell of fighterSpells[fighter.race]) {
+      if (
+        spell.passive &&
+        spell.isEnabled &&
+        spell.isEnabled({ fighter }) &&
+        spell.doesApply &&
+        spell.doesApply(newFighter, fighter, state)
+      ) {
+        spell.applyAura(newFighter, fighter, state)
+      }
+    }
+  }
+  // apply auras from monsters to new fighter
+  for (const monster of state.creatures) {
+    for (let i = 0; i < monster.spellIndexes.length; i++) {
+      if (
+        monster.spellIndexes[i] &&
+        creatureSpells[i].doesApply &&
+        creatureSpells[i].doesApply(newFighter, monster, state)
+      ) {
+        creatureSpells[i].applyAura(newFighter, monster, state)
+      }
+    }
+  }
+  // apply auras from new fighter to others
+  for (const spell of fighterSpells[newFighter.race]) {
+    for (const fighter of state.fighters) {
+      if (
+        spell.passive &&
+        spell.isEnabled &&
+        spell.isEnabled({ fighter: newFighter }) &&
+        spell.doesApply &&
+        spell.doesApply(fighter, newFighter, state)
+      ) {
+        spell.applyAura(fighter, newFighter, state)
+      }
+    }
+  }
+  // apply auras from new fighter to monsters
+  for (const spell of fighterSpells[newFighter.race]) {
+    for (const monster of state.creatures) {
+      if (
+        spell.passive &&
+        spell.isEnabled &&
+        spell.isEnabled({ fighter: newFighter }) &&
+        spell.doesApply &&
+        spell.doesApply(monster, newFighter, state)
+      ) {
+        spell.applyAura(monster, newFighter, state)
+      }
+    }
+  }
   // add fighter to state
   state.fighters.push(newFighter)
 }
@@ -92,8 +113,8 @@ export const removeFighter = (removedFighter, state) => {
   }
   // remove auras of this fighter from monsters
   for (const monster of state.creatures) {
-    if (monster.buffs[{removedFighter}] !== undefined) {
-      for (const spellID of monster.buffs[{removedFighter}]) {
+    if (monster.buffs[removedFighter.id] !== undefined) {
+      for (const spellID of monster.buffs[removedFighter.id]) {
         fighterSpells[removedFighter.race][spellID].detachAura(monster, removedFighter, state)
       }
     }
