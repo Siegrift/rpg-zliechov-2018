@@ -3,11 +3,9 @@ Contains all items in a game. To add a new array look at './spells.js'.
 The item object is structurally similar to 'spell' object.
 */
 
-const loadItem = (item) => require(`./assets/items/${item}`)
-
 export const items = [
   {
-    image: loadItem('agh.jpg'),
+    image: require('./assets/items/agh.jpg'),
     title: 'Aghanim',
     onInvoke: ({ fighter }) => {
       fighter.power = fighter.power - 50
@@ -16,7 +14,7 @@ export const items = [
     isEnabled: ({ fighter }) => fighter.power >= 100,
   },
   {
-    image: loadItem('dagon.jpg'),
+    image: require('./assets/items/dagon.jpg'),
     title: 'Dagon',
     onInvoke: ({ fighter }) => {
       fighter.power = fighter.power + 50
@@ -24,7 +22,7 @@ export const items = [
     isEnabled: ({ fighter }) => true,
   },
   {
-    image: loadItem('manta.png'),
+    image: require('./assets/items/manta.png'),
     title: 'Manta',
     onInvoke: ({ fighter }) => {
       fighter.power = fighter.power + 50
@@ -32,7 +30,7 @@ export const items = [
     isEnabled: ({ fighter }) => true,
   },
   {
-    image: loadItem('frostmourne.jpg'),
+    image: require('./assets/items/frostmourne.jpg'),
     title: 'Mrazivý smútok',
     onInvoke: ({ fighter, index }) => {
       const level = fighter.itemLevels[index]
@@ -41,14 +39,14 @@ export const items = [
     },
   },
   {
-    image: loadItem('rapier.png'),
+    image: require('./assets/items/rapier.png'),
     title: 'Božský rapier',
     onInvoke: ({ fighter }) => {
       fighter.bonusAgi += 80
     },
   },
   {
-    image: loadItem('black_hole.jpg'),
+    image: require('./assets/items/black_hole.jpg'),
     title: 'Black hole',
     onInvoke: ({ state }) => {
       state.creatures = []
