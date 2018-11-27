@@ -167,6 +167,7 @@ const TeamView = ({
                       state: draftState,
                       chosen: draftState[isCreatureView ? 'creatures' : 'fighters'][chosenIndex],
                       attribute,
+                      index: ind,
                     })
                     draftState.fighters[selectedFighter].spellCasted[ind] = true
                   })
@@ -190,6 +191,7 @@ const TeamView = ({
                   state: draftState,
                   chosen: draftState[isCreatureView ? 'creatures' : 'fighters'][chosenIndex],
                   attribute,
+                  index: ind,
                 })
                 draftState.fighters[selectedFighter].itemCasted[ind] = true
               })
