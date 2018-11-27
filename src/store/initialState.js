@@ -24,6 +24,7 @@ const mockedState = {
       type: UNIT_TYPES.FIGHTER,
       nick: 'Arabella',
       race: RACES.WARLOCK,
+      race: RACES.MAGE,
       level: '7',
       power: '50',
       agi: '50',
@@ -113,7 +114,7 @@ export const createDefaultFighter = ({
     itemLevels: itemLevels || [],
     itemCasted: itemCasted || [],
     imageIndex: imageIndex || 0,
-    buffs: buffs || [],
+    buffs: buffs || {},
   }
 }
 
