@@ -1,5 +1,13 @@
-import { powerDmg, agiDmg, intDmg } from './damageHelpers'
-import { CHOOSE, RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES } from './constants'
+import * as helpers from './helpers'
+import {
+  CHOOSE,
+  RACES,
+  LAST_HERO_INDEX,
+  SUMMONS,
+  ATTRIBUTES,
+  UNIT_TYPES,
+  FIRST_SUMMON_INDEX,
+} from './constants'
 import { createDefaultFighter } from './store/initialState'
 // eslint-disable-next-line
 import { proxyTarget } from './utils'
@@ -29,6 +37,16 @@ array of structurally the same objects. The structure looks as this
     ...
   },
   passive: <<bool>>,
+  doesApply: (
+    affected: <<who is affected by aura>>
+    source: <<whose aura it is>>
+    state: <<whole state>>
+  )
+  applyAura: (
+    affected: <<who is affected by aura>>
+    source: <<whose aura it is>>
+    state: <<whole state>>
+  )
 }
 
 Required fields of this object are only 'image' and 'title'. Leaving out
@@ -40,50 +58,50 @@ of the spell.
 */
 
 export const fighterSpells = [
-  // TODO: find spell icons for all races
   // mage
   [
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
     {
       image: require('./assets/spells/quas.png'),
       title: 'Ohnivá guľa',
       onInvoke: ({ fighter, creature, state }) => {
-        const spellID = 0
+        const spellID = 1
         const levels = [null, 4, 8, 12]
         const manaCost = [null, 1, 3, 6]
-        const multicast = fighterSpells[0][3].generateMulticast(fighter)
+        const multicast = fighterSpells[fighter.race][4].generateMulticast(fighter)
         let ocista = 0
         if (creature.buffs.ocista !== undefined) {
           ocista = creature.buffs.ocista
         }
         for (let i = 0; i < multicast; i++) {
-          agiDmg(creature, levels[fighter.spellLevels[spellID]] + ocista, state)
+          helpers.agiDmg(creature, levels[fighter.spellLevels[spellID]] + ocista, state)
         }
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 0
+        const spellID = 1
         const manaCost = [null, 1, 3, 6]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
       image: require('./assets/spells/wex.png'),
       title: 'Očista',
       onInvoke: ({ fighter, creature, state }) => {
-        const spellID = 1
+        const spellID = 2
         const levelsDmg = [null, 2, 5, 8]
         const levelsPow = [null, 4, 10, 16]
         const levelsBuff = [null, 2, 4, 6]
         const manaCost = [null, 2, 5, 9]
-        const multicast = fighterSpells[0][3].generateMulticast(fighter)
+        const multicast = fighterSpells[fighter.race][4].generateMulticast(fighter)
         for (let i = 0; i < multicast; i++) {
-          agiDmg(creature, levelsDmg[fighter.spellLevels[spellID]], state)
+          helpers.agiDmg(creature, levelsDmg[fighter.spellLevels[spellID]], state)
           creature.power += levelsPow[fighter.spellLevels[spellID]]
           if (creature.buffs.ocista === undefined) creature.buffs.ocista = 0
           creature.buffs.ocista += levelsBuff[fighter.spellLevels[spellID]]
@@ -91,44 +109,32 @@ export const fighterSpells = [
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 1
+        const spellID = 2
         const manaCost = [null, 2, 5, 9]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
       image: require('./assets/spells/exort.png'),
       title: 'Tornádo',
       onInvoke: ({ fighter, creature, state }) => {
-        const spellID = 2
+        const spellID = 3
         const levels = [null, 1, 3, 5]
         const manaCost = [null, 2, 4, 7]
-        const multicast = fighterSpells[0][3].generateMulticast(fighter)
+        const multicast = fighterSpells[fighter.race][4].generateMulticast(fighter)
         let ocista = 0
         if (creature.buffs.ocista !== undefined) ocista = creature.buffs.ocista
         for (let i = 0; i < multicast; i++) {
-          powerDmg(creature, levels[fighter.spellLevels[spellID]], state)
-          agiDmg(creature, levels[fighter.spellLevels[spellID]] + ocista, state)
-          intDmg(creature, levels[fighter.spellLevels[spellID]], state)
+          helpers.powerDmg(creature, levels[fighter.spellLevels[spellID]], state)
+          helpers.agiDmg(creature, levels[fighter.spellLevels[spellID]] + ocista, state)
+          helpers.intDmg(creature, levels[fighter.spellLevels[spellID]], state)
         }
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 2
+        const spellID = 3
         const manaCost = [null, 2, 4, 7]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
@@ -136,17 +142,16 @@ export const fighterSpells = [
       title: 'Multicast',
       passive: true,
       generateMulticast: (fighter) => {
-        const spellID = 3
+        const spellID = 4
         if (fighter.spellLevels[spellID] === 0) return 1
         const randomValue = Math.random()
         if (randomValue < 1 / 6) return 3
         if (randomValue < 1 / 3) return 2
         return 1
       },
-      onInvoke: ({ fighter }) => {
-      },
+      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
-        const spellID = 3
+        const spellID = 4
         if (fighter.spellLevels[spellID] === 0) {
           return false
         }
@@ -157,95 +162,116 @@ export const fighterSpells = [
   // hunter
   [
     {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
       image: require('./assets/spells/wex.png'),
       title: 'Zvierací spoločník',
       chooseAttribute: [true, true, false],
       onInvoke: ({ fighter, state, attribute }) => {
-        const spellID = 0
+        const spellID = 1
         const manaCost = [null, 1, 1, 1]
         const levels = [null, 2, 4, 6]
-        const f = createDefaultFighter({
-            race: RACES.HUNTERS_PET,
-            imageIndex: SUMMONS.DIREWOLF,
-            nick: 'Zlovlk',
+        const pet = createDefaultFighter({
+          race: RACES.HUNTERS_PET,
+          imageIndex: SUMMONS.DIREWOLF,
+          nick: 'Zlovlk',
+          power: Math.ceil(fighter.power / 2),
+          agi: Math.ceil(fighter.agi / 2),
+          spellLevels: [0, fighter.spellLevels[3]],
+          spellCasted: [false, false],
         })
-        f.power = Math.ceil(fighter.power / 2)
-        f.agi = Math.ceil(fighter.agi / 2)
         if (attribute === ATTRIBUTES.POWER) {
-          f.power += levels[fighter.spellLevels[spellID]]
+          pet.power += levels[fighter.spellLevels[spellID]]
+        } else if (attribute === ATTRIBUTES.AGILITY) {
+          pet.agi += levels[fighter.spellLevels[spellID]]
         }
-        else if (attribute === ATTRIBUTES.AGILITY) {
-          f.agi += levels[fighter.spellLevels[spellID]]
-        }
-        f.owner = fighter
-        state.fighters.push(f)
+        pet.owner = fighter.id
+        helpers.addFighter(pet, state)
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 0
+        const spellID = 1
         const manaCost = [null, 1, 1, 1]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
       image: require('./assets/spells/wex.png'),
       title: 'Symbióza',
       onInvoke: ({ fighter, state }) => {
-        const spellID = 1
+        const spellID = 2
         const manaCost = [null, 1, 2, 3]
         const levels = [null, 1, 2, 3]
-        let pet = undefined
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+        let pet
         for (const f of state.fighters) {
-          console.log(f.owner)
-          if (f.owner === fighter) {
-            console.log('nasiel som')
+          if (f.owner && f.owner === fighter.id) {
             pet = f
           }
         }
-        console.log(pet)
-        //TODO - doesnt work
-        /*fighter.race = RACES.SYMBIONT
-        fighter.power += pet.power
-        fighter.int += pet.int
-        fighter.agi += pet.agi
-        fighter.bonusPower += pet.bonusPower + levels[fighter.spellLevels[spellID]]
-        fighter.bonusInt += pet.bonusInt + levels[fighter.spellLevels[spellID]]
-        fighter.bonusAgi += pet.bonusAgi + levels[fighter.spellLevels[spellID]]
-        fighter.imageIndex = 0
-        fighter.spellLevels = [fighter.spellLevels[2], fighter.spellLevels[3]]
-        fighter.spellCasted = [fighter.spellCasted[2], fighter.spellLevels[3]]
-        state.fighters.splice(state.fighters.indexOf(pet), 1)*/
+        const symbiont = createDefaultFighter({
+          race: RACES.SYMBIONT,
+          spellLevels: [0, fighter.spellLevels[3], fighter.spellLevels[4]],
+          spellCasted: [fighter.spellCasted[0], false, fighter.spellCasted[4]],
+          imageIndex: SUMMONS.SYMBIONT,
+          nick: fighter.nick,
+          level: fighter.level,
+          power: fighter.power + pet.power,
+          agi: fighter.agi + pet.agi,
+          int: fighter.int + pet.int,
+          manaPool: fighter.manaPool,
+          itemIndexes: fighter.itemIndexes,
+          itemLevels: fighter.itemLevels,
+          itemCasted: fighter.itemCasted,
+          buffs: fighter.buffs,
+        })
+        symbiont.bonusPower += levels[fighter.spellLevels[spellID]]
+        symbiont.bonusAgi += levels[fighter.spellLevels[spellID]]
+        symbiont.bonusInt += levels[fighter.spellLevels[spellID]]
+        helpers.removeFighter(pet, state)
+        helpers.removeFighter(fighter, state)
+        helpers.addFighter(symbiont, state)
       },
       isEnabled: ({ fighter, state }) => {
-        const spellID = 1
+        const spellID = 2
         const manaCost = [null, 1, 2, 3]
-        let exist_owner = false
+        let summonedPet = false
         for (const f of state.fighters) {
-          console.log(f.owner)
-          if (f.owner === fighter) {
-            exist_owner = true
+          if (f.owner === fighter.id) {
+            summonedPet = true
           }
         }
-        if (
-          fighter.spellLevels[spellID] === 0 || !exist_owner ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
+        if (!summonedPet) {
           return false
         }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
       image: require('./assets/spells/wex.png'),
-      title: 'TODO',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Kritický úder',
+      passive: true,
+      onInvoke: ({}) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 3
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      combatModifier: (fighter, attributes) => {
+        const spellID = 3
+        const levels = [null, 0.25, 0.33, 0.5]
+        const randomValue = Math.random()
+        if (randomValue < levels[fighter.spellLevels[spellID]]) {
+          attributes.agi += fighter.agi
+        }
+        return attributes
       },
     },
     {
@@ -253,38 +279,40 @@ export const fighterSpells = [
       title: 'Presná muška',
       chooseAttribute: [true, true, true],
       onInvoke: ({ fighter, creature, attribute }) => {
-        var spellID = 3
-        var manaCost = [null, 5]
-        var levels = [null, 30]
+        const spellID = 4
+        const manaCost = [null, 5]
+        const levels = [null, 30]
         if (attribute === ATTRIBUTES.POWER) {
-          powerDmg(creature, levels[fighter.spellLevels[spellID]])
+          helpers.powerDmg(creature, levels[fighter.spellLevels[spellID]])
         } else if (attribute === ATTRIBUTES.AGILITY) {
-          agiDmg(creature, levels[fighter.spellLevels[spellID]])
+          helpers.agiDmg(creature, levels[fighter.spellLevels[spellID]])
         } else if (attribute === ATTRIBUTES.INTELLIGENCE) {
-          intDmg(creature, levels[fighter.spellLevels[spellID]])
+          helpers.intDmg(creature, levels[fighter.spellLevels[spellID]])
         }
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 3
+        const spellID = 4
         const manaCost = [null, 5]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
   ],
   // priest
   [
     {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
       image: require('./assets/spells/quas.png'),
       title: 'Ľadové objatie',
       chooseAlly: CHOOSE.OTHER_HERO,
       onInvoke: ({ fighter, chosen }) => {
-        const spellID = 0
+        const spellID = 1
         const manaCost = [null, 1, 4, 7]
         const levels = [null, 2, 6, 10]
         if (chosen.buffs.objatie === undefined || !chosen.buffs.objatie) {
@@ -296,15 +324,9 @@ export const fighterSpells = [
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 0
+        const spellID = 1
         const manaCost = [null, 1, 4, 7]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
@@ -312,95 +334,137 @@ export const fighterSpells = [
       title: 'Svätý cieľ',
       chooseAlly: CHOOSE.OTHER_UNIT,
       onInvoke: ({ fighter, chosen }) => {
-        const spellID = 1
+        const spellID = 2
         const manaCost = [null, 1, 3, 6]
         const levels = [null, 1.5, 2, 2.5]
-        chosen.buffs.svatyCiel = true
+        chosen.buffs.svatyCiel = levels[fighter.spellLevels[spellID]]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 1
+        const spellID = 2
         const manaCost = [null, 1, 3, 6]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
+      },
+    },
+    {
+      image: require('./assets/spells/quas.png'),
+      title: 'Aura požehnania',
+      passive: true,
+      onInvoke: ({ fighter }) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 3
+        if (fighter.spellLevels[spellID] === 0) {
           return false
         }
         return true
       },
-    },
-    {
-      image: require('./assets/spells/quas.png'),
-      title: 'TODO',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      doesApply: (affected) => {
+        if (affected.type === UNIT_TYPES.FIGHTER && affected.race >= FIRST_SUMMON_INDEX) {
+          return true
+        }
+        return false
+      },
+      applyAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower += levels[source.spellLevels[spellID]]
+        affected.bonusAgi += levels[source.spellLevels[spellID]]
+        if (affected.buffs[source.id] === undefined) {
+          affected.buffs[source.id] = []
+        }
+        affected.buffs[source.id].push(spellID)
+      },
+      detachAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower -= levels[source.spellLevels[spellID]]
+        affected.bonusAgi -= levels[source.spellLevels[spellID]]
       },
     },
     {
       image: require('./assets/spells/quas.png'),
-      title: 'TODO',
-      onInvoke: ({ fighter }) => {
-        fighter.power -= 10
+      title: 'Strážny anjel',
+      onInvoke: ({ fighter, state }) => {
+        const spellID = 4
+        const manaCost = [null, 10]
+        const angel = createDefaultFighter({
+          race: RACES.GUARDIAN_ANGEL,
+          imageIndex: SUMMONS.ANGEL,
+          spellLevels: [0, fighter.spellLevels[3]],
+          spellCasted: [false, false],
+          nick: 'Strážny anjel',
+          power: fighter.power,
+          agi: fighter.power,
+          int: fighter.int,
+        })
+        helpers.addFighter(angel, state)
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+        helpers.removeFighter(fighter, state)
+      },
+      isEnabled: ({ fighter }) => {
+        const manaCost = [null, 10]
+        const spellID = 4
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
   ],
   // warlock
   [
     {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
       image: require('./assets/spells/exort.png'),
       title: 'Vyvolaj zombie',
       onInvoke: ({ fighter, creature, state }) => {
-        const spellID = 0
+        const spellID = 1
         const manaCost = [null, 1, 4, 8]
         const levels = [null, 4, 8, 12]
         const f = createDefaultFighter({
-            race: RACES.UNIT_WITHOUT_SPELLS,
-            imageIndex: SUMMONS.ZOMBIE,
+          race: RACES.UNIT_WITHOUT_SPELLS,
+          imageIndex: SUMMONS.ZOMBIE,
+          power: levels[fighter.spellLevels[spellID]],
         })
-        f.power = levels[fighter.spellLevels[spellID]]
-        state.fighters.push(f)
-        fighter.manaPool -= fighterSpells[3][2].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
+        helpers.addFighter(f, state)
+        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(
+          fighter,
+          manaCost[fighter.spellLevels[spellID]]
+        )
       },
       isEnabled: ({ fighter }) => {
         const manaCost = [null, 1, 4, 8]
-        const spellID = 0
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        const spellID = 1
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
       image: require('./assets/spells/exort.png'),
       title: 'Vyvolaj démona',
-      onInvoke: ({fighter, monster, state}) => {
-        const spellID = 1
+      onInvoke: ({ fighter, monster, state }) => {
+        const spellID = 2
         const manaCost = [null, 1, 7, 12]
         const levelsInt = [null, 1, 3, 5]
         const levelsAgi = [null, 3, 6, 9]
         const f = createDefaultFighter({
           race: RACES.UNIT_WITHOUT_SPELLS,
           imageIndex: SUMMONS.DEMON,
+          int: levelsInt[fighter.spellLevels[spellID]],
+          agi: levelsAgi[fighter.spellLevels[spellID]],
         })
-        f.int = levelsInt[fighter.spellLevels[spellID]]
-        f.agi = levelsAgi[fighter.spellLevels[spellID]]
-        state.fighters.push(f)
-        fighter.manaPool -= fighterSpells[3][2].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
+        helpers.addFighter(f, state)
+        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(
+          fighter,
+          manaCost[fighter.spellLevels[spellID]]
+        )
       },
-      isEnabled: ({fighter}) => {
+      isEnabled: ({ fighter }) => {
         const manaCost = [null, 1, 7, 12]
-        const spellID = 1
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        const spellID = 2
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
@@ -408,21 +472,20 @@ export const fighterSpells = [
       title: 'Krvavá obeta',
       passive: true,
       manaDiscount: (fighter, manaCost) => {
-        const spellID = 2
+        const spellID = 3
         const levels = [null, 0.25, 0.5, 0.75]
         if (fighter.spellLevels[spellID] === 0) {
           return manaCost
         }
         const randomValue = Math.random()
         if (randomValue < levels[fighter.spellLevels[spellID]]) {
-          return Math.floor(manaCost/2)
+          return Math.floor(manaCost / 2)
         }
         return manaCost
       },
-      onInvoke: ({ fighter }) => {
-      },
+      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
-        const spellID = 2
+        const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
           return false
         }
@@ -434,58 +497,55 @@ export const fighterSpells = [
       title: 'Vyvolaj Archimonda',
       chooseAlly: CHOOSE.UNIT,
       onInvoke: ({ fighter, state, chosen }) => {
-        const spellID = 3
+        const spellID = 4
         const manaCost = [null, 16]
         const attributes = 20
-        const negativeAura = 1
-        state.fighters.splice(state.fighters.indexOf(chosen), 1)
+        helpers.removeFighter(chosen, state)
+        //state.fighters.splice(state.fighters.indexOf(chosen), 1)
         const f = createDefaultFighter({
           race: RACES.ARCHIMOND,
           imageIndex: SUMMONS.ARCHIMOND,
-          spellLevels: [1],
+          spellLevels: [0, 1],
+          power: attributes,
+          int: attributes,
+          agi: attributes,
         })
-        f.power = attributes
-        f.int = attributes
-        f.agi = attributes
-        state.fighters.push(f)
-        fighter.manaPool -= fighterSpells[3][2].manaDiscount(fighter, manaCost[fighter.spellLevels[spellID]])
-        fighterSpells[RACES.ARCHIMOND][0].applyAura(state, negativeAura, f)
+        helpers.addFighter(f, state)
+        fighter.manaPool -= fighterSpells[fighter.race][3].manaDiscount(
+          fighter,
+          manaCost[fighter.spellLevels[spellID]]
+        )
       },
-      isEnabled: ({fighter}) => {
+      isEnabled: ({ fighter }) => {
         const manaCost = [null, 16]
-        const spellID = 3
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        const spellID = 4
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
   ],
   // warrior
   [
     {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Vzrušenie z boja',
       onInvoke: ({ fighter }) => {
         const levels = [null, 2, 2.5, 3]
         const manaCost = [null, 1, 1, 1]
-        const spellID = 0
+        const spellID = 1
         fighter.power *= levels[fighter.spellLevels[spellID]]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
         const manaCost = [null, 1, 1, 1]
-        const spellID = 0
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        const spellID = 1
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
@@ -494,7 +554,7 @@ export const fighterSpells = [
       onInvoke: ({ fighter }) => {
         const levels = [null, 3, 6, 9]
         const manaCost = [null, 1, 1, 2]
-        const spellID = 1
+        const spellID = 2
         if (
           fighter.spellLevels[spellID] === 0 ||
           fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
@@ -506,47 +566,48 @@ export const fighterSpells = [
       },
       isEnabled: ({ fighter }) => {
         const manaCost = [null, 1, 1, 2]
-        const spellID = 1
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        const spellID = 2
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Zdravé sebavedomie',
       passive: true,
-      onInvoke: ({ fighter, creature, state }) => {
-        const spellID = 2
-        const levels = [null, 1.5, 3, 5]
-        let addBonusPower = 0
-        for (const f of state.fighters) {
-          if (
-            f.race <= LAST_HERO_INDEX &&
-            f.power + f.bonusPower < fighter.power + fighter.bonusPower
-          ) {
-            addBonusPower += levels[fighter.spellLevels[spellID]]
-          }
-        }
-        fighter.bonusPower += addBonusPower
-      },
       isEnabled: ({ fighter }) => {
-        const spellID = 2
+        const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
           return false
         }
         return true
       },
+      doesApply: (affected) => {
+        if (affected.type === UNIT_TYPES.FIGHTER && affected.race <= LAST_HERO_INDEX) {
+          return true
+        }
+        return false
+      },
+      applyAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1.5, 3, 5]
+        source.bonusPower += levels[source.fighterSpells[spellID]]
+        if (affected.buffs[source.id] === undefined) {
+          affected.buffs[source.id] = []
+        }
+        affected.buffs[source.id].push(spellID)
+      },
+      detachAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1.5, 3, 5]
+        source.bonusPower -= levels[source.fighterSpells[spellID]]
+      },
+      onInvoke: () => {},
     },
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Bojový pokrik',
       onInvoke: ({ fighter, creature, state }) => {
-        const spellID = 3
+        const spellID = 4
         const manaCost = [null, 5]
         const levels = [null, 4]
         for (const f of state.fighters) {
@@ -555,58 +616,200 @@ export const fighterSpells = [
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
       isEnabled: ({ fighter }) => {
-        const spellID = 3
+        const spellID = 4
         const manaCost = [null, 5]
-        if (
-          fighter.spellLevels[spellID] === 0 ||
-          fighter.manaPool < manaCost[fighter.spellLevels[spellID]]
-        ) {
-          return false
-        }
-        return true
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
   ],
   // symbiont
   [
     {
-      image: require('./assets/spells/invoke.jpg'),
-      title: 'Invoke',
-      onInvoke: ({ fighter, creature }) => {
-        creature.power -= 10
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
+      image: require('./assets/spells/wex.png'),
+      title: 'Kritický úder',
+      passive: true,
+      onInvoke: ({}) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      combatModifier: (fighter, attributes) => {
+        const spellID = 1
+        const levels = [null, 0.33, 0.50, 0.75]
+        const randomValue = Math.random()
+        if (randomValue < levels[fighter.spellLevels[spellID]]) {
+          attributes.agi += fighter.agi
+        }
+        return attributes
+      },
+    },
+    {
+      image: require('./assets/spells/wex.png'),
+      title: 'Presná muška',
+      chooseAttribute: [true, true, true],
+      onInvoke: ({ fighter, creature, attribute }) => {
+        const spellID = 2
+        const manaCost = [null, 5]
+        const levels = [null, 30]
+        if (attribute === ATTRIBUTES.POWER) {
+          helpers.powerDmg(creature, levels[fighter.spellLevels[spellID]])
+        } else if (attribute === ATTRIBUTES.AGILITY) {
+          helpers.agiDmg(creature, levels[fighter.spellLevels[spellID]])
+        } else if (attribute === ATTRIBUTES.INTELLIGENCE) {
+          helpers.intDmg(creature, levels[fighter.spellLevels[spellID]])
+        }
+        fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
+      },
+      isEnabled: ({ fighter }) => {
+        const spellID = 2
+        const manaCost = [null, 5]
+        return helpers.levelAndManaCostEnabled(fighter, spellID, manaCost)
       },
     },
   ],
   // summon without spells
-  [],
+  [
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+  ],
   // Archimond
   [
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
     {
       image: require('./assets/spells/invoke.jpg'),
       title: 'Morová nákaza',
       passive: true,
-      applyAura: (state, aura, sourceOfAura) => {
-        for (const f of state.fighters.concat(state.creatures)) {
-          if (f === sourceOfAura) {
-            continue
-          }
-          f.power -= aura
-          f.int -= aura
-          f.agi -= aura
-          if (f.buffs.mor === undefined) {
-            f.buffs.mor = 1
-          }
-          else {
-            f.buffs.mor += 1
-          }
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
         }
+        return true
       },
-      onInvoke: ({ }) => {
+      doesApply: (affected) => {
+        return true
       },
+      applyAura: (affected, source) => {
+        const spellID = 1
+        const auraStrength = 1
+        affected.power -= auraStrength
+        affected.agi -= auraStrength
+        affected.int -= auraStrength
+        if (affected.buffs[source.id] === undefined) {
+          affected.buffs[source.id] = []
+        }
+        affected.buffs[source.id].push(spellID)
+      },
+      detachAura: (affected, source) => {
+        const spellID = 1
+        const auraStrength = 1
+        affected.power += auraStrength
+        affected.agi += auraStrength
+        affected.int += auraStrength
+      },
+      onInvoke: () => {},
     },
   ],
   // hunter's pet
-  [],
+  [
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
+      image: require('./assets/spells/wex.png'),
+      title: 'Kritický úder',
+      passive: true,
+      onInvoke: ({}) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      combatModifier: (fighter, attributes) => {
+        const spellID = 1
+        const levels = [null, 0.25, 0.33, 0.5]
+        const randomValue = Math.random()
+        if (randomValue < levels[fighter.spellLevels[spellID]]) {
+          attributes.agi += fighter.agi
+        }
+        return attributes
+      },
+    },
+  ],
+  // guardian angel
+  [
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Úder',
+      onInvoke: ({ fighter, creature, state }) => {
+        helpers.dealCombatDamage(fighter, creature, state)
+      },
+    },
+    {
+      image: require('./assets/creatureSpells/hidan.png'),
+      title: 'Božia aura požehnania',
+      passive: true,
+      onInvoke: ({ fighter }) => {},
+      isEnabled: ({ fighter }) => {
+        const spellID = 1
+        if (fighter.spellLevels[spellID] === 0) {
+          return false
+        }
+        return true
+      },
+      doesApply: (affected) => {
+        if (affected.type === UNIT_TYPES.FIGHTER) {
+          return true
+        }
+        return false
+      },
+      applyAura: (affected, source) => {
+        const spellID = 1
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower += levels[source.spellLevels[spellID]]
+        affected.bonusAgi += levels[source.spellLevels[spellID]]
+        affected.bonusInt += levels[source.spellLevels[spellID]]
+        if (affected.buffs[source.id] === undefined) {
+          affected.buffs[source.id] = []
+        }
+        affected.buffs[source.id].push(spellID)
+      },
+      detachAura: (affected, source) => {
+        const spellID = 3
+        const levels = [null, 1, 3, 5]
+        affected.bonusPower -= levels[source.spellLevels[spellID]]
+        affected.bonusAgi -= levels[source.spellLevels[spellID]]
+        affected.bonusInt -= levels[source.spellLevels[spellID]]
+      },
+    },
+  ],
 ]
 
 export const creatureSpells = [

@@ -1,12 +1,17 @@
 export const CARD_IMAGE_SIZE = 500
 export const SPELL_ANIMATION_SIZE = 350
 export const ANIMATION_TIME = 0.5
-export const MAX_SPELL_LEVELS = [3, 3, 3, 1]
+export const MAX_SPELL_LEVELS = [0, 3, 3, 3, 1]
 
 export const ATTRIBUTES = {
   POWER: 0,
   AGILITY: 1,
   INTELLIGENCE: 2,
+}
+
+export const UNIT_TYPES = {
+  FIGHTER: 0,
+  MONSTER: 1,
 }
 
 export const RACES = {
@@ -21,13 +26,16 @@ export const RACES = {
   UNIT_WITHOUT_SPELLS: 6,
   ARCHIMOND: 7,
   HUNTERS_PET: 8,
+  GUARDIAN_ANGEL: 9,
 }
 
 export const SUMMONS = {
   ZOMBIE: 0,
   DEMON: 1,
   ARCHIMOND: 0,
-  DIREWOLF: 0
+  DIREWOLF: 0,
+  ANGEL: 0,
+  SYMBIONT: 0,
 }
 
 export const LAST_HERO_INDEX = RACES.SYMBIONT
