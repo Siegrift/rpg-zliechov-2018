@@ -23,7 +23,7 @@ const mockedState = {
       id: uniqueId(),
       type: UNIT_TYPES.FIGHTER,
       nick: 'Arabella',
-      race: RACES.HUNTER,
+      race: RACES.MAGE,
       level: '7',
       power: '50',
       agi: '50',

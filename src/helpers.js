@@ -10,6 +10,7 @@ WHAT TO HANDLE:
 - creature cannot go bellow 0
 */
 import { creatureSpells, fighterSpells } from './spells'
+import { items } from './items'
 
 // Damage helpers
 export const powerDmg = (creature, amount, state) => {
@@ -96,6 +97,7 @@ export const addFighter = (newFighter, state) => {
       }
     }
   }
+  // TODO: apply auras to yourself from items
   // add fighter to state
   state.fighters.push(newFighter)
 }
@@ -121,4 +123,27 @@ export const removeFighter = (removedFighter, state) => {
   }
   // remove fighter
   state.fighters.splice(state.fighters.indexOf(removedFighter), 1)
+}
+
+// Attack helpers
+
+export const dealCombatDamage = (fighter, monster, state) => {
+  let attributes = {
+    power: fighter.power + fighter.bonusPower,
+    agi: fighter.agi + fighter.bonusAgi,
+    int: fighter.int + fighter.bonusInt,
+  }
+  for (const spell of fighterSpells[fighter.race]) {
+    if (spell.combatModifier) {
+      attributes = spell.combatModifier(fighter, attributes)
+    }
+  }
+  for (let i = 0; i < fighter.itemIndexes; i++) {
+    if (items[fighter.itemIndexes[i]].combatModifier) {
+      attributes = items[fighter.itemIndexes[i]].combatModifier(fighter, attributes)
+    }
+  }
+  powerDmg(monster, attributes.power, state)
+  agiDmg(monster, attributes.agi, state)
+  intDmg(monster, attributes.int, state)
 }

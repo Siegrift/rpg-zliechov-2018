@@ -63,9 +63,7 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
-        helpers.powerDmg(creature, fighter.power + fighter.bonusPower, state)
-        helpers.agiDmg(creature, fighter.agi + fighter.bonusAgi, state)
-        helpers.intDmg(creature, fighter.int + fighter.bonusInt, state)
+        helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
