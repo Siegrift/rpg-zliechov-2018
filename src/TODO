@@ -1,6 +1,9 @@
 item levels - refactor
 ked sa zobrazuje spell, tak prepnutim obrazka sa obrazok zmeni, co obcas moze sposobit, ze program spadne
 
+EMO:
+ - pridavanie hrdinov cez helper funkciu addFigther()
+
 VIZUALIZACIA:
 find spell icons for all races
 passive ak je vyskillena sa zobrazuje, ale neda sa castit
