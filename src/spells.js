@@ -17,6 +17,7 @@ array of structurally the same objects. The structure looks as this
     state: <<whole state>>
     attribute: <<index of chosen attribute (if any)>>
     chosen <<chosen object (from CHOOSE in ./constants)>>
+    index: <<index of chosen spell/item>>
   }) => {
     ...
   },

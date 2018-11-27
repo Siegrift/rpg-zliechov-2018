@@ -68,6 +68,7 @@ export const buffCreature = () => ({
         fighter: draft.fighters[0],
         creature: draft.creatures[0],
         state: draft,
+        index: spellIndex,
       })
     }
     for (const spellIndex of state.creatures[0].spellIndexes) {
@@ -98,6 +99,7 @@ export const applyPassives = () => ({
             fighterSpells[f.race][i].onInvoke({
               fighter: draftState.fighters[i],
               state: draftState,
+              index: i,
             })
           }
         }
@@ -105,7 +107,11 @@ export const applyPassives = () => ({
         // apply item passives
         for (let i = 0; i < f.itemLevels.length; i++) {
           if (items[f.itemIndexes[i]].passive) {
-            items[f.itemIndexes[i]].onInvoke({ fighter: draftState.fighters[i], state: draftState })
+            items[f.itemIndexes[i]].onInvoke({
+              fighter: draftState.fighters[i],
+              state: draftState,
+              index: i,
+            })
           }
         }
       })
