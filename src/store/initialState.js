@@ -34,7 +34,7 @@ const mockedState = {
       manaPool: 50,
       spellLevels: [0, 2, 3, 3, 1],
       spellCasted: [false, false, false, false, false],
-      itemIndexes: [0, 1, 2, 3, 4, 5, 6, 7],
+      itemIndexes: [6, 7, 8, 9, 9, 10, 11, 12, 13],
       itemLevels: [1, 1, 1, 1, 1, 1, 1, 1],
       itemCasted: [false, false, false, false, false, false, false],
       imageIndex: 0,

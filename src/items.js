@@ -32,6 +32,7 @@ export const items = [
       return false
     },
     applyAura: (fighter) => {
+      console.log(fighter)
       fighter.bonusAgi += 4
     },
     onInvoke: () => {}
@@ -55,7 +56,7 @@ export const items = [
       const elemental = createDefaultFighter({
           race: RACES.UNIT_WITHOUT_SPELLS,
           imageIndex: SUMMONS.AIR_ELEMENTAL,
-          agi: 3,
+          agi: 2,
         })
       helpers.addFighter(elemental, state)
       fighter.manaPool -= 1
@@ -133,6 +134,100 @@ export const items = [
     },
     onInvoke: () => {}
   },
+  // barla
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Barla',
+    type: ITEM,
+    rarity: RARITIES.COMMON,
+    passive: true,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.PRIEST || fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK) {
+        return true
+      }
+      return false
+    },
+    applyAura: (fighter) => {
+      fighter.bonusInt += 5
+    },
+    onInvoke: () => {}
+  },
+  // zezlo
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Žezlo',
+    type: ITEM,
+    rarity: RARITIES.COMMON,
+    passive: true,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.PRIEST || fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK) {
+        return true
+      }
+      return false
+    },
+    applyAura: (fighter) => {
+      fighter.bonusInt += 4
+    },
+    onInvoke: () => {}
+  },
+  // elixir zivota
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Elixír života',
+    type: SPELL,
+    rarity: RARITIES.COMMON,
+    isEnabled: ({ fighter }) => {
+      return true
+    },
+    onInvoke: ({ fighter }) => {
+      fighter.bonusPower += 12
+    }
+  },
+  // kuzelny ludsky prsten
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Kúzelný ľudský prsteň',
+    type: ITEM,
+    rarity: RARITIES.COMMON,
+    passive: true,
+    ring: true,
+    isEnabled: ({ fighter }) => {
+      return true
+    },
+    applyAura: (fighter) => {
+      const levels = [0, 2, 4, 7, 11, 15]
+      let numberOfRings = 0
+      for (let i = 0; i < fighter.itemIndexes.length; i++) {
+        if (items[fighter.itemIndexes[i]].ring) {
+          numberOfRings++
+        }
+      }
+      numberOfRings = Math.min(numberOfRings, 5)
+      fighter.bonusInt += levels[numberOfRings]
+    },
+    onInvoke: () => {}
+  },
+  // cerveny ochranca
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Červený ochranca',
+    type: ITEM,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      if ((fighter.race === RACES .WARRIOR || fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) && fighter.manaPool >= 2) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state }) => {
+      const manaCost = 2
+      for (const f of state.fighters) {
+        f.bonusPower += 1
+      }
+      fighter.manaPool -= manaCost
+    }
+  },
+  // old items
   {
     image: require('./assets/items/agh.jpg'),
     title: 'Aghanim',
