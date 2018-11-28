@@ -2,10 +2,10 @@ import produce from 'immer'
 import { pick } from 'lodash'
 import { setIn } from 'imuty'
 
-import getInitialState from './store/initialState'
-import { createDefaultFighter } from './store/initialState'
+import getInitialState, { createDefaultFighter } from './store/initialState'
 import { addFighter } from './helpers'
 import { creatureSpells } from './spells'
+import { items } from './items'
 
 const int = (strNum) => parseInt(strNum, 10)
 
@@ -93,9 +93,10 @@ export const applyPassives = () => ({
   type: 'Apply passives',
   reducer: (state) => {
     return produce(state, (draftState) => {
+      // add fighters using helpers
       draftState.fighters = []
       state.fighters.forEach((f, i) => {
-        addFighter(createDefaultFighter({...f}), draftState)
+        addFighter(createDefaultFighter({ ...f }), draftState)
       })
     })
   },
