@@ -33,6 +33,7 @@ export const SUMMONS = {
   ZOMBIE: 0,
   DEMON: 1,
   AIR_ELEMENTAL: 2,
+  WATER_ELEMENTAL: 3,
   ARCHIMOND: 0,
   DIREWOLF: 0,
   ANGEL: 0,

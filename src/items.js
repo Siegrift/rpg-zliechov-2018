@@ -3,7 +3,7 @@ Contains all items in a game. To add a new array look at './spells.js'.
 The item object is structurally similar to 'spell' object.
 */
 
-import { RACES, LAST_HERO_INDEX, SUMMONS } from './constants'
+import { RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES } from './constants'
 import { createDefaultFighter } from './store/initialState'
 import * as helpers from './helpers'
 
@@ -222,10 +222,140 @@ export const items = [
     onInvoke: ({ fighter, state }) => {
       const manaCost = 2
       for (const f of state.fighters) {
-        f.bonusPower += 1
+        f.bonusPower += 2
       }
       fighter.manaPool -= manaCost
     }
+  },
+  // modry agresor
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Modrý agresor',
+    type: ITEM,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      if ((fighter.race === RACES .WARRIOR || fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) && fighter.manaPool >= 2) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state }) => {
+      const manaCost = 2
+      for (const f of state.fighters) {
+        f.bonusAgi += 2
+      }
+      fighter.manaPool -= manaCost
+    }
+  },
+  // vodny elemental
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Vodný elementál',
+    type: SPELL,
+    rarity: RARITIES.UNCOMMON,
+    chooseAttribute: [true, true, false],
+    isEnabled: ({ fighter }) => {
+      if (
+        (fighter.race === RACES.PRIEST || fighter.race === RACES.WARLOCK || fighter.race === RACES.MAGE) &&
+        fighter.manaPool >= 6
+      ) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state, attribute }) => {
+      const elemental = createDefaultFighter({
+          race: RACES.UNIT_WITHOUT_SPELLS,
+          imageIndex: SUMMONS.WATER_ELEMENTAL,
+        })
+      if (attribute === ATTRIBUTES.POWER) {
+        elemental.power = 12
+      }
+      else if (attribute === ATTRIBUTES.AGILITY) {
+        elemental.agi = 12
+      }
+      helpers.addFighter(elemental, state)
+      fighter.manaPool -= 6
+    }
+  },
+  // motlidba
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Motlitba',
+    type: SPELL,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      if (
+        fighter.race === RACES.PRIEST
+      ) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter }) => {
+      fighter.manaPool += 8
+      fighter.bonusInt += 16
+    }
+  },
+  // zvitok naplnenia
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Zvitok naplnenia',
+    type: SPELL,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      if (
+        fighter.manaPool >= 1
+      ) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state }) => {
+      fighter.manaPool -= 1
+      for (const f of state.fighters) {
+        if (f.race <= LAST_HERO_INDEX) {
+          f.manaPool += 5
+        }
+      }
+    }
+  },
+  // puska
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Puška',
+    type: ITEM,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) {
+        return true
+      }
+      return false
+    },
+    applyAura: (fighter) => {
+      fighter.bonusAgi += 10
+    },
+    onInvoke: ({ fighter, state }) => {
+      for (const monster of state.creatures) {
+        helpers.agiDmg(monster, 3, state)
+      }
+    }
+  },
+  // kuzelna palicka
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Kúzelná palička',
+    type: ITEM,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.MAGE) {
+        return true
+      }
+      return false
+    },
+    applyAura: (fighter) => {
+      fighter.bonusInt += 14
+    },
   },
   // old items
   {
