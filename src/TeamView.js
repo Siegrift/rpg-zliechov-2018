@@ -65,11 +65,11 @@ const TeamView = ({
   let spellData
   let itemData
   const creaturesImageData = creatures.map(({ imageIndex, name }) => ({
-    image: creatureImages[imageIndex].image,
+    ...creatureImages[imageIndex],
     title: name,
   }))
   const fightersImageData = fighters.map(({ race, imageIndex, nick, isChief }) => ({
-    image: isCreatureView ? creatureImages[imageIndex].image : raceImages[race][imageIndex].image,
+    ...(isCreatureView ? creatureImages[imageIndex] : raceImages[race][imageIndex]),
     title: nick,
     isChief,
   }))

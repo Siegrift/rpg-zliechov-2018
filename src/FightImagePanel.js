@@ -68,6 +68,9 @@ const styles = (theme) => ({
   imagePanel: {
     justifyContent: 'center',
   },
+  passiveTile: {
+    border: '2px solid red',
+  },
 })
 
 class FightImagePanel extends React.Component {
@@ -222,7 +225,10 @@ class FightImagePanel extends React.Component {
             const Component = (
               <GridListTile
                 key={i}
-                className={classNames(classes.tile)}
+                classes={{
+                  root: classes.tile,
+                  tile: classNames({ [classes.passiveTile]: tile.passive }),
+                }}
                 onClick={() => {
                   if (isCreatureView || isDisabled(tile) || tile.passive) {
                     return

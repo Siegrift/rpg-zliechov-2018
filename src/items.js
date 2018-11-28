@@ -1,11 +1,11 @@
+import { powerDmg, agiDmg, addFighter } from './helpers'
+import { RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES } from './constants'
+import { createDefaultFighter } from './store/initialState'
+
 /*
 Contains all items in a game. To add a new array look at './spells.js'.
 The item object is structurally similar to 'spell' object.
 */
-
-import { RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES } from './constants'
-import { createDefaultFighter } from './store/initialState'
-import * as helpers from './helpers'
 
 export const itemTypes = ['Bežné', 'Vzácne', 'Legendárne', 'Prastaré']
 export const RARITIES = {
@@ -31,11 +31,9 @@ export const items = [
       }
       return false
     },
-    applyAura: (fighter) => {
-      console.log(fighter)
+    applyAura: ({ fighter }) => {
       fighter.bonusAgi += 4
     },
-    onInvoke: () => {}
   },
   // vzdusny elemental
   {
@@ -54,13 +52,13 @@ export const items = [
     },
     onInvoke: ({ fighter, state }) => {
       const elemental = createDefaultFighter({
-          race: RACES.UNIT_WITHOUT_SPELLS,
-          imageIndex: SUMMONS.AIR_ELEMENTAL,
-          agi: 2,
-        })
-      helpers.addFighter(elemental, state)
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.AIR_ELEMENTAL,
+        agi: 2,
+      })
+      addFighter(elemental, state)
       fighter.manaPool -= 1
-    }
+    },
   },
   // stit
   {
@@ -75,10 +73,9 @@ export const items = [
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusPower += 5
     },
-    onInvoke: () => {}
   },
   // prilba
   {
@@ -88,15 +85,18 @@ export const items = [
     rarity: RARITIES.COMMON,
     passive: true,
     isEnabled: ({ fighter }) => {
-      if (fighter.race === RACES.WARRIOR || fighter.race === RACES.MAGE || fighter.race === RACES.PRIEST) {
+      if (
+        fighter.race === RACES.WARRIOR ||
+        fighter.race === RACES.MAGE ||
+        fighter.race === RACES.PRIEST
+      ) {
         return true
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusPower += 4
     },
-    onInvoke: () => {}
   },
   // luk
   {
@@ -111,10 +111,9 @@ export const items = [
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusAgi += 7
     },
-    onInvoke: () => {}
   },
   // kusa
   {
@@ -129,10 +128,9 @@ export const items = [
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusAgi += 5
     },
-    onInvoke: () => {}
   },
   // barla
   {
@@ -142,15 +140,18 @@ export const items = [
     rarity: RARITIES.COMMON,
     passive: true,
     isEnabled: ({ fighter }) => {
-      if (fighter.race === RACES.PRIEST || fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK) {
+      if (
+        fighter.race === RACES.PRIEST ||
+        fighter.race === RACES.MAGE ||
+        fighter.race === RACES.WARLOCK
+      ) {
         return true
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusInt += 5
     },
-    onInvoke: () => {}
   },
   // zezlo
   {
@@ -160,15 +161,18 @@ export const items = [
     rarity: RARITIES.COMMON,
     passive: true,
     isEnabled: ({ fighter }) => {
-      if (fighter.race === RACES.PRIEST || fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK) {
+      if (
+        fighter.race === RACES.PRIEST ||
+        fighter.race === RACES.MAGE ||
+        fighter.race === RACES.WARLOCK
+      ) {
         return true
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusInt += 4
     },
-    onInvoke: () => {}
   },
   // elixir zivota
   {
@@ -181,7 +185,7 @@ export const items = [
     },
     onInvoke: ({ fighter }) => {
       fighter.bonusPower += 12
-    }
+    },
   },
   // kuzelny ludsky prsten
   {
@@ -194,7 +198,7 @@ export const items = [
     isEnabled: ({ fighter }) => {
       return true
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       const levels = [0, 2, 4, 7, 11, 15]
       let numberOfRings = 0
       for (let i = 0; i < fighter.itemIndexes.length; i++) {
@@ -205,7 +209,6 @@ export const items = [
       numberOfRings = Math.min(numberOfRings, 5)
       fighter.bonusInt += levels[numberOfRings]
     },
-    onInvoke: () => {}
   },
   // cerveny ochranca
   {
@@ -214,7 +217,12 @@ export const items = [
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     isEnabled: ({ fighter }) => {
-      if ((fighter.race === RACES .WARRIOR || fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) && fighter.manaPool >= 2) {
+      if (
+        (fighter.race === RACES.WARRIOR ||
+          fighter.race === RACES.HUNTER ||
+          fighter.race === RACES.SYMBIONT) &&
+        fighter.manaPool >= 2
+      ) {
         return true
       }
       return false
@@ -225,7 +233,7 @@ export const items = [
         f.bonusPower += 2
       }
       fighter.manaPool -= manaCost
-    }
+    },
   },
   // modry agresor
   {
@@ -234,7 +242,12 @@ export const items = [
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     isEnabled: ({ fighter }) => {
-      if ((fighter.race === RACES .WARRIOR || fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) && fighter.manaPool >= 2) {
+      if (
+        (fighter.race === RACES.WARRIOR ||
+          fighter.race === RACES.HUNTER ||
+          fighter.race === RACES.SYMBIONT) &&
+        fighter.manaPool >= 2
+      ) {
         return true
       }
       return false
@@ -245,7 +258,7 @@ export const items = [
         f.bonusAgi += 2
       }
       fighter.manaPool -= manaCost
-    }
+    },
   },
   // vodny elemental
   {
@@ -256,7 +269,9 @@ export const items = [
     chooseAttribute: [true, true, false],
     isEnabled: ({ fighter }) => {
       if (
-        (fighter.race === RACES.PRIEST || fighter.race === RACES.WARLOCK || fighter.race === RACES.MAGE) &&
+        (fighter.race === RACES.PRIEST ||
+          fighter.race === RACES.WARLOCK ||
+          fighter.race === RACES.MAGE) &&
         fighter.manaPool >= 6
       ) {
         return true
@@ -265,18 +280,17 @@ export const items = [
     },
     onInvoke: ({ fighter, state, attribute }) => {
       const elemental = createDefaultFighter({
-          race: RACES.UNIT_WITHOUT_SPELLS,
-          imageIndex: SUMMONS.WATER_ELEMENTAL,
-        })
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.WATER_ELEMENTAL,
+      })
       if (attribute === ATTRIBUTES.POWER) {
         elemental.power = 12
-      }
-      else if (attribute === ATTRIBUTES.AGILITY) {
+      } else if (attribute === ATTRIBUTES.AGILITY) {
         elemental.agi = 12
       }
-      helpers.addFighter(elemental, state)
+      addFighter(elemental, state)
       fighter.manaPool -= 6
-    }
+    },
   },
   // motlidba
   {
@@ -285,9 +299,7 @@ export const items = [
     type: SPELL,
     rarity: RARITIES.UNCOMMON,
     isEnabled: ({ fighter }) => {
-      if (
-        fighter.race === RACES.PRIEST
-      ) {
+      if (fighter.race === RACES.PRIEST) {
         return true
       }
       return false
@@ -295,7 +307,7 @@ export const items = [
     onInvoke: ({ fighter }) => {
       fighter.manaPool += 8
       fighter.bonusInt += 16
-    }
+    },
   },
   // zvitok naplnenia
   {
@@ -304,9 +316,7 @@ export const items = [
     type: SPELL,
     rarity: RARITIES.UNCOMMON,
     isEnabled: ({ fighter }) => {
-      if (
-        fighter.manaPool >= 1
-      ) {
+      if (fighter.manaPool >= 1) {
         return true
       }
       return false
@@ -318,7 +328,7 @@ export const items = [
           f.manaPool += 5
         }
       }
-    }
+    },
   },
   // puska
   {
@@ -332,14 +342,14 @@ export const items = [
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusAgi += 10
     },
     onInvoke: ({ fighter, state }) => {
       for (const monster of state.creatures) {
-        helpers.agiDmg(monster, 3, state)
+        agiDmg(monster, 3, state)
       }
-    }
+    },
   },
   // kuzelna palicka
   {
@@ -353,58 +363,134 @@ export const items = [
       }
       return false
     },
-    applyAura: (fighter) => {
+    applyAura: ({ fighter }) => {
       fighter.bonusInt += 14
     },
-  },
-  // old items
-  {
-    image: require('./assets/items/agh.jpg'),
-    title: 'Aghanim',
-    onInvoke: ({ fighter }) => {
-      fighter.power = fighter.power - 50
-      fighter.agi += 50
-    },
-    isEnabled: ({ fighter }) => fighter.power >= 100,
-  },
-  {
-    image: require('./assets/items/dagon.jpg'),
-    title: 'Dagon',
-    onInvoke: ({ fighter }) => {
-      fighter.power = fighter.power + 50
-    },
-    isEnabled: ({ fighter }) => true,
-  },
-  {
-    image: require('./assets/items/manta.png'),
-    title: 'Manta',
-    onInvoke: ({ fighter }) => {
-      fighter.power = fighter.power + 50
-    },
-    isEnabled: ({ fighter }) => true,
   },
   {
     image: require('./assets/items/frostmourne.jpg'),
     title: 'Mrazivý smútok',
-    onInvoke: ({ fighter, index }) => {
+    passive: true,
+    applyAura: ({ fighter, index }) => {
       const level = fighter.itemLevels[index]
       fighter.bonusPower += 5 + (level - 1) * 3
       fighter.bonusAgi += 5 + (level - 1) * 3
     },
+    isEnabled: ({ fighter }) => fighter.race === RACES.WARRIOR,
   },
   {
     image: require('./assets/items/rapier.png'),
     title: 'Božský rapier',
-    onInvoke: ({ fighter }) => {
+    passive: true,
+    applyAura: ({ fighter }) => {
       fighter.bonusAgi += 80
     },
+    isEnabled: ({ fighter }) => fighter.race === RACES.HUNTER || fighter.race === RACES.WARRIOR,
   },
   {
     image: require('./assets/items/black_hole.jpg'),
     title: 'Black hole',
     onInvoke: ({ state }) => {
-      state.creatures = []
+      state.creatures.splice(1)
+      const c = state.creatures[0]
+      c.power = 0
+      c.agi = 0
+      c.int = 0
     },
     isEnabled: ({ fighter }) => fighter.manaPool >= 20,
+  },
+  {
+    title: 'Ohnivý elementál',
+    image: require('./assets/items/black_hole.jpg'),
+    onInvoke: ({ fighter, state }) => {
+      state.creatures.forEach((c) => {
+        powerDmg(c, 20, state)
+        agiDmg(c, 20, state)
+      })
+    },
+    isEnabled: ({ fighter }) => fighter.race === RACES.WARLOCK && fighter.manaPool >= 22,
+  },
+  {
+    title: 'Pizza quatro formagi',
+    image: require('./assets/items/black_hole.jpg'),
+    onInvoke: ({ fighter }) => {
+      fighter.bonusPower += 30
+      fighter.manaPool += 30
+    },
+  },
+  {
+    title: 'Amulet zúfalstva',
+    passive: true,
+    image: require('./assets/items/black_hole.jpg'),
+    applyAura: ({ fighter }) => {
+      fighter.bonusInt += 15
+      fighter.manaPool += 5
+    },
+  },
+  {
+    title: 'Maska šialenstva',
+    passive: true,
+    image: require('./assets/items/black_hole.jpg'),
+    applyAura: ({ fighter }) => {
+      fighter.bonusPower += 3
+      fighter.bonusAgi += 3
+      fighter.int -= 5
+      fighter.manaPool += 15
+    },
+    isEnabled: ({ fighter }) => fighter.int > 5,
+  },
+  {
+    title: 'Midasova ruka',
+    passive: true,
+    image: require('./assets/items/black_hole.jpg'),
+  },
+  {
+    title: 'Krvavý prsteň',
+    image: require('./assets/items/black_hole.jpg'),
+    onInvoke: ({ fighter }) => {
+      fighter.power -= 5
+      fighter.manaPool += 15
+    },
+    isEnabled: ({ fighter }) => fighter.power > 5,
+  },
+  {
+    title: 'Bronnov elfský prsteň',
+    image: require('./assets/items/black_hole.jpg'),
+    passive: true,
+    applyAura: ({ fighter }) => {
+      fighter.manaPool += 10
+    },
+    isEnabled: ({ fighter }) =>
+      fighter.race === RACES.MAGE ||
+      fighter.race === RACES.PRIEST ||
+      fighter.race === RACES.WARLOCK,
+  },
+  {
+    title: 'Orb obnovenia',
+    image: require('./assets/items/black_hole.jpg'),
+    onInvoke: ({ fighter }) => {
+      fighter.spellCasted = fighter.spellCasted.map((_) => false)
+    },
+    isEnabled: ({ fighter }) =>
+      (fighter.race === RACES.MAGE ||
+        fighter.race === RACES.PRIEST ||
+        fighter.race === RACES.WARLOCK) &&
+      fighter.manaPool >= 6,
+  },
+  {
+    title: 'Kameň oživenia',
+    image: require('./assets/items/black_hole.jpg'),
+    onInvoke: ({ fighter, state }) => {
+      // TODO: imageIndex
+      addFighter(
+        createDefaultFighter({ int: 10, agi: 10, power: 10, nick: 'Prízrak', imageIndex: 0 }),
+        state
+      )
+      fighter.manaPool -= 6
+    },
+    isEnabled: ({ fighter, index }) =>
+      (fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK) &&
+      fighter.manaPool >= 6 &&
+      fighter.itemLevels[index] >= 9,
   },
 ]

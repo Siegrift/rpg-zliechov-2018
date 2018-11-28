@@ -149,7 +149,6 @@ export const fighterSpells = [
         if (randomValue < 1 / 3) return 2
         return 1
       },
-      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 4
         if (fighter.spellLevels[spellID] === 0) {
@@ -256,7 +255,6 @@ export const fighterSpells = [
       image: require('./assets/spells/wex.png'),
       title: 'Kritický úder',
       passive: true,
-      onInvoke: ({}) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
@@ -350,7 +348,6 @@ export const fighterSpells = [
       image: require('./assets/spells/quas.png'),
       title: 'Aura požehnania',
       passive: true,
-      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
@@ -483,7 +480,6 @@ export const fighterSpells = [
         }
         return manaCost
       },
-      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 3
         if (fighter.spellLevels[spellID] === 0) {
@@ -590,7 +586,7 @@ export const fighterSpells = [
       applyAura: (affected, source) => {
         const spellID = 3
         const levels = [null, 1.5, 3, 5]
-        source.bonusPower += levels[source.fighterSpells[spellID]]
+        source.bonusPower += levels[source[fighterSpells[affected.race][spellID]]]
         if (affected.buffs[source.id] === undefined) {
           affected.buffs[source.id] = []
         }
@@ -599,9 +595,8 @@ export const fighterSpells = [
       detachAura: (affected, source) => {
         const spellID = 3
         const levels = [null, 1.5, 3, 5]
-        source.bonusPower -= levels[source.fighterSpells[spellID]]
+        source.bonusPower -= levels[source[fighterSpells[affected.race][spellID]]]
       },
-      onInvoke: () => {},
     },
     {
       image: require('./assets/spells/invoke.jpg'),
@@ -635,7 +630,6 @@ export const fighterSpells = [
       image: require('./assets/spells/wex.png'),
       title: 'Kritický úder',
       passive: true,
-      onInvoke: ({}) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 1
         if (fighter.spellLevels[spellID] === 0) {
@@ -645,7 +639,7 @@ export const fighterSpells = [
       },
       combatModifier: (fighter, attributes) => {
         const spellID = 1
-        const levels = [null, 0.33, 0.50, 0.75]
+        const levels = [null, 0.33, 0.5, 0.75]
         const randomValue = Math.random()
         if (randomValue < levels[fighter.spellLevels[spellID]]) {
           attributes.agi += fighter.agi
@@ -722,13 +716,11 @@ export const fighterSpells = [
         affected.buffs[source.id].push(spellID)
       },
       detachAura: (affected, source) => {
-        const spellID = 1
         const auraStrength = 1
         affected.power += auraStrength
         affected.agi += auraStrength
         affected.int += auraStrength
       },
-      onInvoke: () => {},
     },
   ],
   // hunter's pet
@@ -744,7 +736,6 @@ export const fighterSpells = [
       image: require('./assets/spells/wex.png'),
       title: 'Kritický úder',
       passive: true,
-      onInvoke: ({}) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 1
         if (fighter.spellLevels[spellID] === 0) {
@@ -776,7 +767,6 @@ export const fighterSpells = [
       image: require('./assets/creatureSpells/hidan.png'),
       title: 'Božia aura požehnania',
       passive: true,
-      onInvoke: ({ fighter }) => {},
       isEnabled: ({ fighter }) => {
         const spellID = 1
         if (fighter.spellLevels[spellID] === 0) {

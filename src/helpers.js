@@ -106,10 +106,10 @@ export const addFighter = (newFighter, state) => {
   for (let i = 0; i < newFighter.itemIndexes.length; i++) {
     if (
       items[newFighter.itemIndexes[i]].isEnabled &&
-      items[newFighter.itemIndexes[i]].isEnabled({ fighter: newFighter }) &&
+      items[newFighter.itemIndexes[i]].isEnabled({ fighter: newFighter, index: i }) &&
       items[newFighter.itemIndexes[i]].applyAura
     ) {
-      items[newFighter.itemIndexes[i]].applyAura(newFighter, state)
+      items[newFighter.itemIndexes[i]].applyAura({ fighter: newFighter, state, index: i })
     }
   }
   // add fighter to state

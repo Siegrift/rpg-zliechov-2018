@@ -1,20 +1,16 @@
-item levels - refactor
-ked sa zobrazuje spell, tak prepnutim obrazka sa obrazok zmeni, co obcas moze sposobit, ze program spadne
-
 EMO:
- - pridavanie hrdinov cez helper funkciu addFigther()
-
-VIZUALIZACIA:
-find spell icons for all races
-passive ak je vyskillena sa zobrazuje, ale neda sa castit
+ - item levels - refactor
+ - znizovanie a zvysovanie levelov spellov/itemov
+ - random prisera (obrazok)
+ - zvol kuzla prisery nie itemy
+ - viac rovnakych itemov mozu mat
 
 MOZNO:
 vizualizacia multicastu
+vizaulizacia sialenej masky
 
 LOGIKA SPELLOV A ITEMOV:
  - spravit funkciu, ktora overuje dostatok many a level spellu
  - spravit funkciu na odstranovanie jednotiek aby sa dali odstranovat aury
  - aura upravuje priamo hodnoty a nepouziva nejake funkcie co kontroluje nepodlezenie pod 0
  - uder nevie ist do zaporu
-
- - viac rovnakych itemov mozu mat
