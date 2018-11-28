@@ -1,14 +1,3 @@
-EMO:
- - item levels - refactor
- - znizovanie a zvysovanie levelov spellov/itemov
- - random prisera (obrazok)
- - zvol kuzla prisery nie itemy
- - viac rovnakych itemov mozu mat
-
-MOZNO:
-vizualizacia multicastu
-vizaulizacia sialenej masky
-
 LOGIKA SPELLOV A ITEMOV:
  - spravit funkciu, ktora overuje dostatok many a level spellu
  - spravit funkciu na odstranovanie jednotiek aby sa dali odstranovat aury

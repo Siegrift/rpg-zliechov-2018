@@ -30,7 +30,7 @@ const styles = (theme) => ({
     },
   },
   media: {
-    objectFit: 'cover',
+    padding: theme.spacing.unit,
     maxWidth: 700,
     maxHeight: 500,
     [theme.breakpoints.down('lg')]: {

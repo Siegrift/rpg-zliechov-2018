@@ -14,7 +14,7 @@ const mockedState = {
       requirements: ['At least 5'],
       rewardItems: ['1', '2', '0', '0'],
       spellIndexes: [0, 1],
-      imageIndex: 3,
+      imageIndex: -1,
       buffs: {},
     },
   ],
@@ -36,6 +36,7 @@ const mockedState = {
       spellCasted: [false, false, false, false, false],
       itemIndexes: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
       itemLevels: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      itemKeys: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
       itemCasted: [
         false,
         false,
@@ -77,7 +78,7 @@ const mockedState = {
   ],
   selectedCreature: 0,
   selectedFighter: 0,
-  page: 'assemble',
+  page: 'create',
 }
 
 export const createDefaultFighter = ({
@@ -99,6 +100,7 @@ export const createDefaultFighter = ({
   itemIndexes,
   itemLevels,
   itemCasted,
+  itemKeys,
   buffs,
 }) => {
   const defaults = {
@@ -125,6 +127,7 @@ export const createDefaultFighter = ({
     itemIndexes: itemIndexes || [],
     itemLevels: itemLevels || [],
     itemCasted: itemCasted || [],
+    itemKeys: itemKeys || [],
     imageIndex: imageIndex || 0,
     buffs: buffs || {},
   }
@@ -154,7 +157,7 @@ export const createDefaultCreature = ({
     requirements: requirements || [],
     rewardItems: rewardItems || [defaultValue, defaultValue, defaultValue, defaultValue],
     spellIndexes: spellIndexes || [],
-    imageIndex: imageIndex || 0,
+    imageIndex: imageIndex || -1,
     buffs: buffs || {},
   }
 }

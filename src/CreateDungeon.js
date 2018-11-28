@@ -10,6 +10,7 @@ import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import { withStyles } from '@material-ui/core/styles'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
+import { size } from 'lodash'
 
 import ImagePanel from './ImagePanel'
 import AutoComplete from './AutoComplete'
@@ -103,6 +104,12 @@ const CreateDungeon = ({
     agi <= 0 ||
     int <= 0 ||
     rewardItems.find((item) => item < 0 || item === '') !== undefined
+
+  if (imageIndex === -1) {
+    updateValue(['creatures', 0, 'imageIndex'], Math.floor(Math.random() * size(creatureImages)))
+    return null
+  }
+
   return (
     <div className={classes.panel}>
       <Typography className={classes.title} component="h2" variant="h1">
@@ -182,12 +189,14 @@ const CreateDungeon = ({
           </FormGroup>
 
           <AutoComplete
-            label="Predmety"
+            label="Kúzla"
             data={creatureSpells}
-            placeholder="Zvoľ itemy príšery"
-            value={spellIndexes}
+            placeholder="Zvoľ kúzla príšery"
+            value={spellIndexes.map((index) => ({
+              index,
+            }))}
             onChange={(value) => {
-              updateValue(['creatures', 0, 'spellIndexes'], value.map((v) => v.ind))
+              updateValue(['creatures', 0, 'spellIndexes'], value.map((v) => v.index))
             }}
           />
           <ImagePanel
@@ -197,7 +206,7 @@ const CreateDungeon = ({
         </div>
 
         <EntityImage
-          currentImage={imageIndex !== -1 && creatureImages[imageIndex].image}
+          currentImage={creatureImages[imageIndex].image}
           imageClassName={classes.image}
           images={creatureImages}
           onChange={(index) => {

@@ -95,6 +95,11 @@ const styles = (theme) => ({
   },
 })
 
+const formatItemTitle = (item, level) => {
+  if (item.maxLevel) return `${item.title} (${level})`
+  return item.title
+}
+
 const freeAttributes = ({ level, spellLevels }) => {
   return level - spellLevels.reduce((acc, lvl) => acc + lvl, 0)
 }
@@ -137,6 +142,7 @@ const DungeonFighters = ({
     imageIndex,
     itemIndexes,
     itemLevels,
+    itemKeys,
   } = fighters[selectedFighter]
   const fightersImageData = [
     ...fighters.map(({ race, nick, imageIndex }, index) => ({
@@ -292,50 +298,69 @@ const DungeonFighters = ({
         <FormLabel
           component="legend"
           style={{ marginBottom: '8px' }}
-        >{`Kúzla (ostáva ${freeAttributes(fighters[selectedFighter])})`}</FormLabel>
+        >{`Kúzla (ostáva ${freeAttributes(fighters[selectedFighter])} vylepšení)`}</FormLabel>
         <ImagePanel
           data={fighterSpells[race].map((spell, i) => ({
             ...spell,
             title: `${spell.title} (${spellLevels[i]})`,
-            isEnabled: () =>
-              canUpgradeSpell(freeAttributes(fighters[selectedFighter]), i, spellLevels[i], level),
+            isEnabled: () => spellLevels[i] !== 0,
           }))}
-          withTooltip
-          onClick={(ind) => {
-            updateValue(['fighters', selectedFighter, 'spellLevels', ind], spellLevels[ind] + 1)
+          onIncrease={(ind) => {
+            if (
+              canUpgradeSpell(
+                freeAttributes(fighters[selectedFighter]),
+                ind,
+                spellLevels[ind],
+                level
+              )
+            ) {
+              updateValue(['fighters', selectedFighter, 'spellLevels', ind], spellLevels[ind] + 1)
+            }
           }}
+          onDecrease={(ind) => {
+            updateValue(
+              ['fighters', selectedFighter, 'spellLevels', ind],
+              Math.max(spellLevels[ind] - 1, 0)
+            )
+          }}
+          withTooltip
         />
         <Divider className={classes.divider} />
 
         <AutoComplete
+          multipleSame
           label="Predmety"
           data={items}
           placeholder="Zvoľ svoje itemy"
-          value={itemIndexes}
-          onChange={(value) => {
-            const newIndexes = value.map((v) => v.ind)
-            const itemSet = new Map(itemIndexes.map((item, i) => [item, itemLevels[i]]))
-            updateValue(['fighters', selectedFighter, 'itemIndexes'], newIndexes)
-            updateValue(
-              ['fighters', selectedFighter, 'itemLevels'],
-              newIndexes.map((index) => {
-                if (itemSet.has(index)) return itemSet.get(index)
-                return 1
-              })
-            )
-            updateValue(['fighters', selectedFighter, 'itemCasted'], newIndexes.map(() => false))
+          value={itemIndexes.map((index, i) => ({
+            index,
+            level: itemLevels[i],
+            key: itemKeys[i],
+          }))}
+          onChange={(values) => {
+            updateValue(['fighters', selectedFighter, 'itemIndexes'], values.map((v) => v.index))
+            updateValue(['fighters', selectedFighter, 'itemLevels'], values.map((v) => v.level))
+            updateValue(['fighters', selectedFighter, 'itemKeys'], values.map((v) => v.key))
+            updateValue(['fighters', selectedFighter, 'itemCasted'], values.map(() => false))
           }}
         />
         <ImagePanel
           data={itemIndexes.map((item, i) => ({
             ...items[item],
-            title: `${items[item].title} (${itemLevels[i]})`,
+            title: formatItemTitle(items[item], itemLevels[i]),
             isEnabled: () => true,
           }))}
           withTooltip
-          onClick={(ind) => {
+          hoverable={(ind) => items[itemIndexes[ind]].maxLevel}
+          onIncrease={(ind) =>
             updateValue(['fighters', selectedFighter, 'itemLevels', ind], itemLevels[ind] + 1)
-          }}
+          }
+          onDecrease={(ind) =>
+            updateValue(
+              ['fighters', selectedFighter, 'itemLevels', ind],
+              Math.max(0, itemLevels[ind] - 1)
+            )
+          }
         />
         <Divider className={classes.divider} />
 

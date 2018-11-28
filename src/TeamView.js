@@ -86,12 +86,12 @@ const TeamView = ({
     spellData = fighterSpells[race].map((spell, i) => ({
       ...spell,
       title: `${spell.title} (${spellLevels[i]})`,
-      isEnabled: spellCasted[i] ? () => false : spell.isEnabled,
+      isEnabled: spellCasted[i] || spellLevels[i] === 0 ? () => false : spell.isEnabled,
     }))
     itemData = itemIndexes.map((index, i) => ({
       ...items[index],
       title: `${items[index].title} (${itemLevels[i]})`,
-      isEnabled: itemCasted[i] ? () => false : items[index].isEnabled,
+      isEnabled: itemCasted[i] || itemLevels[i] === 0 ? () => false : items[index].isEnabled,
     }))
   }
   const { power, bonusPower = 0, agi, bonusAgi = 0, int, bonusInt = 0, manaPool } = isCreatureView
