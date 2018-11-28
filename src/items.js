@@ -371,10 +371,11 @@ export const items = [
     image: require('./assets/items/frostmourne.jpg'),
     title: 'Mrazivý smútok',
     passive: true,
+    maxLevel: 10000000,
     applyAura: ({ fighter, index }) => {
       const level = fighter.itemLevels[index]
-      fighter.bonusPower += 5 + (level - 1) * 3
-      fighter.bonusAgi += 5 + (level - 1) * 3
+      fighter.bonusPower += 5 + level * 3
+      fighter.bonusAgi += 5 + level * 3
     },
     isEnabled: ({ fighter }) => fighter.race === RACES.WARRIOR,
   },
@@ -488,9 +489,10 @@ export const items = [
       )
       fighter.manaPool -= 6
     },
+    maxLevel: 10000000,
     isEnabled: ({ fighter, index }) =>
       (fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK) &&
       fighter.manaPool >= 6 &&
-      fighter.itemLevels[index] >= 9,
+      fighter.itemLevels[index] >= 8,
   },
 ]

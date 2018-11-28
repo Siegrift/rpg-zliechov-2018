@@ -189,12 +189,14 @@ const CreateDungeon = ({
           </FormGroup>
 
           <AutoComplete
-            label="Predmety"
+            label="Kúzla"
             data={creatureSpells}
-            placeholder="Zvoľ itemy príšery"
-            value={spellIndexes}
+            placeholder="Zvoľ kúzla príšery"
+            value={spellIndexes.map((index) => ({
+              index,
+            }))}
             onChange={(value) => {
-              updateValue(['creatures', 0, 'spellIndexes'], value.map((v) => v.ind))
+              updateValue(['creatures', 0, 'spellIndexes'], value.map((v) => v.index))
             }}
           />
           <ImagePanel

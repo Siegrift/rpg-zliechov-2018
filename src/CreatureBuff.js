@@ -31,7 +31,7 @@ const styles = (theme) => ({
     zIndex: 100000,
   },
   media: {
-    objectFit: 'cover',
+    padding: theme.spacing.unit,
     width: '100%',
     maxHeight: 600,
     [theme.breakpoints.down('lg')]: {

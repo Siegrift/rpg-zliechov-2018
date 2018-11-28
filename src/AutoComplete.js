@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import CancelIcon from '@material-ui/icons/Cancel'
 import { emphasize } from '@material-ui/core/styles/colorManipulator'
+import { uniqueId } from 'lodash'
 
 const styles = (theme) => ({
   root: {
@@ -112,7 +113,7 @@ function Option(props) {
           alt={props.value}
         />
       </ListItemIcon>
-      {props.value}
+      {props.value.split('_')[0]}
     </MenuItem>
   )
 }
@@ -167,7 +168,7 @@ const components = {
 
 class AutoComplete extends React.Component {
   render() {
-    const { classes, theme, data, placeholder, value, onChange } = this.props
+    const { classes, theme, data, placeholder, value, onChange, multipleSame } = this.props
 
     const selectStyles = {
       input: (base) => ({
@@ -193,16 +194,18 @@ class AutoComplete extends React.Component {
             }}
             options={data.map(({ title, image }, i) => ({
               image,
-              value: title,
-              label: title,
-              ind: i,
+              value: multipleSame ? uniqueId(`${title}_`) : title,
+              label: multipleSame ? uniqueId(`${title}_`) : title,
+              index: i,
+              level: 0,
+              key: multipleSame ? uniqueId(`${title}_`) : title,
             }))}
             components={components}
-            value={value.map((itemIndex) => ({
-              image: data[itemIndex].image,
-              value: data[itemIndex].title,
-              label: data[itemIndex].title,
-              ind: itemIndex,
+            value={value.map((val) => ({
+              ...val,
+              image: data[val.index].image,
+              value: val.key || data[val.index].title,
+              label: data[val.index].title,
             }))}
             onChange={onChange}
             placeholder={placeholder}

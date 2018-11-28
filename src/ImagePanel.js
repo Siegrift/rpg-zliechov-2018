@@ -126,7 +126,7 @@ class ImagePanel extends React.Component {
                   }),
                 }}
                 onClick={() => {
-                  if (unclickable || isDisabled(tile) || tile.passive) {
+                  if (unclickable || isDisabled(tile) || (tile.passive && !tile.maxLevel)) {
                     return
                   }
                   if (onClick) onClick(i)

@@ -36,6 +36,7 @@ const mockedState = {
       spellCasted: [false, false, false, false, false],
       itemIndexes: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
       itemLevels: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      itemKeys: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'],
       itemCasted: [
         false,
         false,
@@ -99,6 +100,7 @@ export const createDefaultFighter = ({
   itemIndexes,
   itemLevels,
   itemCasted,
+  itemKeys,
   buffs,
 }) => {
   const defaults = {
@@ -125,6 +127,7 @@ export const createDefaultFighter = ({
     itemIndexes: itemIndexes || [],
     itemLevels: itemLevels || [],
     itemCasted: itemCasted || [],
+    itemKeys: itemKeys || [],
     imageIndex: imageIndex || 0,
     buffs: buffs || {},
   }
