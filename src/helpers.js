@@ -152,7 +152,7 @@ export const dealCombatDamage = (fighter, monster, state) => {
       attributes = spell.combatModifier(fighter, attributes, state)
     }
   }
-  for (let i = 0; i < fighter.itemIndexes; i++) {
+  for (let i = 0; i < fighter.itemIndexes.length; i++) {
     if (
       items[fighter.itemIndexes[i]].isEnabled &&
       items[fighter.itemIndexes[i]].isEnabled({ fighter, state }) &&

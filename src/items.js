@@ -344,7 +344,6 @@ export const items = [
     title: 'Puška',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
-    passive: true,
     isEnabled: ({ fighter }) => {
       if (fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) {
         return true
@@ -449,6 +448,148 @@ export const items = [
     onInvoke: ({ fighter, creature, state }) => {
       agiDmg(creature, 2 * fighter.manaPool, state)
       fighter.manaPool -= Math.ceil(fighter.manaPool / 3)
+    },
+  },
+  // necronomicon
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Necronomicon',
+    type: SPELL,
+    rarity: RARITIES.LEGENDARY,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.WARLOCK) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state, attribute }) => {
+      const demonWarrior = createDefaultFighter({
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.DEMON_WARRIOR,
+        power: 12,
+        agi: 12,
+        int: 5,
+      })
+      addFighter(demonWarrior, state)
+    },
+  },
+  // golemov sem
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Golemov šém',
+    type: SPELL,
+    rarity: RARITIES.LEGENDARY,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.WARLOCK && fighter.manaPool >= 7) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state }) => {
+      const golem = createDefaultFighter({
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.GOLEM,
+        power: 20,
+        agi: 10,
+      })
+      fighter.manaPool -= 7
+      addFighter(golem, state)
+    },
+  },
+  // polymorph
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Polymorph',
+    type: SPELL,
+    rarity: RARITIES.LEGENDARY,
+    isEnabled: ({ fighter }) => {
+      if (fighter.manaPool >= 4) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, creature }) => {
+      creature.power = 50
+      creature.agi = 50
+      creature.int = 50
+      fighter.manaPool -= 4
+    },
+  },
+  // iluzionista
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Iluzionista',
+    type: SPELL,
+    rarity: RARITIES.LEGENDARY,
+    isEnabled: ({ fighter }) => {
+      if (fighter.manaPool >= 5) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state }) => {
+      const illusion = createDefaultFighter({
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.ILLUSION,
+        nick: 'Ilúzia ' + fighter.nick,
+        power: Math.ceil(fighter.power / 2),
+        agi: Math.ceil(fighter.agi / 2),
+        int: Math.ceil(fighter.int / 2),
+      })
+      fighter.manaPool -= 5
+      addFighter(illusion, state)
+    },
+  },
+  // sniperka
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Sniperka',
+    type: ITEM,
+    rarity: RARITIES.LEGENDARY,
+    passive: true,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) {
+        return true
+      }
+      return false
+    },
+    applyAura: ({ fighter }) => {
+      fighter.bonusAgi += 17
+    },
+    combatModifier: (fighter, attributes) => {
+      if (Math.random() < 0.33) {
+        attributes.agi += 15
+      }
+      return attributes
+    },
+    onInvoke: () => {},
+  },
+  // klonovanie
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Klonovanie',
+    type: SPELL,
+    rarity: RARITIES.ANCIENT,
+    isEnabled: ({ fighter }) => {
+      if (fighter.manaPool >= 10) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, state }) => {
+      const clone = createDefaultFighter({
+        race: fighter.race,
+        spellLevels: fighter.spellLevels,
+        imageIndex: fighter.imageIndex,
+        nick: fighter.nick,
+        level: fighter.level,
+        power: fighter.power,
+        agi: fighter.agi,
+        int: fighter.int,
+        manaPool: fighter.int,
+      })
+      fighter.manaPool -= 10
+      addFighter(clone, state)
     },
   },
   // emo's items
