@@ -168,7 +168,16 @@ const components = {
 
 class AutoComplete extends React.Component {
   render() {
-    const { classes, theme, data, placeholder, value, onChange, multipleSame } = this.props
+    const {
+      classes,
+      theme,
+      data,
+      placeholder,
+      value,
+      onChange,
+      multipleSame,
+      defaultLevel,
+    } = this.props
 
     const selectStyles = {
       input: (base) => ({
@@ -197,7 +206,7 @@ class AutoComplete extends React.Component {
               value: multipleSame ? uniqueId(`${title}_`) : title,
               label: multipleSame ? uniqueId(`${title}_`) : title,
               index: i,
-              level: 0,
+              level: defaultLevel || 0,
               key: multipleSame ? uniqueId(`${title}_`) : title,
             }))}
             components={components}

@@ -165,3 +165,20 @@ export const dealCombatDamage = (fighter, monster, state) => {
   agiDmg(monster, attributes.agi, state)
   intDmg(monster, attributes.int, state)
 }
+
+export const setFightersChief = (fighters) => {
+  let chief
+  let maxLevel = -1
+  for (let i = 0; i < fighters.length; i++) {
+    if (maxLevel < fighters[i].level) {
+      maxLevel = fighters[i].level
+      chief = fighters[i]
+    }
+  }
+  chief.isChief = true
+}
+
+export const formatItemTitle = (item, level) => {
+  if (item.maxLevel) return `${item.title} (${level})`
+  return item.title
+}

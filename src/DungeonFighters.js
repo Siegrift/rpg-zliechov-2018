@@ -31,7 +31,7 @@ import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
 import { items } from './items'
 import { fighterSpells } from './spells'
-import { canUpgradeSpell } from './helpers'
+import { canUpgradeSpell, formatItemTitle } from './helpers'
 
 const styles = (theme) => ({
   wrapper: {
@@ -94,11 +94,6 @@ const styles = (theme) => ({
     justifyContent: 'space-around',
   },
 })
-
-const formatItemTitle = (item, level) => {
-  if (item.maxLevel) return `${item.title} (${level})`
-  return item.title
-}
 
 const freeAttributes = ({ level, spellLevels }) => {
   return level - spellLevels.reduce((acc, lvl) => acc + lvl, 0)
@@ -331,6 +326,7 @@ const DungeonFighters = ({
           multipleSame
           label="Predmety"
           data={items}
+          defaultLevel={1}
           placeholder="Zvoľ svoje itemy"
           value={itemIndexes.map((index, i) => ({
             index,

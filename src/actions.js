@@ -3,9 +3,8 @@ import { pick } from 'lodash'
 import { setIn } from 'imuty'
 
 import getInitialState, { createDefaultFighter } from './store/initialState'
-import { addFighter } from './helpers'
+import { addFighter, setFightersChief } from './helpers'
 import { creatureSpells } from './spells'
-import { items } from './items'
 
 const int = (strNum) => parseInt(strNum, 10)
 
@@ -47,15 +46,7 @@ export const prepareStateForFight = () => ({
       }
 
       // determine the figthters chief
-      let chief
-      let maxLevel = -1
-      for (let i = 0; i < fighters.length; i++) {
-        if (maxLevel < fighters[i].level) {
-          maxLevel = fighters[i].level
-          chief = fighters[i]
-        }
-      }
-      chief.isChief = true
+      setFightersChief(fighters)
     })
   },
 })
