@@ -14,6 +14,7 @@ import { updateValue as _updateValue } from './actions'
 import { raceImages, creatureImages } from './units'
 import { fighterSpells, creatureSpells } from './spells'
 import { items } from './items'
+import { formatItemTitle } from './helpers'
 
 const styles = (theme) => ({
   wrapper: {
@@ -90,7 +91,7 @@ const TeamView = ({
     }))
     itemData = itemIndexes.map((index, i) => ({
       ...items[index],
-      title: `${items[index].title} (${itemLevels[i]})`,
+      title: formatItemTitle(items[index], itemLevels[i]),
       isEnabled: itemCasted[i] || itemLevels[i] === 0 ? () => false : items[index].isEnabled,
     }))
   }

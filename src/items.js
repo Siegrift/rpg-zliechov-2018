@@ -1,6 +1,7 @@
-import { powerDmg, agiDmg, addFighter } from './helpers'
+import { powerDmg, agiDmg, addFighter, setFightersChief } from './helpers'
 import { RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES } from './constants'
 import { createDefaultFighter } from './store/initialState'
+import { proxyTarget } from './utils'
 
 /*
 Contains all items in a game. To add a new array look at './spells.js'.
@@ -494,5 +495,21 @@ export const items = [
       (fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK) &&
       fighter.manaPool >= 6 &&
       fighter.itemLevels[index] >= 8,
+  },
+  {
+    title: 'Neviditeľný plášť',
+    image: require('./assets/items/black_hole.jpg'),
+    onInvoke: ({ fighter, state }) => {
+      state.fighters.splice(
+        state.fighters.indexOf(fighter),
+        1,
+        // TODO: image index
+        createDefaultFighter({ nick: 'Dano drevo', race: RACES.UNIT_WITHOUT_SPELLS, imageIndex: 0 })
+      )
+      setFightersChief(state.fighters)
+    },
+    isEnabled: ({ fighter }) => {
+      return fighter.manaPool >= 3
+    },
   },
 ]
