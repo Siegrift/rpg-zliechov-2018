@@ -298,18 +298,32 @@ const DungeonFighters = ({
         <FormLabel
           component="legend"
           style={{ marginBottom: '8px' }}
-        >{`Kúzla (ostáva ${freeAttributes(fighters[selectedFighter])})`}</FormLabel>
+        >{`Kúzla (ostáva ${freeAttributes(fighters[selectedFighter])} vylepšení)`}</FormLabel>
         <ImagePanel
           data={fighterSpells[race].map((spell, i) => ({
             ...spell,
             title: `${spell.title} (${spellLevels[i]})`,
-            isEnabled: () =>
-              canUpgradeSpell(freeAttributes(fighters[selectedFighter]), i, spellLevels[i], level),
+            isEnabled: () => spellLevels[i] !== 0,
           }))}
-          withTooltip
-          onClick={(ind) => {
-            updateValue(['fighters', selectedFighter, 'spellLevels', ind], spellLevels[ind] + 1)
+          onIncrease={(ind) => {
+            if (
+              canUpgradeSpell(
+                freeAttributes(fighters[selectedFighter]),
+                ind,
+                spellLevels[ind],
+                level
+              )
+            ) {
+              updateValue(['fighters', selectedFighter, 'spellLevels', ind], spellLevels[ind] + 1)
+            }
           }}
+          onDecrease={(ind) => {
+            updateValue(
+              ['fighters', selectedFighter, 'spellLevels', ind],
+              Math.max(spellLevels[ind] - 1, 0)
+            )
+          }}
+          withTooltip
         />
         <Divider className={classes.divider} />
 
@@ -337,9 +351,16 @@ const DungeonFighters = ({
             isEnabled: () => true,
           }))}
           withTooltip
-          onClick={(ind) => {
+          hoverable={(ind) => items[itemIndexes[ind]].maxLevel}
+          onIncrease={(ind) =>
             updateValue(['fighters', selectedFighter, 'itemLevels', ind], itemLevels[ind] + 1)
-          }}
+          }
+          onDecrease={(ind) =>
+            updateValue(
+              ['fighters', selectedFighter, 'itemLevels', ind],
+              Math.max(0, itemLevels[ind] - 1)
+            )
+          }
         />
         <Divider className={classes.divider} />
 

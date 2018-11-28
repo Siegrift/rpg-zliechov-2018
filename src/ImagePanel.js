@@ -3,6 +3,7 @@ import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import Tooltip from '@material-ui/core/Tooltip'
+import Button from '@material-ui/core/Button'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { compose } from 'recompose'
@@ -79,9 +80,24 @@ const styles = (theme) => ({
     transform: 'none',
     top: '-6px',
   },
+  levelPanel: {
+    position: 'absolute',
+    top: 0,
+    '& > *': {
+      width: 30,
+      height: 30,
+      minWidth: '0 !important',
+      minHeight: '0 !important',
+      display: 'block',
+      margin: '0.3em',
+      zIndex: 3,
+    },
+  },
 })
 
 class ImagePanel extends React.Component {
+  state = { hoverIndex: -1 }
+
   render() {
     const {
       classes,
@@ -98,7 +114,11 @@ class ImagePanel extends React.Component {
       selectedFighter,
       selectedCreature,
       unclickable,
+      onIncrease,
+      onDecrease,
+      hoverable,
     } = this.props
+    const { hoverIndex } = this.state
 
     const isDisabled = (tile) => {
       return (
@@ -117,6 +137,8 @@ class ImagePanel extends React.Component {
           {data.map((tile, i) => {
             const Component = (
               <GridListTile
+                onMouseEnter={() => this.setState({ hoverIndex: i })}
+                onMouseLeave={() => this.setState({ hoverIndex: -1 })}
                 key={i}
                 classes={{
                   root: classNames(classes.tile, smallTiles && classes.smallTiles),
@@ -139,6 +161,16 @@ class ImagePanel extends React.Component {
                     [classes.overlayDisabled]: isDisabled(tile),
                   })}
                 />
+                {(!hoverable || hoverable(i)) && onIncrease && hoverIndex === i && (
+                  <div className={classes.levelPanel}>
+                    <Button variant="fab" onClick={() => onDecrease && onDecrease(i)}>
+                      -
+                    </Button>
+                    <Button variant="fab" onClick={() => onIncrease && onIncrease(i)}>
+                      +
+                    </Button>
+                  </div>
+                )}
                 {withTitle && (
                   <GridListTileBar
                     title={tile.title}
