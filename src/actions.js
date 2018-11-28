@@ -3,6 +3,7 @@ import { pick } from 'lodash'
 import { setIn } from 'imuty'
 
 import getInitialState from './store/initialState'
+import { createDefaultFighter } from './store/initialState'
 import { addFighter } from './helpers'
 import { creatureSpells } from './spells'
 
@@ -94,7 +95,7 @@ export const applyPassives = () => ({
     return produce(state, (draftState) => {
       draftState.fighters = []
       state.fighters.forEach((f, i) => {
-        addFighter(f, draftState)
+        addFighter(createDefaultFighter({...f}), draftState)
       })
     })
   },
