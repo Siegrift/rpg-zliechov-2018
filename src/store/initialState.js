@@ -14,7 +14,7 @@ const mockedState = {
       requirements: ['At least 5'],
       rewardItems: ['1', '2', '0', '0'],
       spellIndexes: [0, 1],
-      imageIndex: 3,
+      imageIndex: -1,
       buffs: {},
     },
   ],
@@ -77,7 +77,7 @@ const mockedState = {
   ],
   selectedCreature: 0,
   selectedFighter: 0,
-  page: 'assemble',
+  page: 'create',
 }
 
 export const createDefaultFighter = ({
@@ -154,7 +154,7 @@ export const createDefaultCreature = ({
     requirements: requirements || [],
     rewardItems: rewardItems || [defaultValue, defaultValue, defaultValue, defaultValue],
     spellIndexes: spellIndexes || [],
-    imageIndex: imageIndex || 0,
+    imageIndex: imageIndex || -1,
     buffs: buffs || {},
   }
 }
