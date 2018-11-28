@@ -35,6 +35,7 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusAgi += 4
     },
+    onInvoke: () => {},
   },
   // vzdusny elemental
   {
@@ -77,6 +78,7 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusPower += 5
     },
+    onInvoke: () => {},
   },
   // prilba
   {
@@ -98,6 +100,7 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusPower += 4
     },
+    onInvoke: () => {},
   },
   // luk
   {
@@ -115,6 +118,7 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusAgi += 7
     },
+    onInvoke: () => {},
   },
   // kusa
   {
@@ -132,6 +136,7 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusAgi += 5
     },
+    onInvoke: () => {},
   },
   // barla
   {
@@ -153,6 +158,7 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusInt += 5
     },
+    onInvoke: () => {},
   },
   // zezlo
   {
@@ -174,6 +180,7 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusInt += 4
     },
+    onInvoke: () => {},
   },
   // elixir zivota
   {
@@ -337,6 +344,7 @@ export const items = [
     title: 'Puška',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
+    passive: true,
     isEnabled: ({ fighter }) => {
       if (fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) {
         return true
@@ -358,6 +366,7 @@ export const items = [
     title: 'Kúzelná palička',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
+    passive: true,
     isEnabled: ({ fighter }) => {
       if (fighter.race === RACES.MAGE) {
         return true
@@ -367,7 +376,82 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusInt += 14
     },
+    onInvoke: () => {},
   },
+  // roba bieleho maga
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Róba bieleho mága',
+    type: ITEM,
+    rarity: RARITIES.UNCOMMON,
+    passive: true,
+    isEnabled: ({ fighter }) => {
+      if (fighter.race === RACES.MAGE || fighter.race === RACES.PRIEST || fighter.race === RACES.WARLOCK) {
+        return true
+      }
+      return false
+    },
+    applyAura: ({ fighter }) => {
+      fighter.bonusPower += 6
+      fighter.bonusAgi += 6
+      fighter.bonusInt += 6
+    },
+    onInvoke: () => {},
+  },
+  // elixir many
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Elixír many',
+    type: SPELL,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      return true
+    },
+    onInvoke: ({ fighter, state }) => {
+      fighter.manaPool += 20
+    },
+  },
+  // tajomny trpaslici prsten
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Tajomný trpasličí prsteň',
+    type: ITEM,
+    rarity: RARITIES.UNCOMMON,
+    passive: true,
+    ring: true,
+    isEnabled: ({ fighter }) => {
+      return true
+    },
+    applyAura: ({ fighter }) => {
+      const levels = [0, 5, 7, 10, 13, 17]
+      let numberOfRings = 0
+      for (let i = 0; i < fighter.itemIndexes.length; i++) {
+        if (items[fighter.itemIndexes[i]].ring) {
+          numberOfRings++
+        }
+      }
+      numberOfRings = Math.min(numberOfRings, 5)
+      fighter.manaPool += levels[numberOfRings]
+    },
+  },
+  // svietiaci mec
+  {
+    image: require('./assets/items/rapier.png'),
+    title: 'Svietiaci meč',
+    type: ITEM,
+    rarity: RARITIES.UNCOMMON,
+    isEnabled: ({ fighter }) => {
+      return true
+    },
+    applyAura: ({ fighter }) => {
+      fighter.bonusAgi += 8
+    },
+    onInvoke: ({ fighter, creature, state }) => {
+      agiDmg(creature, 2 * fighter.manaPool, state)
+      fighter.manaPool -= Math.ceil(fighter.manaPool / 3)
+    },
+  },
+  // emo's items
   {
     image: require('./assets/items/frostmourne.jpg'),
     title: 'Mrazivý smútok',
