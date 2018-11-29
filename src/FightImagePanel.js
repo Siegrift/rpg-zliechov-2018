@@ -207,13 +207,14 @@ class FightImagePanel extends React.Component {
     } = this.props
     const { animateIndex, itemIndex } = this.state
 
-    const isDisabled = (tile) => {
+    const isDisabled = (tile, index) => {
       return (
         tile.isEnabled &&
         !tile.isEnabled({
           fighter: fighters[selectedFighter],
           creature: creatures[selectedCreature],
           state,
+          index,
         })
       )
     }
@@ -230,7 +231,7 @@ class FightImagePanel extends React.Component {
                   tile: classNames({ [classes.passiveTile]: tile.passive }),
                 }}
                 onClick={() => {
-                  if (isCreatureView || isDisabled(tile) || tile.passive) {
+                  if (isCreatureView || isDisabled(tile, i) || tile.passive) {
                     return
                   }
                   if (tile.chooseAlly || tile.chooseEnemy || tile.chooseAttribute) {
@@ -244,7 +245,7 @@ class FightImagePanel extends React.Component {
                 <img src={tile.image} alt={tile.title || 'tile'} className={classes.image} />
                 <span
                   className={classNames(classes.overlay, {
-                    [classes.overlayDisabled]: isDisabled(tile),
+                    [classes.overlayDisabled]: isDisabled(tile, i),
                   })}
                 />
               </GridListTile>
