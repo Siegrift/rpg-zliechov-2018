@@ -1,8 +1,7 @@
 EMO+SLAVO:
 - obrazky pre rasy (mage, hunter...)
-- Fixnut vyber obrazok v create dungeon screene
 - Najst obrazky na uder, a resolvnut TODO v spells
-- Aplikovat obrazky pre itemy
+- summons images
 
 LOGIKA SPELLOV A ITEMOV:
  - spravit funkciu, ktora overuje dostatok many a level spellu

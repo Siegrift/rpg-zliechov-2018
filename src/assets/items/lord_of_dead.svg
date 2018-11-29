@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="777"
+   height="674.78375"
+   id="svg5433"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   version="1.0"
+   sodipodi:docbase="/Users/bdesham/Documents/Commons images"
+   sodipodi:docname="Sign of the Deathly Hallows (export).svg">
+  <defs
+     id="defs5435" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.90399329"
+     inkscape:cx="388.5"
+     inkscape:cy="337.39184"
+     inkscape:document-units="cm"
+     inkscape:current-layer="layer1"
+     inkscape:grid-points="true"
+     inkscape:grid-bbox="false"
+     gridspacingx="0.5cm"
+     gridspacingy="0.5cm"
+     grid_units="cm"
+     showgrid="false"
+     height="25cm"
+     width="20cm"
+     inkscape:window-width="1068"
+     inkscape:window-height="782"
+     inkscape:window-x="0"
+     inkscape:window-y="22" />
+  <metadata
+     id="metadata5438">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-84.15625,140.5338)">
+    <path
+       style="opacity:1;fill:black;fill-opacity:1;stroke:none;stroke-width:2.56080842;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 472.52571,-140.53377 L 84.15625,534.25 L 861.15625,534.25 L 472.52571,-140.53377 z M 483.0998,-81.005544 L 602.41734,126.42944 C 568.41966,102.19689 527.46228,87.201546 483.0998,85.177419 C 483.0998,21.649482 483.0998,-71.668051 483.0998,-81.005544 z M 462.2127,-80.483367 C 462.2127,-70.944272 462.2127,21.849079 462.2127,85.177419 C 418.02977,87.221055 377.21387,102.08465 343.28679,126.16835 L 462.2127,-80.483367 z M 462.2127,105.93397 C 462.2127,270.88944 462.21266,455.32238 462.2127,511.79637 C 354.90186,506.29254 269.52923,417.6147 269.52923,308.93044 C 269.52928,200.24623 354.90186,111.43776 462.2127,105.93397 z M 483.0998,105.93397 C 590.52456,111.30822 675.78327,200.1588 675.78327,308.93044 C 675.78322,417.70213 590.52456,506.42212 483.0998,511.79637 C 483.09976,455.32242 483.0998,270.88948 483.0998,105.93397 z M 695.75655,288.56552 L 824.99546,513.23236 L 564.29839,513.23236 C 642.28638,478.17245 696.67036,399.8597 696.67036,308.93044 C 696.67036,302.09827 696.35785,295.2433 695.75655,288.56552 z M 249.55595,289.0877 C 248.98423,295.59733 248.64214,302.27464 248.64214,308.93044 C 248.64214,399.8597 303.11798,478.17245 381.14466,513.23236 L 120.57812,513.23236 L 249.55595,289.0877 z "
+       id="path2785"
+       sodipodi:nodetypes="ccccccccccccccsccscccccsccsccc" />
+  </g>
+</svg>
