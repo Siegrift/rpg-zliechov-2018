@@ -8,6 +8,12 @@ to an end of the array
 
 export const creatureImages = [
   { image: require('./assets/creatures/assassin.jpeg') },
+  { image: require('./assets/creatures/kung_fu_panda.jpeg') },
+  { image: require('./assets/creatures/robot_hypno.jpeg') },
+  { image: require('./assets/creatures/minion.jpg') },
+  { image: require('./assets/creatures/mage.jpg') },
+  { image: require('./assets/creatures/imp.jpg') },
+  { image: require('./assets/creatures/casper.jpg') },
   { image: require('./assets/creatures/assassin2.jpeg') },
   { image: require('./assets/creatures/assassin3.jpg') },
   { image: require('./assets/creatures/assassins.jpeg') },
