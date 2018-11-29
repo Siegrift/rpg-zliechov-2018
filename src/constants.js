@@ -39,6 +39,7 @@ export const SUMMONS = {
   ILLUSION: 6,
   SPECTRE: 7,
   NAZGUL: 8,
+  FIRE_ELEMENTAL: 9,
   ARCHIMOND: 0,
   DIREWOLF: 0,
   ANGEL: 0,

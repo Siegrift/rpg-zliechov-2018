@@ -3,3 +3,7 @@ LOGIKA SPELLOV A ITEMOV:
  - spravit funkciu na odstranovanie jednotiek aby sa dali odstranovat aury
  - aura upravuje priamo hodnoty a nepouziva nejake funkcie co kontroluje nepodlezenie pod 0
  - uder nevie ist do zaporu
+
+ - type: SPELL zmizne po pouziti
+ - utok nema mat level
+ - vediet choosovat item
