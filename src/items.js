@@ -218,10 +218,10 @@ export const items = [
       fighter.bonusInt += levels[numberOfRings]
     },
   },
-  // cerveny ochranca
+  // cervena ochrana
   {
     image: require('./assets/items/rapier.png'),
-    title: 'Červený ochranca',
+    title: 'Červená ochrana',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     isEnabled: ({ fighter }) => {
@@ -243,10 +243,10 @@ export const items = [
       fighter.manaPool -= manaCost
     },
   },
-  // modry agresor
+  // modra agresia
   {
     image: require('./assets/items/rapier.png'),
-    title: 'Modrý agresor',
+    title: 'Modrá agresia',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     isEnabled: ({ fighter }) => {
@@ -338,10 +338,10 @@ export const items = [
       }
     },
   },
-  // puska
+  // ostep
   {
     image: require('./assets/items/rapier.png'),
-    title: 'Puška',
+    title: 'Oštep',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     isEnabled: ({ fighter }) => {
@@ -550,10 +550,10 @@ export const items = [
       addFighter(illusion, state)
     },
   },
-  // sniperka
+  // luk z dracej kosti
   {
     image: require('./assets/items/rapier.png'),
-    title: 'Sniperka',
+    title: 'Luk z dračej kosti',
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     passive: true,
@@ -691,10 +691,10 @@ export const items = [
       return false
     }
   },
-  // Black hole
+  // zemetrasenie
   {
     image: require('./assets/items/black_hole.jpg'),
-    title: 'Black hole',
+    title: 'Zemetrasenie',
     type: SPELL,
     rarity: RARITIES.ANCIENT,
     onInvoke: ({ fighter, state }) => {
@@ -707,9 +707,9 @@ export const items = [
     },
     isEnabled: ({ fighter }) => fighter.manaPool >= 20,
   },
-  // ohnivy elemental
+  // drak
   {
-    title: 'Ohnivý elementál',
+    title: 'Drak',
     image: require('./assets/items/black_hole.jpg'),
     type: SPELL,
     rarity: RARITIES.ANCIENT,
@@ -728,9 +728,9 @@ export const items = [
     },
     isEnabled: ({ fighter }) => fighter.race === RACES.WARLOCK && fighter.manaPool >= 16,
   },
-  // pizza quatro formagi
+  // odvar zivych mrtvych
   {
-    title: 'Pizza quatro formagi',
+    title: 'Odvar živých mŕtvych',
     image: require('./assets/items/black_hole.jpg'),
     type: SPELL,
     rarity: RARITIES.LEGENDARY,
@@ -739,17 +739,18 @@ export const items = [
       fighter.manaPool += 30
     },
   },
-  // amulet zufalstva
+  // mec z valyrie
   {
-    title: 'Amulet zúfalstva',
+    title: 'Meč z Valýrie',
     passive: true,
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     image: require('./assets/items/black_hole.jpg'),
-    applyAura: ({ fighter }) => {
-      fighter.bonusInt += 15
-      fighter.manaPool += 5
-    },
+    combatModifier: (fighter, attributes) => {
+      attributes.power += 20
+      attributes.agi += 15
+      return attributes
+    }
   },
   // maska sialenstva
   {
@@ -773,6 +774,10 @@ export const items = [
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     image: require('./assets/items/black_hole.jpg'),
+    applyAura: ({ creature }) => {
+      creature.rewardItems[1]++
+    },
+    isEnabled: ({}) => true
   },
   // krvavy amulet
   {

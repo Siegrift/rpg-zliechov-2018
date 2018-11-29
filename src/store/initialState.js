@@ -24,7 +24,7 @@ const mockedState = {
       type: UNIT_TYPES.FIGHTER,
       nick: 'Arabella',
       race: RACES.WARLOCK,
-      level: '5',
+      level: '9',
       power: '50',
       agi: '50',
       int: '50',
