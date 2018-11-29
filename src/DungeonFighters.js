@@ -96,7 +96,8 @@ const styles = (theme) => ({
 })
 
 const freeAttributes = ({ level, spellLevels }) => {
-  return level - spellLevels.reduce((acc, lvl) => acc + lvl, 0)
+  // NOTE: level is a string
+  return +level - spellLevels.reduce((acc, lvl) => acc + lvl, 0) + 1
 }
 
 const isSubmitDisabled = (fighters) => {
@@ -300,6 +301,7 @@ const DungeonFighters = ({
             title: `${spell.title} (${spellLevels[i]})`,
             isEnabled: () => spellLevels[i] !== 0,
           }))}
+          hoverable={(ind) => ind !== 0}
           onIncrease={(ind) => {
             if (
               canUpgradeSpell(
