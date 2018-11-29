@@ -40,6 +40,7 @@ export const SUMMONS = {
   SPECTRE: 7,
   NAZGUL: 8,
   FIRE_ELEMENTAL: 9,
+  DEATH: 10,
   ARCHIMOND: 0,
   DIREWOLF: 0,
   ANGEL: 0,

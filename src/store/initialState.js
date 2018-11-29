@@ -23,7 +23,7 @@ const mockedState = {
       id: uniqueId(),
       type: UNIT_TYPES.FIGHTER,
       nick: 'Arabella',
-      race: RACES.WARLOCK,
+      race: RACES.MAGE,
       level: '9',
       power: '50',
       agi: '50',
@@ -34,7 +34,7 @@ const mockedState = {
       manaPool: 50,
       spellLevels: [1, 2, 3, 3, 1],
       spellCasted: [false, false, false, false, false],
-      itemIndexes: [32, 33, 34, 35, 36, 37, 40],
+      itemIndexes: [28, 29, 30, 27, 26, 32, 33, 34, 35, 36, 37, 40, 41, 42],
       itemLevels: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       itemKeys: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'],
       itemCasted: [
