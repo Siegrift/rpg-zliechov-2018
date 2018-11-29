@@ -7,3 +7,14 @@ LOGIKA SPELLOV A ITEMOV:
  - type: SPELL zmizne po pouziti
  - utok nema mat level
  - vediet choosovat item
+
+
+
+ Co treba spravit:
+  - obrazky povyberat a povkladat
+  - spisat poriadne popisy itemov - done
+  - dopisat pravidla pre hracov
+  - spravit character sheety
+  - vytlacit a nastrihat itemy
+  - hlavný atribút dáva dvojnásobok damagu
+  - doimplementovat modifiere prisere

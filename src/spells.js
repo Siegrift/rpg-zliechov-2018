@@ -178,7 +178,7 @@ export const fighterSpells = [
         const pet = createDefaultFighter({
           race: RACES.HUNTERS_PET,
           imageIndex: SUMMONS.DIREWOLF,
-          nick: 'Zlovlk',
+          nick: 'Medveď',
           power: Math.ceil(fighter.power / 2),
           agi: Math.ceil(fighter.agi / 2),
           spellLevels: [0, fighter.spellLevels[3]],
@@ -422,6 +422,7 @@ export const fighterSpells = [
         const manaCost = [null, 1, 4, 8]
         const levels = [null, 4, 8, 12]
         const f = createDefaultFighter({
+          nick: 'Zombie',
           race: RACES.UNIT_WITHOUT_SPELLS,
           imageIndex: SUMMONS.ZOMBIE,
           power: levels[fighter.spellLevels[spellID]],
@@ -447,6 +448,7 @@ export const fighterSpells = [
         const levelsInt = [null, 1, 3, 5]
         const levelsAgi = [null, 3, 6, 9]
         const f = createDefaultFighter({
+          nick: 'Démon',
           race: RACES.UNIT_WITHOUT_SPELLS,
           imageIndex: SUMMONS.DEMON,
           int: levelsInt[fighter.spellLevels[spellID]],
@@ -499,6 +501,7 @@ export const fighterSpells = [
         helpers.removeFighter(chosen, state)
         //state.fighters.splice(state.fighters.indexOf(chosen), 1)
         const f = createDefaultFighter({
+          nick: 'Archimond',
           race: RACES.ARCHIMOND,
           imageIndex: SUMMONS.ARCHIMOND,
           spellLevels: [0, 1],
