@@ -31,7 +31,7 @@ import { createDefaultFighter } from './store/initialState'
 import { raceImages, addUnitImage } from './units'
 import { items } from './items'
 import { fighterSpells } from './spells'
-import { canUpgradeSpell, formatItemTitle } from './helpers'
+import { canUpgradeSpell, formatItemTitle, formatSpellTitle } from './helpers'
 
 const styles = (theme) => ({
   wrapper: {
@@ -298,7 +298,7 @@ const DungeonFighters = ({
         <ImagePanel
           data={fighterSpells[race].map((spell, i) => ({
             ...spell,
-            title: `${spell.title} (${spellLevels[i]})`,
+            title: formatSpellTitle(spell, spellLevels[i], i),
             isEnabled: () => spellLevels[i] !== 0,
           }))}
           hoverable={(ind) => ind !== 0}
