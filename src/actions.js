@@ -1,8 +1,8 @@
 import produce from 'immer'
-import { pick } from 'lodash'
+import { pick, cloneDeep } from 'lodash'
 import { setIn } from 'imuty'
 
-import getInitialState, { createDefaultFighter } from './store/initialState'
+import getInitialState from './store/initialState'
 import { addFighter, setFightersChief } from './helpers'
 import { creatureSpells } from './spells'
 
@@ -87,7 +87,7 @@ export const applyPassives = () => ({
       // add fighters using helpers
       draftState.fighters = []
       state.fighters.forEach((f, i) => {
-        addFighter(createDefaultFighter({ ...f }), draftState)
+        addFighter(cloneDeep({ ...f }), draftState)
       })
     })
   },
