@@ -809,8 +809,13 @@ export const creatureSpells = [
     image: require('./assets/creatureSpells/fireSword.png'),
     title: 'Dvojník',
     onInvoke: ({ creature, state }) => {
-      let bodyDouble = cloneDeep({...creature})
-      bodyDouble.spellIndexes = []
+      const bodyDouble = createDefaultCreature({
+        name: creature.name,
+        power: creature.power,
+        agi: creature.agi,
+        int: creature.int,
+        imageIndex: creature.imageIndex,
+      })
       state.creatures.push(bodyDouble)
     },
     desc:
@@ -820,8 +825,35 @@ export const creatureSpells = [
     image: require('./assets/creatureSpells/sacrifice.jpg'),
     title: 'Ilúzia',
     onInvoke: ({ creature, state }) => {
-      fighter.power -= 10
+      const illusion = createDefaultCreature({
+        name: 'Ilúzia ' + creature.name,
+        power: Math.ceil(creature.power / 2),
+        agi: Math.ceil(creature.agi / 2),
+        int: Math.ceil(creature.int / 2),
+        imageIndex: creature.imageIndex,
+      })
+      state.creatures.push(illusion)
     },
-    desc: 'Lorem ipsum dolor sit amet',
+    desc: 'Príšera vytvorí ilúziu s polovičnými atribútmi.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Kritický úder',
+    onInvoke: ({ creature, state }) => {
+      let minLevel = 11
+      for (const f in state.fighters) {
+        if (f.race <= LAST_HERO_INDEX && f.level < minLevel) {
+          minLevel = f.level
+        }
+      }
+      weakestHeroes = []
+      for (let i = 0; i < state.fighters.length; i++) {
+        if (state.fighters[i].race <= LAST_HERO_INDEX && state.fighters[i].level === minLevel) {
+          weakestHeroes.push(i)
+        }
+      }
+      removeFighter(state.fighters[weakestHeroes[Math.floor(Math.random() * weakestHeroes.length)]], state)
+    },
+    desc: 'Príšera vytvorí ilúziu s polovičnými atribútmi.',
   },
 ]
