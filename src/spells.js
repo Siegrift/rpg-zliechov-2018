@@ -230,9 +230,9 @@ export const fighterSpells = [
         symbiont.bonusPower += levels[fighter.spellLevels[spellID]]
         symbiont.bonusAgi += levels[fighter.spellLevels[spellID]]
         symbiont.bonusInt += levels[fighter.spellLevels[spellID]]
+        helpers.addFighter(symbiont, state)
         helpers.removeFighter(pet, state)
         helpers.removeFighter(fighter, state)
-        helpers.addFighter(symbiont, state)
       },
       isEnabled: ({ fighter, state }) => {
         const spellID = 2
