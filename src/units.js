@@ -47,6 +47,11 @@ export const raceImages = [
     { image: require('./assets/races/other/morph.jpg') },
     { image: require('./assets/races/other/morph.jpg') },
     { image: require('./assets/races/other/morph.jpg') },
+    { image: require('./assets/races/other/morph.jpg') },
+    { image: require('./assets/races/other/morph.jpg') },
+    { image: require('./assets/races/other/morph.jpg') },
+    { image: require('./assets/races/other/morph.jpg') },
+    { image: require('./assets/races/other/morph.jpg') },
   ],
   // archimond
   [{ image: require('./assets/creatures/monster2.png') }],

@@ -106,7 +106,7 @@ export const addFighter = (newFighter, state) => {
   for (let i = 0; i < newFighter.itemIndexes.length; i++) {
     if (
       items[newFighter.itemIndexes[i]].isEnabled &&
-      items[newFighter.itemIndexes[i]].isEnabled({ fighter: newFighter, index: i }) &&
+      items[newFighter.itemIndexes[i]].isEnabled({ fighter: newFighter, state, index: i }) &&
       items[newFighter.itemIndexes[i]].applyAura
     ) {
       items[newFighter.itemIndexes[i]].applyAura({ fighter: newFighter, state, index: i })
@@ -114,6 +114,7 @@ export const addFighter = (newFighter, state) => {
   }
   // add fighter to state
   state.fighters.push(newFighter)
+  setFightersChief(state.fighters)
 }
 
 export const removeFighter = (removedFighter, state) => {
@@ -137,6 +138,7 @@ export const removeFighter = (removedFighter, state) => {
   }
   // remove fighter
   state.fighters.splice(state.fighters.indexOf(removedFighter), 1)
+  setFightersChief(state.fighters)
 }
 
 // Attack helpers
@@ -152,7 +154,7 @@ export const dealCombatDamage = (fighter, monster, state) => {
       attributes = spell.combatModifier(fighter, attributes, state)
     }
   }
-  for (let i = 0; i < fighter.itemIndexes; i++) {
+  for (let i = 0; i < fighter.itemIndexes.length; i++) {
     if (
       items[fighter.itemIndexes[i]].isEnabled &&
       items[fighter.itemIndexes[i]].isEnabled({ fighter, state }) &&
@@ -164,12 +166,16 @@ export const dealCombatDamage = (fighter, monster, state) => {
   powerDmg(monster, attributes.power, state)
   agiDmg(monster, attributes.agi, state)
   intDmg(monster, attributes.int, state)
+  if (fighter.buffs.willDie) {
+    removeFighter(fighter, state)
+  }
 }
 
 export const setFightersChief = (fighters) => {
   let chief
   let maxLevel = -1
   for (let i = 0; i < fighters.length; i++) {
+    fighters[i].isChief = false
     if (maxLevel < fighters[i].level) {
       maxLevel = fighters[i].level
       chief = fighters[i]
