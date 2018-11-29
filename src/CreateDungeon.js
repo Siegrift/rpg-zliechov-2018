@@ -46,11 +46,11 @@ const styles = (theme) => ({
     },
   },
   image: {
-    maxHeight: 600,
+    height: 600,
     margin: 'auto',
     maxWidth: '100%',
     [theme.breakpoints.down('lg')]: {
-      maxHeight: 400,
+      height: 400,
     },
   },
   buttonWrapper: {
