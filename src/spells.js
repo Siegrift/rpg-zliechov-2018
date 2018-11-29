@@ -8,7 +8,8 @@ import {
   UNIT_TYPES,
   FIRST_SUMMON_INDEX,
 } from './constants'
-import { createDefaultFighter } from './store/initialState'
+import { createDefaultFighter, createDefaultCreature } from './store/initialState'
+import { cloneDeep } from 'lodash'
 
 /*
 There are 2 categories of spells (fighter and creature). Both are represented as
@@ -332,7 +333,7 @@ export const fighterSpells = [
       onInvoke: ({ fighter, chosen }) => {
         const spellID = 2
         const manaCost = [null, 1, 3, 6]
-        const levels = [null, 1.5, 2, 2.5]
+        const levels = [null, 0.5, 1, 1.5]
         chosen.buffs.svatyCiel = levels[fighter.spellLevels[spellID]]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
@@ -806,17 +807,19 @@ export const fighterSpells = [
 export const creatureSpells = [
   {
     image: require('./assets/creatureSpells/fireSword.png'),
-    title: 'Fire strike',
-    onInvoke: ({ fighter }) => {
-      fighter.power -= 10
+    title: 'Dvojník',
+    onInvoke: ({ creature, state }) => {
+      let bodyDouble = cloneDeep({...creature})
+      bodyDouble.spellIndexes = []
+      state.creatures.push(bodyDouble)
     },
     desc:
-      'Fire strike has hit bla bla and this caused and immerse pain to bla bla so this resulte in this buff...',
+      'Príšera vytvorí svojho klona, ktorý má rovnaké atribúty ako ona.',
   },
   {
     image: require('./assets/creatureSpells/sacrifice.jpg'),
-    title: 'Sacrifice',
-    onInvoke: ({ fighter }) => {
+    title: 'Ilúzia',
+    onInvoke: ({ creature, state }) => {
       fighter.power -= 10
     },
     desc: 'Lorem ipsum dolor sit amet',
