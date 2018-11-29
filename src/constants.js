@@ -45,6 +45,7 @@ export const SUMMONS = {
   DIREWOLF: 0,
   ANGEL: 0,
   SYMBIONT: 0,
+  DROGON: 0,
 }
 
 export const LAST_HERO_INDEX = RACES.SYMBIONT

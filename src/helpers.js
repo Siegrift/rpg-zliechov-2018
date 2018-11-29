@@ -17,24 +17,33 @@ export const canUpgradeSpell = (freeAttr, spellIndex, spellLevel, level) => {
   return freeAttr !== 0 && spellLevel !== MAX_SPELL_LEVELS[spellIndex]
 }
 
+export const setFightersChief = (fighters) => {
+  let chief
+  let maxLevel = -1
+  for (let i = 0; i < fighters.length; i++) {
+    fighters[i].isChief = false
+    if (maxLevel < fighters[i].level) {
+      maxLevel = fighters[i].level
+      chief = fighters[i]
+    }
+  }
+  chief.isChief = true
+}
+
 // Damage helpers
 export const powerDmg = (creature, amount, state) => {
   creature.power -= amount
-  console.log(`Power${amount}`)
 }
 
 export const agiDmg = (creature, amount, state) => {
   creature.agi -= amount
-  console.log(`Agi${amount}`)
 }
 
 export const intDmg = (creature, amount, state) => {
   creature.int -= amount
-  console.log(`Int${amount}`)
 }
 
 // Enabler helpers
-
 export const levelAndManaCostEnabled = (fighter, spellID, manaCost) => {
   if (
     fighter.spellLevels[spellID] === 0 ||
@@ -124,8 +133,7 @@ export const removeFighter = (removedFighter, state) => {
       for (const spellID of fighter.buffs[removedFighter.id]) {
         fighterSpells[removedFighter.race][spellID].detachAura(fighter, removedFighter, state)
       }
-      // TODO: toto sa da urcite lepsie odtial odstranit
-      fighter.buffs[removedFighter.id] = []
+      delete fighter.buffs[removedFighter.id]
     }
   }
   // remove auras of this fighter from monsters
@@ -169,19 +177,6 @@ export const dealCombatDamage = (fighter, monster, state) => {
   if (fighter.buffs.willDie) {
     removeFighter(fighter, state)
   }
-}
-
-export const setFightersChief = (fighters) => {
-  let chief
-  let maxLevel = -1
-  for (let i = 0; i < fighters.length; i++) {
-    fighters[i].isChief = false
-    if (maxLevel < fighters[i].level) {
-      maxLevel = fighters[i].level
-      chief = fighters[i]
-    }
-  }
-  chief.isChief = true
 }
 
 export const formatItemTitle = (item, level) => {

@@ -1,7 +1,6 @@
-import { powerDmg, agiDmg, addFighter, setFightersChief, removeFighter } from './helpers'
+import { powerDmg, agiDmg, addFighter, removeFighter } from './helpers'
 import { RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES, MAX_SPELL_LEVELS } from './constants'
 import { createDefaultFighter } from './store/initialState'
-import { proxyTarget } from './utils'
 
 /*
 Contains all items in a game. To add a new array look at './spells.js'.
@@ -21,7 +20,7 @@ export const SPELL = 1
 export const items = [
   // mec
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/sword.jpg'),
     title: 'Meč',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -35,11 +34,10 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusAgi += 4
     },
-    onInvoke: () => {},
   },
   // vzdusny elemental
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/air_elemental.png'),
     title: 'Vzdušný elementál',
     type: SPELL,
     rarity: RARITIES.COMMON,
@@ -65,7 +63,7 @@ export const items = [
   },
   // stit
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/shield.jpg'),
     title: 'Štít',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -79,11 +77,10 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusPower += 5
     },
-    onInvoke: () => {},
   },
   // prilba
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/helmet.jpeg'),
     title: 'Prilba',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -101,11 +98,10 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusPower += 4
     },
-    onInvoke: () => {},
   },
   // luk
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/bow.png'),
     title: 'Luk',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -119,11 +115,10 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusAgi += 7
     },
-    onInvoke: () => {},
   },
   // kusa
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/crossbow.jpg'),
     title: 'Kuša',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -137,11 +132,10 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusAgi += 5
     },
-    onInvoke: () => {},
   },
   // barla
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/stick.jpg'),
     title: 'Barla',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -159,11 +153,10 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusInt += 5
     },
-    onInvoke: () => {},
   },
   // zezlo
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/sceptre.jpg'),
     title: 'Žezlo',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -181,11 +174,10 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusInt += 4
     },
-    onInvoke: () => {},
   },
   // elixir zivota
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/health_potion.jpg'),
     title: 'Elixír života',
     type: SPELL,
     rarity: RARITIES.COMMON,
@@ -198,7 +190,7 @@ export const items = [
   },
   // kuzelny ludsky prsten
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/magic_human_ring.jpeg'),
     title: 'Kúzelný ľudský prsteň',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -221,7 +213,8 @@ export const items = [
   },
   // cervena ochrana
   {
-    image: require('./assets/items/rapier.png'),
+    // NOTE: warning, this is a condom
+    image: require('./assets/items/red_protection.jpg'),
     title: 'Červená ochrana',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
@@ -246,7 +239,7 @@ export const items = [
   },
   // modra agresia
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/blue_aggression.jpg'),
     title: 'Modrá agresia',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
@@ -271,7 +264,7 @@ export const items = [
   },
   // vodny elemental
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/water_elemental.jpeg'),
     title: 'Vodný elementál',
     type: SPELL,
     rarity: RARITIES.UNCOMMON,
@@ -304,7 +297,7 @@ export const items = [
   },
   // motlidba
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/pray.png'),
     title: 'Motlitba',
     type: SPELL,
     rarity: RARITIES.UNCOMMON,
@@ -321,7 +314,7 @@ export const items = [
   },
   // zvitok naplnenia
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/scroll_of_filling.png'),
     title: 'Zvitok naplnenia',
     type: SPELL,
     rarity: RARITIES.UNCOMMON,
@@ -342,7 +335,7 @@ export const items = [
   },
   // ostep
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/spear.png'),
     title: 'Oštep',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
@@ -363,7 +356,7 @@ export const items = [
   },
   // kuzelna palicka
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/magic_wand.jpg'),
     title: 'Kúzelná palička',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
@@ -377,17 +370,20 @@ export const items = [
     applyAura: ({ fighter }) => {
       fighter.bonusInt += 14
     },
-    onInvoke: () => {},
   },
   // roba bieleho maga
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/white_mage_robe.jpg'),
     title: 'Róba bieleho mága',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     passive: true,
     isEnabled: ({ fighter }) => {
-      if (fighter.race === RACES.MAGE || fighter.race === RACES.PRIEST || fighter.race === RACES.WARLOCK) {
+      if (
+        fighter.race === RACES.MAGE ||
+        fighter.race === RACES.PRIEST ||
+        fighter.race === RACES.WARLOCK
+      ) {
         return true
       }
       return false
@@ -397,11 +393,10 @@ export const items = [
       fighter.bonusAgi += 6
       fighter.bonusInt += 6
     },
-    onInvoke: () => {},
   },
   // elixir many
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/mana_potion.jpg'),
     title: 'Elixír many',
     type: SPELL,
     rarity: RARITIES.UNCOMMON,
@@ -414,7 +409,7 @@ export const items = [
   },
   // tajomny trpaslici prsten
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/mysterious_dwarf_ring.jpeg'),
     title: 'Tajomný trpasličí prsteň',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
@@ -424,7 +419,6 @@ export const items = [
       return true
     },
     applyAura: ({ fighter }) => {
-      const levels = [0, 0, 1, 1, 2, 2]
       let numberOfRings = 0
       for (let i = 0; i < fighter.itemIndexes.length; i++) {
         if (items[fighter.itemIndexes[i]].ring) {
@@ -433,21 +427,23 @@ export const items = [
       }
       numberOfRings = Math.min(numberOfRings, 5)
       for (let i = 0; i < numberOfRings; i++) {
-        let upgradableSpells = []
+        const upgradableSpells = []
         for (let j = 0; j < fighter.spellLevels.length; j++) {
           if (fighter.spellLevels[j] < MAX_SPELL_LEVELS[j]) {
             upgradableSpells.push(j)
           }
         }
         if (upgradableSpells.length > 0) {
-          fighter.spellLevels[upgradableSpells[Math.floor(Math.random() * upgradableSpells.length)]]++
+          fighter.spellLevels[
+            upgradableSpells[Math.floor(Math.random() * upgradableSpells.length)]
+          ]++
         }
       }
     },
   },
   // svietiaci mec
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/lightning_sword.jpg'),
     title: 'Svietiaci meč',
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
@@ -464,7 +460,7 @@ export const items = [
   },
   // necronomicon
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/necronomicon.jpg'),
     title: 'Necronomicon',
     type: SPELL,
     rarity: RARITIES.LEGENDARY,
@@ -488,7 +484,7 @@ export const items = [
   },
   // golemov sem
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/golem_boss.jpg'),
     title: 'Golemov šém',
     type: SPELL,
     rarity: RARITIES.LEGENDARY,
@@ -512,7 +508,7 @@ export const items = [
   },
   // polymorph
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/polymorph.jpeg'),
     title: 'Polymorph',
     type: SPELL,
     rarity: RARITIES.LEGENDARY,
@@ -531,7 +527,7 @@ export const items = [
   },
   // iluzionista
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/illusionist.jpg'),
     title: 'Iluzionista',
     type: SPELL,
     rarity: RARITIES.LEGENDARY,
@@ -545,7 +541,7 @@ export const items = [
       const illusion = createDefaultFighter({
         race: RACES.UNIT_WITHOUT_SPELLS,
         imageIndex: SUMMONS.ILLUSION,
-        nick: 'Ilúzia ' + fighter.nick,
+        nick: `Ilúzia ${fighter.nick}`,
         power: Math.ceil(fighter.power / 2),
         agi: Math.ceil(fighter.agi / 2),
         int: Math.ceil(fighter.int / 2),
@@ -556,7 +552,7 @@ export const items = [
   },
   // luk z dracej kosti
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/dragon_bow.png'),
     title: 'Luk z dračej kosti',
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
@@ -576,11 +572,10 @@ export const items = [
       }
       return attributes
     },
-    onInvoke: () => {},
   },
   // klonovanie
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/cloning.jpeg'),
     title: 'Klonovanie',
     type: SPELL,
     rarity: RARITIES.ANCIENT,
@@ -608,21 +603,23 @@ export const items = [
   },
   // kamen ozivenia
   {
-    image: require('./assets/items/frostmourne.jpg'),
+    image: require('./assets/items/reincarnation_stone.jpeg'),
     title: 'Kameň oživenia',
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     maxLevel: 10000000,
     hallows: 'stone',
     isEnabled: ({ fighter, index }) => {
-      if ((fighter.race === RACES.WARLOCK || fighter.race === RACES.MAGE) &&
-        fighter.manaPool >= 3 && fighter.itemLevels[index] >= 9) {
+      if (
+        (fighter.race === RACES.WARLOCK || fighter.race === RACES.MAGE) &&
+        fighter.manaPool >= 3 &&
+        fighter.itemLevels[index] >= 9
+      ) {
         return true
       }
       return false
     },
     onInvoke: ({ fighter, index, state }) => {
-      const level = fighter.itemLevels[index]
       const spectre = createDefaultFighter({
         nick: 'Prízrak',
         race: RACES.UNIT_WITHOUT_SPELLS,
@@ -639,7 +636,7 @@ export const items = [
   },
   // prsten moci
   {
-    image: require('./assets/items/frostmourne.jpg'),
+    image: require('./assets/items/ring_of_power.jpeg'),
     title: 'Prsteň moci',
     type: ITEM,
     ring: true,
@@ -660,7 +657,7 @@ export const items = [
         int: 16,
       })
       addFighter(nazgul, state)
-    }
+    },
   },
   // mrazivy smutok
   {
@@ -690,15 +687,18 @@ export const items = [
       return attributes
     },
     isEnabled: ({ fighter, state }) => {
-      if ((fighter.race === RACES.HUNTER || fighter.race === RACES.WARRIOR) && state.fighters.length > 1) {
+      if (
+        (fighter.race === RACES.HUNTER || fighter.race === RACES.WARRIOR) &&
+        state.fighters.length > 1
+      ) {
         return true
       }
       return false
-    }
+    },
   },
   // zemetrasenie
   {
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/earthquake.jpg'),
     title: 'Zemetrasenie',
     type: SPELL,
     rarity: RARITIES.ANCIENT,
@@ -714,8 +714,8 @@ export const items = [
   },
   // drak
   {
-    title: 'Drak',
-    image: require('./assets/items/black_hole.jpg'),
+    title: 'Vytvorenie draka',
+    image: require('./assets/items/summon_dragon.jpg'),
     type: SPELL,
     rarity: RARITIES.ANCIENT,
     onInvoke: ({ fighter, state }) => {
@@ -724,9 +724,9 @@ export const items = [
         agiDmg(monster, 20, state)
       })
       const fireElemental = createDefaultFighter({
-        nick: 'Ohnivý elementál',
+        nick: 'Drogon',
         race: RACES.UNIT_WITHOUT_SPELLS,
-        imageIndex: SUMMONS.FIRE_ELEMENTAL,
+        imageIndex: SUMMONS.DROGON,
         agi: 15,
       })
       addFighter(fireElemental, state)
@@ -736,7 +736,7 @@ export const items = [
   // odvar zivych mrtvych
   {
     title: 'Odvar živých mŕtvych',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/dead_alive_potion.jpeg'),
     type: SPELL,
     rarity: RARITIES.LEGENDARY,
     onInvoke: ({ fighter }) => {
@@ -747,15 +747,15 @@ export const items = [
   // mec z valyrie
   {
     title: 'Meč z Valýrie',
+    image: require('./assets/items/valeryan_sword.jpeg'),
     passive: true,
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
-    image: require('./assets/items/black_hole.jpg'),
     combatModifier: (fighter, attributes) => {
       attributes.power += 20
       attributes.agi += 15
       return attributes
-    }
+    },
   },
   // maska sialenstva
   {
@@ -763,7 +763,7 @@ export const items = [
     passive: true,
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/mask_of_maddness.png'),
     applyAura: ({ fighter }) => {
       fighter.bonusPower += 10
       fighter.bonusAgi += 10
@@ -778,16 +778,15 @@ export const items = [
     passive: true,
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/midas.jpg'),
     applyAura: ({ state }) => {
       state.creatures[0].rewardItems[RARITIES.UNCOMMON]++
     },
-    isEnabled: ({}) => true
   },
   // krvavy amulet
   {
     title: 'Krvavý amulet',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/red_amulet.jpg'),
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     onInvoke: ({ fighter }) => {
@@ -799,12 +798,12 @@ export const items = [
   // bronnov elfsky prsten
   {
     title: 'Bronnov elfský prsteň',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/bronn_elf_ring.jpeg'),
     passive: true,
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     ring: true,
-     applyAura: ({ fighter }) => {
+    applyAura: ({ fighter }) => {
       const levels = [0, 8, 10, 13, 17, 22]
       let numberOfRings = 0
       for (let i = 0; i < fighter.itemIndexes.length; i++) {
@@ -823,7 +822,7 @@ export const items = [
   // obr obnovenia
   {
     title: 'Orb obnovenia',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/refresher.jpg'),
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     onInvoke: ({ fighter }) => {
@@ -839,7 +838,7 @@ export const items = [
   // neviditelny plast
   {
     title: 'Neviditeľný plášť',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/invisible_cloak.jpeg'),
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     hallows: 'cloak',
@@ -865,17 +864,19 @@ export const items = [
     passive: true,
     type: ITEM,
     rarity: RARITIES.ANCIENT,
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/elder_wand.jpg'),
     hallows: 'wand',
     combatModifier: (fighter, attributes) => {
-      let refreshableSpells = []
+      const refreshableSpells = []
       for (let i = 1; i < fighter.spellLevels.length; i++) {
         if (fighter.spellCasted[i]) {
           refreshableSpells.push(i)
         }
       }
       if (refreshableSpells.length > 0) {
-        fighter.spellCasted[refreshableSpells[Math.floor(Math.random() * refreshableSpells.length)]] = false
+        fighter.spellCasted[
+          refreshableSpells[Math.floor(Math.random() * refreshableSpells.length)]
+        ] = false
       }
       if (Math.random() < 0.5) {
         fighter.spellCasted[0] = false
@@ -891,7 +892,7 @@ export const items = [
   // pan smrti
   {
     title: 'Pán smrti',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/lord_of_dead.svg'),
     type: SPELL,
     rarity: RARITIES.ANCIENT,
     onInvoke: ({ fighter, state }) => {
@@ -906,13 +907,12 @@ export const items = [
       addFighter(death, state)
     },
     isEnabled: ({ fighter }) => {
-      let hallows = []
+      const hallows = []
       for (let i = 0; i < fighter.itemIndexes.length; i++) {
         if (items[fighter.itemIndexes[i]].hallows) {
           hallows.push(items[fighter.itemIndexes[i]].hallows)
         }
       }
-      console.log(hallows)
       if (hallows.includes('cloak') && hallows.includes('stone') && hallows.includes('wand')) {
         return true
       }

@@ -61,14 +61,14 @@ export const fighterSpells = [
   // mage
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_mag.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/quas.png'),
+      image: require('./assets/spells/mag_ohniva_gula.jpg'),
       title: 'Ohnivá guľa',
       onInvoke: ({ fighter, creature, state }) => {
         const spellID = 1
@@ -91,7 +91,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/mag_ocista.jpg'),
       title: 'Očista',
       onInvoke: ({ fighter, creature, state }) => {
         const spellID = 2
@@ -115,7 +115,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/exort.png'),
+      image: require('./assets/spells/mag_tornado.jpg'),
       title: 'Tornádo',
       onInvoke: ({ fighter, creature, state }) => {
         const spellID = 3
@@ -138,7 +138,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/invoke.jpg'),
+      image: require('./assets/spells/mag_multicast3.jpg'),
       title: 'Multicast',
       passive: true,
       generateMulticast: (fighter) => {
@@ -161,14 +161,14 @@ export const fighterSpells = [
   // hunter
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_lovec.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/lovec_vyvolaj_medveda.jpg'),
       title: 'Zvierací spoločník',
       chooseAttribute: [true, true, false],
       onInvoke: ({ fighter, state, attribute }) => {
@@ -200,7 +200,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/lovec_symbioza.jpg'),
       title: 'Symbióza',
       onInvoke: ({ fighter, state }) => {
         const spellID = 2
@@ -252,7 +252,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/lovec_kriticky_uder.jpg'),
       title: 'Kritický úder',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -273,7 +273,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/lovec_presna_muska2.png'),
       title: 'Presná muška',
       chooseAttribute: [true, true, true],
       onInvoke: ({ fighter, creature, attribute }) => {
@@ -299,14 +299,14 @@ export const fighterSpells = [
   // priest
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_knaz.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/quas.png'),
+      image: require('./assets/spells/knaz_ladove_objatie.jpg'),
       title: 'Ľadové objatie',
       chooseAlly: CHOOSE.OTHER_HERO,
       onInvoke: ({ fighter, chosen }) => {
@@ -328,7 +328,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/quas.png'),
+      image: require('./assets/spells/knaz_ciel5.jpg'),
       title: 'Svätý cieľ',
       chooseAlly: CHOOSE.OTHER_UNIT,
       onInvoke: ({ fighter, chosen }) => {
@@ -345,7 +345,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/quas.png'),
+      image: require('./assets/spells/knaz_pozehnanie2.jpg'),
       title: 'Aura požehnania',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -379,7 +379,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/quas.png'),
+      image: require('./assets/spells/knaz_strazny_anjel2.jpg'),
       title: 'Strážny anjel',
       onInvoke: ({ fighter, state }) => {
         const spellID = 4
@@ -408,14 +408,14 @@ export const fighterSpells = [
   // warlock
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_warlock.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/exort.png'),
+      image: require('./assets/spells/cernoknaznik_zombie.jpg'),
       title: 'Vyvolaj zombie',
       onInvoke: ({ fighter, creature, state }) => {
         const spellID = 1
@@ -439,7 +439,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/exort.png'),
+      image: require('./assets/spells/cernoknaznik_demon.jpg'),
       title: 'Vyvolaj démona',
       onInvoke: ({ fighter, monster, state }) => {
         const spellID = 2
@@ -465,7 +465,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/exort.png'),
+      image: require('./assets/spells/cernoknaznik_obeta.jpg'),
       title: 'Krvavá obeta',
       passive: true,
       manaDiscount: (fighter, manaCost) => {
@@ -489,7 +489,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/exort.png'),
+      image: require('./assets/spells/cernoknaznik_archimond.jpg'),
       title: 'Vyvolaj Archimonda',
       chooseAlly: CHOOSE.UNIT,
       onInvoke: ({ fighter, state, chosen }) => {
@@ -522,14 +522,14 @@ export const fighterSpells = [
   // warrior
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_bojovnik.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/invoke.jpg'),
+      image: require('./assets/spells/bojovnik_vzrusenie_z_boja3.jpg'),
       title: 'Vzrušenie z boja',
       onInvoke: ({ fighter }) => {
         const levels = [null, 2, 2.5, 3]
@@ -545,7 +545,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/invoke.jpg'),
+      image: require('./assets/spells/bojovnik_posilnenie.jpg'),
       title: 'Posilnenie',
       onInvoke: ({ fighter }) => {
         const levels = [null, 3, 6, 9]
@@ -567,7 +567,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/invoke.jpg'),
+      image: require('./assets/spells/bojovnik_sebavedomie.jpg'),
       title: 'Zdravé sebavedomie',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -599,7 +599,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/invoke.jpg'),
+      image: require('./assets/spells/bojovnik_pokrik.jpg'),
       title: 'Bojový pokrik',
       onInvoke: ({ fighter, creature, state }) => {
         const spellID = 4
@@ -620,14 +620,14 @@ export const fighterSpells = [
   // symbiont
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_symbiont.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/lovec_kriticky_uder.jpg'),
       title: 'Kritický úder',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -648,7 +648,7 @@ export const fighterSpells = [
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/lovec_presna_muska2.png'),
       title: 'Presná muška',
       chooseAttribute: [true, true, true],
       onInvoke: ({ fighter, creature, attribute }) => {
@@ -674,7 +674,7 @@ export const fighterSpells = [
   // summon without spells
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_generic.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -684,14 +684,14 @@ export const fighterSpells = [
   // Archimond
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_archimond.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/invoke.jpg'),
+      image: require('./assets/spells/plague.jpg'),
       title: 'Morová nákaza',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -726,14 +726,14 @@ export const fighterSpells = [
   // hunter's pet
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/uder_hunters_pet.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/spells/wex.png'),
+      image: require('./assets/spells/critical_strike.jpg'),
       title: 'Kritický úder',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -757,14 +757,14 @@ export const fighterSpells = [
   // guardian angel
   [
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/angel_stike.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      image: require('./assets/creatureSpells/hidan.png'),
+      image: require('./assets/spells/divine_aura.jpg'),
       title: 'Božia aura požehnania',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -811,15 +811,6 @@ export const creatureSpells = [
     },
     desc:
       'Fire strike has hit bla bla and this caused and immerse pain to bla bla so this resulte in this buff...',
-  },
-  {
-    image: require('./assets/creatureSpells/hidan.png'),
-    title: 'Hidan',
-    onInvoke: ({ fighter }) => {
-      fighter.power -= 10
-    },
-    desc:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Turpis in eu mi bibendum neque egestas. Vel fringilla est ullamcorper eget nu',
   },
   {
     image: require('./assets/creatureSpells/sacrifice.jpg'),
