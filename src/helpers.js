@@ -9,9 +9,14 @@ By convention, the function receives three params
 WHAT TO HANDLE:
 - creature cannot go bellow 0
 */
+import { cloneDeep } from 'lodash'
 import { creatureSpells, fighterSpells } from './spells'
 import { items } from './items'
 import { MAX_SPELL_LEVELS } from './constants'
+
+export const proxyTarget = (proxy) => {
+  return cloneDeep(proxy)
+}
 
 export const canUpgradeSpell = (freeAttr, spellIndex, spellLevel, level) => {
   return freeAttr !== 0 && spellLevel !== MAX_SPELL_LEVELS[spellIndex]
@@ -32,15 +37,15 @@ export const setFightersChief = (fighters) => {
 
 // Damage helpers
 export const powerDmg = (creature, amount, state) => {
-  creature.power -= amount
+  creature.power -= Math.min(amount, creature.power)
 }
 
 export const agiDmg = (creature, amount, state) => {
-  creature.agi -= amount
+  creature.agi -= Math.min(amount, creature.agi)
 }
 
 export const intDmg = (creature, amount, state) => {
-  creature.int -= amount
+  creature.int -= Math.min(amount, creature.int)
 }
 
 // Enabler helpers
@@ -182,4 +187,9 @@ export const dealCombatDamage = (fighter, monster, state) => {
 export const formatItemTitle = (item, level) => {
   if (item.maxLevel) return `${item.title} (${level})`
   return item.title
+}
+
+export const formatSpellTitle = (spell, level, i) => {
+  if (i === 0) return spell.title
+  return `${spell.title} (${level})`
 }

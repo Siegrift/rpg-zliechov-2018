@@ -9,8 +9,6 @@ import {
   FIRST_SUMMON_INDEX,
 } from './constants'
 import { createDefaultFighter } from './store/initialState'
-// eslint-disable-next-line
-import { proxyTarget } from './utils'
 
 /*
 There are 2 categories of spells (fighter and creature). Both are represented as
@@ -181,7 +179,7 @@ export const fighterSpells = [
           nick: 'Medveď',
           power: Math.ceil(fighter.power / 2),
           agi: Math.ceil(fighter.agi / 2),
-          spellLevels: [0, fighter.spellLevels[3]],
+          spellLevels: [1, fighter.spellLevels[3]],
           spellCasted: [false, false],
         })
         if (attribute === ATTRIBUTES.POWER) {
@@ -215,7 +213,7 @@ export const fighterSpells = [
         }
         const symbiont = createDefaultFighter({
           race: RACES.SYMBIONT,
-          spellLevels: [0, fighter.spellLevels[3], fighter.spellLevels[4]],
+          spellLevels: [1, fighter.spellLevels[3], fighter.spellLevels[4]],
           spellCasted: [fighter.spellCasted[0], false, fighter.spellCasted[4]],
           imageIndex: SUMMONS.SYMBIONT,
           nick: fighter.nick,
@@ -387,7 +385,7 @@ export const fighterSpells = [
         const angel = createDefaultFighter({
           race: RACES.GUARDIAN_ANGEL,
           imageIndex: SUMMONS.ANGEL,
-          spellLevels: [0, fighter.spellLevels[3]],
+          spellLevels: [1, fighter.spellLevels[3]],
           spellCasted: [false, false],
           nick: 'Strážny anjel',
           power: fighter.power,
@@ -504,7 +502,7 @@ export const fighterSpells = [
           nick: 'Archimond',
           race: RACES.ARCHIMOND,
           imageIndex: SUMMONS.ARCHIMOND,
-          spellLevels: [0, 1],
+          spellLevels: [1, 1],
           power: attributes,
           int: attributes,
           agi: attributes,

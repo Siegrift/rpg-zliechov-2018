@@ -14,7 +14,7 @@ import { updateValue as _updateValue } from './actions'
 import { raceImages, creatureImages } from './units'
 import { fighterSpells, creatureSpells } from './spells'
 import { items } from './items'
-import { formatItemTitle } from './helpers'
+import { formatItemTitle, formatSpellTitle } from './helpers'
 
 const styles = (theme) => ({
   wrapper: {
@@ -86,7 +86,7 @@ const TeamView = ({
 
     spellData = fighterSpells[race].map((spell, i) => ({
       ...spell,
-      title: `${spell.title} (${spellLevels[i]})`,
+      title: formatSpellTitle(spell, spellLevels[i], i),
       isEnabled: spellCasted[i] || spellLevels[i] === 0 ? () => false : spell.isEnabled,
     }))
     itemData = itemIndexes.map((index, i) => ({
@@ -195,7 +195,8 @@ const TeamView = ({
                   attribute,
                   index: ind,
                 })
-              })
+              }),
+              'Invoke spell'
             )
           }}
         />
