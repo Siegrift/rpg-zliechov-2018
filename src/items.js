@@ -1,7 +1,6 @@
-import { powerDmg, agiDmg, addFighter, setFightersChief, removeFighter } from './helpers'
+import { powerDmg, agiDmg, addFighter, removeFighter } from './helpers'
 import { RACES, LAST_HERO_INDEX, SUMMONS, ATTRIBUTES, MAX_SPELL_LEVELS } from './constants'
 import { createDefaultFighter } from './store/initialState'
-import { proxyTarget } from './utils'
 
 /*
 Contains all items in a game. To add a new array look at './spells.js'.
@@ -21,7 +20,7 @@ export const SPELL = 1
 export const items = [
   // mec
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/barla.jpg'),
     title: 'Meč',
     type: ITEM,
     rarity: RARITIES.COMMON,
@@ -39,7 +38,7 @@ export const items = [
   },
   // vzdusny elemental
   {
-    image: require('./assets/items/rapier.png'),
+    image: require('./assets/items/barla.jpg'),
     title: 'Vzdušný elementál',
     type: SPELL,
     rarity: RARITIES.COMMON,
@@ -799,12 +798,12 @@ export const items = [
   // bronnov elfsky prsten
   {
     title: 'Bronnov elfský prsteň',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/bronn_elf_ring.jpeg'),
     passive: true,
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     ring: true,
-     applyAura: ({ fighter }) => {
+    applyAura: ({ fighter }) => {
       const levels = [0, 8, 10, 13, 17, 22]
       let numberOfRings = 0
       for (let i = 0; i < fighter.itemIndexes.length; i++) {
@@ -823,7 +822,7 @@ export const items = [
   // obr obnovenia
   {
     title: 'Orb obnovenia',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/refresher.jpg'),
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     onInvoke: ({ fighter }) => {
@@ -839,7 +838,7 @@ export const items = [
   // neviditelny plast
   {
     title: 'Neviditeľný plášť',
-    image: require('./assets/items/black_hole.jpg'),
+    image: require('./assets/items/invisible_cloak.jpeg'),
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
     hallows: 'cloak',
