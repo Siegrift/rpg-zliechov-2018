@@ -54,6 +54,7 @@ export const items = [
     },
     onInvoke: ({ fighter, state }) => {
       const elemental = createDefaultFighter({
+        nick: 'Vzdušný elementál',
         race: RACES.UNIT_WITHOUT_SPELLS,
         imageIndex: SUMMONS.AIR_ELEMENTAL,
         agi: 2,
@@ -288,6 +289,7 @@ export const items = [
     },
     onInvoke: ({ fighter, state, attribute }) => {
       const elemental = createDefaultFighter({
+        nick: 'Vodný elementál',
         race: RACES.UNIT_WITHOUT_SPELLS,
         imageIndex: SUMMONS.WATER_ELEMENTAL,
       })
@@ -474,6 +476,7 @@ export const items = [
     },
     onInvoke: ({ fighter, state, attribute }) => {
       const demonWarrior = createDefaultFighter({
+        nick: 'Kostlivec',
         race: RACES.UNIT_WITHOUT_SPELLS,
         imageIndex: SUMMONS.DEMON_WARRIOR,
         power: 12,
@@ -497,6 +500,7 @@ export const items = [
     },
     onInvoke: ({ fighter, state }) => {
       const golem = createDefaultFighter({
+        nick: 'Golem',
         race: RACES.UNIT_WITHOUT_SPELLS,
         imageIndex: SUMMONS.GOLEM,
         power: 20,
@@ -609,6 +613,7 @@ export const items = [
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     maxLevel: 10000000,
+    hallows: 'stone',
     isEnabled: ({ fighter, index }) => {
       if ((fighter.race === RACES.WARLOCK || fighter.race === RACES.MAGE) &&
         fighter.manaPool >= 3 && fighter.itemLevels[index] >= 9) {
@@ -619,6 +624,7 @@ export const items = [
     onInvoke: ({ fighter, index, state }) => {
       const level = fighter.itemLevels[index]
       const spectre = createDefaultFighter({
+        nick: 'Prízrak',
         race: RACES.UNIT_WITHOUT_SPELLS,
         imageIndex: SUMMONS.SPECTRE,
         power: 13,
@@ -628,8 +634,6 @@ export const items = [
       addFighter(spectre, state)
       fighter.manaPool -= 3
       fighter.itemLevels[index] -= 8
-    },
-    onAfterInvoke: ({ fighter, index }) => {
       fighter.itemCasted[index] = false
     },
   },
@@ -648,6 +652,7 @@ export const items = [
     },
     onInvoke: ({ fighter, state }) => {
       const nazgul = createDefaultFighter({
+        nick: 'Nazgûl',
         race: RACES.UNIT_WITHOUT_SPELLS,
         imageIndex: SUMMONS.NAZGUL,
         power: 16,
@@ -774,8 +779,8 @@ export const items = [
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     image: require('./assets/items/black_hole.jpg'),
-    applyAura: ({ creature }) => {
-      creature.rewardItems[1]++
+    applyAura: ({ state }) => {
+      state.creatures[0].rewardItems[RARITIES.UNCOMMON]++
     },
     isEnabled: ({}) => true
   },
@@ -831,11 +836,13 @@ export const items = [
         fighter.race === RACES.WARLOCK) &&
       fighter.manaPool >= 6,
   },
+  // neviditelny plast
   {
     title: 'Neviditeľný plášť',
     image: require('./assets/items/black_hole.jpg'),
     type: ITEM,
     rarity: RARITIES.UNCOMMON,
+    hallows: 'cloak',
     onInvoke: ({ fighter, state }) => {
       removeFighter(fighter, state)
     },
@@ -847,6 +854,66 @@ export const items = [
         }
       }
       if (fighter.manaPool >= 3 && numberOfHeroes > 1) {
+        return true
+      }
+      return false
+    },
+  },
+  // bazovy prutik
+  {
+    title: 'Bazový prútik',
+    passive: true,
+    type: ITEM,
+    rarity: RARITIES.ANCIENT,
+    image: require('./assets/items/black_hole.jpg'),
+    hallows: 'wand',
+    combatModifier: (fighter, attributes) => {
+      let refreshableSpells = []
+      for (let i = 1; i < fighter.spellLevels.length; i++) {
+        if (fighter.spellCasted[i]) {
+          refreshableSpells.push(i)
+        }
+      }
+      if (refreshableSpells.length > 0) {
+        fighter.spellCasted[refreshableSpells[Math.floor(Math.random() * refreshableSpells.length)]] = false
+      }
+      if (Math.random() < 0.5) {
+        fighter.spellCasted[0] = false
+      }
+      return attributes
+    },
+    applyAura: ({ fighter }) => {
+      fighter.bonusInt += 10
+      fighter.manaPool += 10
+    },
+    isEnabled: ({ fighter }) => fighter.race === RACES.MAGE || fighter.race === RACES.PRIEST,
+  },
+  // pan smrti
+  {
+    title: 'Pán smrti',
+    image: require('./assets/items/black_hole.jpg'),
+    type: SPELL,
+    rarity: RARITIES.ANCIENT,
+    onInvoke: ({ fighter, state }) => {
+      const death = createDefaultFighter({
+        nick: 'Smrť',
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.DEATH,
+        power: 10,
+        agi: 40,
+        int: 40,
+      })
+      addFighter(death, state)
+    },
+    isEnabled: ({ fighter }) => {
+      let hallows = []
+      for (let i = 0; i < fighter.itemIndexes.length; i++) {
+        if (items[fighter.itemIndexes[i]].hallows) {
+          hallows.push(items[fighter.itemIndexes[i]].hallows)
+        }
+      }
+      console.log(hallows)
+      if (hallows.includes('cloak') && hallows.includes('stone') && hallows.includes('wand')) {
         return true
       }
       return false

@@ -162,6 +162,7 @@ const TeamView = ({
                 updateValue(
                   [],
                   produce(state, (draftState) => {
+                    draftState.fighters[selectedFighter].spellCasted[ind] = true
                     spellData[ind].onInvoke({
                       fighter: draftState.fighters[selectedFighter],
                       creature: draftState.creatures[selectedCreature],
@@ -170,7 +171,6 @@ const TeamView = ({
                       attribute,
                       index: ind,
                     })
-                    draftState.fighters[selectedFighter].spellCasted[ind] = true
                   })
                 )
               }}
@@ -186,6 +186,7 @@ const TeamView = ({
             updateValue(
               [],
               produce(state, (draftState) => {
+                draftState.fighters[selectedFighter].itemCasted[ind] = true
                 itemData[ind].onInvoke({
                   fighter: draftState.fighters[selectedFighter],
                   creature: draftState.creatures[selectedCreature],
@@ -194,17 +195,6 @@ const TeamView = ({
                   attribute,
                   index: ind,
                 })
-                draftState.fighters[selectedFighter].itemCasted[ind] = true
-                if (itemData[ind].onAfterInvoke) {
-                  itemData[ind].onAfterInvoke({
-                    fighter: draftState.fighters[selectedFighter],
-                    creature: draftState.creatures[selectedCreature],
-                    state: draftState,
-                    chosen: draftState[isCreatureView ? 'creatures' : 'fighters'][chosenIndex],
-                    attribute,
-                    index: ind,
-                  })
-                }
               })
             )
           }}
