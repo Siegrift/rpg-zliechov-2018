@@ -61,8 +61,7 @@ export const fighterSpells = [
   // mage
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_mag.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -162,8 +161,7 @@ export const fighterSpells = [
   // hunter
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_lovec.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -301,8 +299,7 @@ export const fighterSpells = [
   // priest
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_knaz.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -411,8 +408,7 @@ export const fighterSpells = [
   // warlock
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_warlock.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -526,8 +522,7 @@ export const fighterSpells = [
   // warrior
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_bojovnik.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -625,8 +620,7 @@ export const fighterSpells = [
   // symbiont
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_symbiont.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -680,8 +674,7 @@ export const fighterSpells = [
   // summon without spells
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_generic.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
@@ -691,16 +684,14 @@ export const fighterSpells = [
   // Archimond
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_archimond.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/plague.jpg'),
       title: 'Morová nákaza',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -735,16 +726,14 @@ export const fighterSpells = [
   // hunter's pet
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/uder_hunters_pet.png'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/critical_strike.jpg'),
       title: 'Kritický úder',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -768,16 +757,14 @@ export const fighterSpells = [
   // guardian angel
   [
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/angel_stike.jpg'),
       title: 'Úder',
       onInvoke: ({ fighter, creature, state }) => {
         helpers.dealCombatDamage(fighter, creature, state)
       },
     },
     {
-      // TODO: better image
-      image: require('./assets/spells/TODO.jpeg'),
+      image: require('./assets/spells/divine_aura.jpg'),
       title: 'Božia aura požehnania',
       passive: true,
       isEnabled: ({ fighter }) => {
@@ -824,16 +811,6 @@ export const creatureSpells = [
     },
     desc:
       'Fire strike has hit bla bla and this caused and immerse pain to bla bla so this resulte in this buff...',
-  },
-  {
-    // TODO: better image
-    image: require('./assets/spells/TODO.jpeg'),
-    title: 'Hidan',
-    onInvoke: ({ fighter }) => {
-      fighter.power -= 10
-    },
-    desc:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Turpis in eu mi bibendum neque egestas. Vel fringilla est ullamcorper eget nu',
   },
   {
     image: require('./assets/creatureSpells/sacrifice.jpg'),

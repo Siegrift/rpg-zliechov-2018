@@ -71,7 +71,6 @@ export const creatureImages = [
   { image: require('./assets/creatures/yoda.jpeg') },
 ]
 
-// TODO: find race images for all races
 export const raceImages = [
   // mage
   [
@@ -85,39 +84,56 @@ export const raceImages = [
   [
     { image: require('./assets/races/hunter/hunter0.jpg') },
     { image: require('./assets/races/hunter/hunter1.png') },
+    { image: require('./assets/races/hunter/hunter2.jpg') },
+    { image: require('./assets/races/hunter/hunter3.jpg') },
+    { image: require('./assets/races/hunter/hunter4.jpg') },
   ],
   // priest
   [
-    { image: require('./assets/races/mage/mage.jpg') },
-    { image: require('./assets/races/mage/mage1.jpg') },
-    { image: require('./assets/races/mage/mage2.jpg') },
+    { image: require('./assets/races/priest/priest.jpg') },
+    { image: require('./assets/races/priest/priest1.jpg') },
+    { image: require('./assets/races/priest/priest2.jpg') },
+    { image: require('./assets/races/priest/priest3.jpg') },
+    { image: require('./assets/races/priest/priest4.png') },
   ],
-  // dark magician
-  [{ image: require('./assets/races/hunter/hunter0.jpg') }],
+  // warlock
+  [
+    { image: require('./assets/races/warlock/warlock.jpg') },
+    { image: require('./assets/races/warlock/warlock1.jpg') },
+    { image: require('./assets/races/warlock/warlock2.jpg') },
+    { image: require('./assets/races/warlock/warlock3.jpg') },
+    { image: require('./assets/races/warlock/warlock4.jpg') },
+  ],
   // warrior
-  [{ image: require('./assets/races/hunter/hunter0.jpg') }],
+  [
+    { image: require('./assets/races/warrior/warrior.jpg') },
+    { image: require('./assets/races/warrior/warrior1.jpg') },
+    { image: require('./assets/races/warrior/warrior2.jpg') },
+    { image: require('./assets/races/warrior/warrior3.jpg') },
+    { image: require('./assets/races/warrior/warrior4.jpg') },
+  ],
   // symbiont
-  [{ image: require('./assets/races/other/morph.jpg') }],
+  [{ image: require('./assets/races/other/symbiont.jpg') }],
   // unit without spells
   [
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
-    { image: require('./assets/races/other/morph.jpg') },
+    { image: require('./assets/races/unit_without_spells/zombie.jpg') },
+    { image: require('./assets/races/unit_without_spells/demon.jpg') },
+    { image: require('./assets/races/unit_without_spells/air_elemental.png') },
+    { image: require('./assets/races/unit_without_spells/water_elemental.jpg') },
+    { image: require('./assets/races/unit_without_spells/demon_warrior.jpg') },
+    { image: require('./assets/races/unit_without_spells/golem_boss.jpg') },
+    { image: require('./assets/races/unit_without_spells/illusion.jpg') },
+    { image: require('./assets/races/unit_without_spells/spectre.jpg') },
+    { image: require('./assets/races/unit_without_spells/nazgul.jpg') },
+    { image: require('./assets/races/unit_without_spells/elemental_fire.jpg') },
+    { image: require('./assets/races/unit_without_spells/death.jpg') },
   ],
   // archimond
-  [{ image: require('./assets/races/archimond/archimond.jpg') }],
+  [{ image: require('./assets/races/other/archimond.jpg') }],
   // hunter's pet
-  { image: require('./assets/races/other/morph.jpg') },
+  { image: require('./assets/races/other/hunters_pet.jpeg') },
   // guardian angel
-  [{ image: require('./assets/races/guardian_angel/anjel.jpg') }],
+  [{ image: require('./assets/races/other/anjel.jpg') }],
 ]
 
 export const addUnitImage = { image: require('./assets/add.png'), title: 'Nový' }

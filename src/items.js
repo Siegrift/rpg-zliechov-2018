@@ -213,7 +213,7 @@ export const items = [
   },
   // cervena ochrana
   {
-    // TODO: warning, this is a condom
+    // NOTE: warning, this is a condom
     image: require('./assets/items/red_protection.jpg'),
     title: 'Červená ochrana',
     type: ITEM,
