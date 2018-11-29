@@ -2,6 +2,7 @@ EMO+SLAVO:
 - obrazky pre rasy (mage, hunter...)
 - Najst obrazky na uder, a resolvnut TODO v spells
 - summons images
+- creature spell
 
 LOGIKA SPELLOV A ITEMOV:
  - spravit funkciu, ktora overuje dostatok many a level spellu

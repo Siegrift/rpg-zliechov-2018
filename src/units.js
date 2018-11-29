@@ -75,9 +75,11 @@ export const creatureImages = [
 export const raceImages = [
   // mage
   [
-    { image: require('./assets/races/mage/mage0.png') },
-    { image: require('./assets/races/mage/mage1.png') },
+    { image: require('./assets/races/mage/mage.jpg') },
+    { image: require('./assets/races/mage/mage1.jpg') },
     { image: require('./assets/races/mage/mage2.jpg') },
+    { image: require('./assets/races/mage/mage3.jpg') },
+    { image: require('./assets/races/mage/mage4.jpg') },
   ],
   // hunter
   [
@@ -86,8 +88,8 @@ export const raceImages = [
   ],
   // priest
   [
-    { image: require('./assets/races/mage/mage0.png') },
-    { image: require('./assets/races/mage/mage1.png') },
+    { image: require('./assets/races/mage/mage.jpg') },
+    { image: require('./assets/races/mage/mage1.jpg') },
     { image: require('./assets/races/mage/mage2.jpg') },
   ],
   // dark magician
