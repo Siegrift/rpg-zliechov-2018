@@ -53,9 +53,6 @@ export const CHOOSE = {
   OTHER_SUMMON: 7,
 }
 
-// TODO: getEntities implementation, and also in ImageDialog and AttributeDialog
-// (index of selected item no longer enough)
-// getEntities = (imageData, selectedIndex, selectedEntity)
 export const CHOOSE_LOGIC = {
   [CHOOSE.OTHER_UNIT]: {
     getEntities: (imageData, selectedIndex) =>

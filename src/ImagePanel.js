@@ -120,13 +120,14 @@ class ImagePanel extends React.Component {
     } = this.props
     const { hoverIndex } = this.state
 
-    const isDisabled = (tile) => {
+    const isDisabled = (tile, index) => {
       return (
         tile.isEnabled &&
         !tile.isEnabled({
           fighter: fighters[selectedFighter],
           creature: creatures[selectedCreature],
           state,
+          index,
         })
       )
     }
@@ -148,7 +149,7 @@ class ImagePanel extends React.Component {
                   }),
                 }}
                 onClick={() => {
-                  if (unclickable || isDisabled(tile) || (tile.passive && !tile.maxLevel)) {
+                  if (unclickable || isDisabled(tile, i) || (tile.passive && !tile.maxLevel)) {
                     return
                   }
                   if (onClick) onClick(i)
@@ -158,7 +159,7 @@ class ImagePanel extends React.Component {
                 {tile.isChief && <img src={Chief} className={classes.chief} />}
                 <span
                   className={classNames(classes.overlay, {
-                    [classes.overlayDisabled]: isDisabled(tile),
+                    [classes.overlayDisabled]: isDisabled(tile, i),
                   })}
                 />
                 {(!hoverable || hoverable(i)) && onIncrease && hoverIndex === i && (
