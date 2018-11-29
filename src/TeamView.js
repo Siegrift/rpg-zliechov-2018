@@ -195,6 +195,14 @@ const TeamView = ({
                   index: ind,
                 })
                 draftState.fighters[selectedFighter].itemCasted[ind] = true
+                itemData[ind].onAfterInvoke({
+                  fighter: draftState.figters[selectedFighter],
+                  creature: draftState.creatures[selectedCreature],
+                  state: draftState,
+                  chosen: draftState[isCreatureView ? 'creatures' : 'fighters'][chosenIndex],
+                  attribute,
+                  index: ind,
+                })
               })
             )
           }}

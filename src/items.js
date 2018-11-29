@@ -592,6 +592,63 @@ export const items = [
       addFighter(clone, state)
     },
   },
+  // kamen ozivenia
+  {
+    image: require('./assets/items/frostmourne.jpg'),
+    title: 'Kameň oživenia',
+    type: ITEM,
+    rarity: RARITIES.LEGENDARY,
+    maxLevel: 10000000,
+    isEnabled: ({ fighter, index }) => {
+      console.log(fighter, index)
+      console.log(fighter.itemLevels[index])
+      if ((fighter.race === RACES.WARLOCK || fighter.race === RACES.MAGE) &&
+        fighter.manaPool >= 3 && fighter.itemLevels[index] >= 9) {
+        return true
+      }
+      return false
+    },
+    onInvoke: ({ fighter, index, state }) => {
+      const level = fighter.itemLevels[index]
+      const spectre = createDefaultFighter({
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.SPECTRE,
+        power: 13,
+        agi: 13,
+        int: 13,
+      })
+      addFighter(spectre, state)
+      fighter.manaPool -= 3
+      fighter.itemLevels[index] -= 8
+    },
+    onAfterInvoke: ({ fighter, index }) => {
+      fighter.itemCasted[index] = false
+    },
+  },
+  // prsten moci
+  {
+    image: require('./assets/items/frostmourne.jpg'),
+    title: 'Prsteň moci',
+    type: ITEM,
+    ring: true,
+    rarity: RARITIES.ANCIENT,
+    isEnabled: ({ fighter }) => {
+      return true
+    },
+    applyAura: ({ fighter }) => {
+      fighter.bonusInt -= 8
+    },
+    onInvoke: ({ fighter, state }) => {
+      const nazgul = createDefaultFighter({
+        race: RACES.UNIT_WITHOUT_SPELLS,
+        imageIndex: SUMMONS.NAZGUL,
+        power: 16,
+        agi: 16,
+        int: 16,
+      })
+      addFighter(nazgul, state)
+    }
+  },
   // emo's items
   {
     image: require('./assets/items/frostmourne.jpg'),

@@ -37,6 +37,8 @@ export const SUMMONS = {
   DEMON_WARRIOR: 4,
   GOLEM: 5,
   ILLUSION: 6,
+  SPECTRE: 7,
+  NAZGUL: 8,
   ARCHIMOND: 0,
   DIREWOLF: 0,
   ANGEL: 0,
