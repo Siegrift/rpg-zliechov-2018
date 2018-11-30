@@ -8,7 +8,6 @@ to an end of the array
 
 export const creatureImages = [
   { image: require('./assets/creatures/assassin.jpeg') },
-  { image: require('./assets/creatures/kung_fu_panda.jpeg') },
   { image: require('./assets/creatures/robot_hypno.jpeg') },
   { image: require('./assets/creatures/minion.jpg') },
   { image: require('./assets/creatures/mage.jpg') },
@@ -83,7 +82,7 @@ export const raceImages = [
     { image: require('./assets/races/mage/mage.jpg') },
     { image: require('./assets/races/mage/mage1.jpg') },
     { image: require('./assets/races/mage/mage2.jpg') },
-    { image: require('./assets/races/mage/mage3.jpg') },
+    { image: require('./assets/races/mage/mage3.jpeg') },
     { image: require('./assets/races/mage/mage4.jpg') },
   ],
   // hunter
