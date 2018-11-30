@@ -588,7 +588,7 @@ export const fighterSpells = [
       applyAura: (affected, source) => {
         const spellID = 3
         const levels = [null, 1.5, 3, 5]
-        source.bonusPower += levels[source[fighterSpells[affected.race][spellID]]]
+        source.bonusPower += levels[source.spellLevels[spellID]]
         if (affected.buffs[source.id] === undefined) {
           affected.buffs[source.id] = []
         }
@@ -597,7 +597,7 @@ export const fighterSpells = [
       detachAura: (affected, source) => {
         const spellID = 3
         const levels = [null, 1.5, 3, 5]
-        source.bonusPower -= levels[source[fighterSpells[affected.race][spellID]]]
+        source.bonusPower -= levels[source.spellLevels[spellID]]
       },
     },
     {
