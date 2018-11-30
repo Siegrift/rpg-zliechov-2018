@@ -31,6 +31,10 @@ const styles = (theme) => ({
   },
   media: {
     objectFit: 'contain',
+    maxHeight: '400px',
+    [theme.breakpoints.down('lg')]: {
+      maxHeight: 300,
+    },
   },
   listItem: {
     padding: theme.spacing.unit / 8,

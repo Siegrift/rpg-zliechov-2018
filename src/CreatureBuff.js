@@ -33,6 +33,10 @@ const styles = (theme) => ({
   media: {
     objectFit: 'contain',
     width: '100%',
+    maxHeight: '400px',
+    [theme.breakpoints.down('lg')]: {
+      maxHeight: 300,
+    },
   },
   spellWrapper: {
     display: 'flex',

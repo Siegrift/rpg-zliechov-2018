@@ -21,7 +21,7 @@ export const proxyTarget = (proxy) => {
 export const canUpgradeSpell = (freeAttr, spellIndex, spellLevel, level) => {
   if (spellIndex === 4 && level < 6) return false
   if (spellLevel === 1 && level < 3) return false
-  if (spellLevel === 2 && level < 6) return false
+  if (spellLevel === 2 && level < 5) return false
   return freeAttr !== 0 && spellLevel !== MAX_SPELL_LEVELS[spellIndex]
 }
 
