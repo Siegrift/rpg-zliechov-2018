@@ -136,7 +136,7 @@ class ImagePanel extends React.Component {
 
     return (
       <div className={classNames(classes.root, className)}>
-        <GridList className={classes.gridList} cols={data.length}>
+        <GridList className={classes.gridList} cols={Math.min(data.length, 8)}>
           {data.map((tile, i) => {
             const Component = (
               <GridListTile

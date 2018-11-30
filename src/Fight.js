@@ -63,8 +63,17 @@ const styles = (theme) => ({
   },
 })
 
-const giveUpText =
-  'Ak sa rozhodnete vzdať súboj, program neuloží žiaden váš progress a nedostanete žiadne body.'
+const formatGiveUpText = (name) => (
+  <span>
+    Ak sa rozhodnete vzdať súboj, najsilnejší zo skupiny
+    <b style={{ margin: '5px' }}>{name}</b>
+    zomrie a pridá sa k príšere a nedostanete žiadne body.
+  </span>
+)
+
+const getChief = (fighters) => {
+  return fighters.find((f) => f.isChief)
+}
 
 const Transition = (props) => {
   return <Slide direction="up" {...props} />
@@ -95,6 +104,8 @@ class Fight extends React.Component {
       imageIndex,
       creatureName,
       giveUpFight,
+      creatures,
+      fighters,
     } = this.props
     const { showWinDialog, showGiveUpDialog } = this.state
 
@@ -133,6 +144,7 @@ class Fight extends React.Component {
                 src={creatureImages[imageIndex].image}
               />
               <img alt="Kríž" className={classes.overlayImage} src={Dead} />
+              <p>{JSON.stringify(creatures[0].rewardItems)}</p>
             </DialogContent>
             <DialogActions>
               <Button onClick={this.setAppInitialState} color="primary">
@@ -145,7 +157,7 @@ class Fight extends React.Component {
           <Dialog open onClose={this.handleClose}>
             <DialogTitle>Naozaj chcete vzdať súboj?</DialogTitle>
             <DialogContent>
-              <DialogContentText>{giveUpText}</DialogContentText>
+              <DialogContentText>{formatGiveUpText(getChief(fighters).nick)}</DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button onClick={giveUpFight} color="primary">
