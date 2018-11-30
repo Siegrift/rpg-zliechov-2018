@@ -919,4 +919,24 @@ export const items = [
       return false
     },
   },
+  // prasok zviditelnenia
+  {
+    title: 'Prášok zviditeľnenia',
+    image: require('./assets/items/lord_of_dead.svg'),
+    type: SPELL,
+    rarity: RARITIES.COMMON,
+    revealsInvis: true,
+    isEnabled: ({ fighter }) => true,
+    onInvoke: ({}) => {}
+  },
+  // krystalove oko
+  {
+    title: 'Kryštálové oko',
+    image: require('./assets/items/lord_of_dead.svg'),
+    type: ITEM,
+    rarity: RARITIES.LEGENDARY,
+    revealsInvis: true,
+    isEnabled: ({ fighter }) => true,
+    onInvoke: ({}) => {}
+  },
 ]

@@ -37,15 +37,33 @@ export const setFightersChief = (fighters) => {
 
 // Damage helpers
 export const powerDmg = (creature, amount, state) => {
-  creature.power -= Math.min(amount, creature.power)
+  if (creature.invisible) return
+  if (creature.draciaKoza) {
+    creature.power -= Math.min(Math.ceil(amount / 2), creature.power)
+  }
+  else {
+    creature.power -= Math.min(amount, creature.power)
+  }
 }
 
 export const agiDmg = (creature, amount, state) => {
-  creature.agi -= Math.min(amount, creature.agi)
+  if (creature.invisible) return
+  if (creature.draciaKoza) {
+    creature.agi -= Math.min(Math.ceil(amount / 2), creature.power)
+  }
+  else {
+    creature.agi -= Math.min(amount, creature.power)
+  }
 }
 
 export const intDmg = (creature, amount, state) => {
-  creature.int -= Math.min(amount, creature.int)
+  if (creature.invisible) return
+  if (creature.draciaKoza) {
+    creature.int -= Math.min(Math.ceil(amount / 2), creature.power)
+  }
+  else {
+    creature.int -= Math.min(amount, creature.power)
+  }
 }
 
 // Enabler helpers
