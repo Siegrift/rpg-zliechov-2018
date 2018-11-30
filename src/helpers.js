@@ -51,18 +51,18 @@ export const powerDmg = (creature, amount, state) => {
 export const agiDmg = (creature, amount, state) => {
   if (creature.invisible) return
   if (creature.draciaKoza) {
-    creature.agi -= Math.min(Math.ceil(amount / 2), creature.power)
+    creature.agi -= Math.min(Math.ceil(amount / 2), creature.agi)
   } else {
-    creature.agi -= Math.min(amount, creature.power)
+    creature.agi -= Math.min(amount, creature.agi)
   }
 }
 
 export const intDmg = (creature, amount, state) => {
   if (creature.invisible) return
   if (creature.draciaKoza) {
-    creature.int -= Math.min(Math.ceil(amount / 2), creature.power)
+    creature.int -= Math.min(Math.ceil(amount / 2), creature.int)
   } else {
-    creature.int -= Math.min(amount, creature.power)
+    creature.int -= Math.min(amount, creature.int)
   }
 }
 
