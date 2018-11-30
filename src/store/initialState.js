@@ -138,7 +138,7 @@ const state = {
   // will be set dynamically
   initialCreaturePower: [],
   originalCreatures: [],
-  version: '0.0.5',
+  version: '0.0.6',
   page: 'create',
 }
 

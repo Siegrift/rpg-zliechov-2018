@@ -931,6 +931,14 @@ export const creatureSpells = [
     image: require('./assets/creatureSpells/cats_gold.jpg'),
     title: 'Mačacie zlato',
     desc: 'Za výhru v súboji dostanete o jeden predmet menej.',
+    onInvoke: ({ creature }) => {
+      const indexes = []
+      for (let i = 0; i < creature.rewardItems.length; i++) {
+        if (creature.rewardItems[i] !== 0) indexes.push(i)
+      }
+      if (indexes.length === 0) return
+      creature.rewardItems[indexes[Math.floor(Math.random() * indexes.length)]]--
+    },
   },
   {
     image: require('./assets/creatureSpells/dead_silence.jpg'),
@@ -988,11 +996,6 @@ export const creatureSpells = [
     },
     desc:
       'Príšera je obalená do čierneho nepreniknuteľného brnenia. Získava 200 sily a 100 obratnosti.',
-  },
-  {
-    image: require('./assets/creatureSpells/cheat.gif'),
-    title: 'Cheat',
-    desc: 'Povedzte vedúdemu, že príšera má tento modifikátor.',
   },
   {
     image: require('./assets/creatureSpells/dementor_kiss.jpg'),
