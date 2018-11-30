@@ -29,6 +29,9 @@ const styles = (theme) => ({
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing.unit / 2,
     height: '65vh',
+    [theme.breakpoints.down('lg')]: {
+      height: '76vh',
+    },
   },
   heroDetails: {
     display: 'flex',
