@@ -45,6 +45,7 @@ const mockedState = {
   selectedCreature: 0,
   selectedFighter: 0,
   page: 'create',
+  version: 'mocked',
 }
 
 export const createDefaultFighter = ({
@@ -137,6 +138,7 @@ const state = {
   // will be set dynamically
   initialCreaturePower: [],
   originalCreatures: [],
+  version: '0.0.5',
   page: 'create',
 }
 

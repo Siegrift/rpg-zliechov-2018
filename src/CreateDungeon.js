@@ -97,6 +97,7 @@ const CreateDungeon = ({
   rewardItems,
   spellIndexes,
   width,
+  version,
 }) => {
   const isDisabled =
     name === '' ||
@@ -113,7 +114,7 @@ const CreateDungeon = ({
   return (
     <div className={classes.panel}>
       <Typography className={classes.title} component="h2" variant="h1">
-        Vytvor dungeon
+        Vytvor dungeon (verzia: <b>{version}</b>)
       </Typography>
       <div className={classes.formWrapper}>
         <div className={classes.form}>
@@ -234,6 +235,7 @@ export default compose(
   connect(
     (state) => ({
       ...state.creatures[0],
+      version: state.version,
     }),
     { updateValue: _updateValue }
   ),
