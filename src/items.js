@@ -922,21 +922,19 @@ export const items = [
   // prasok zviditelnenia
   {
     title: 'Prášok zviditeľnenia',
-    image: require('./assets/items/lord_of_dead.svg'),
+    image: require('./assets/items/dust.png'),
     type: SPELL,
     rarity: RARITIES.COMMON,
     revealsInvis: true,
     isEnabled: ({ fighter }) => true,
-    onInvoke: ({}) => {}
   },
   // krystalove oko
   {
     title: 'Kryštálové oko',
-    image: require('./assets/items/lord_of_dead.svg'),
+    image: require('./assets/items/prophetic_sphere.jpg'),
     type: ITEM,
     rarity: RARITIES.LEGENDARY,
     revealsInvis: true,
     isEnabled: ({ fighter }) => true,
-    onInvoke: ({}) => {}
   },
 ]
