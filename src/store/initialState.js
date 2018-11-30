@@ -13,7 +13,7 @@ const mockedState = {
       int: '150',
       requirements: ['At least 5'],
       rewardItems: ['1', '2', '0', '0'],
-      spellIndexes: [19],
+      spellIndexes: [17],
       imageIndex: -1,
       buffs: {},
     },

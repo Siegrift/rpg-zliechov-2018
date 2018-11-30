@@ -79,6 +79,8 @@ const styles = (theme) => ({
     right: '-6px',
     transform: 'none',
     top: '-6px',
+    left: 'auto',
+    height: 'auto',
   },
   levelPanel: {
     position: 'absolute',
