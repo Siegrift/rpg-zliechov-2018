@@ -150,6 +150,7 @@ const state = {
   selectedFighter: 0,
   // will be set dynamically
   initialCreaturePower: [],
+  originalCreatures: [],
   page: 'create',
 }
 

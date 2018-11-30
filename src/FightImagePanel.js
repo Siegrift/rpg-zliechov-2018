@@ -221,7 +221,7 @@ class FightImagePanel extends React.Component {
 
     return (
       <div className={classNames(classes.root, className)}>
-        <GridList className={classes.gridList} cols={Math.min(data.length, 8)}>
+        <GridList className={classes.gridList} cols={Math.min(data.length, 5)}>
           {data.map((tile, i) => {
             const Component = (
               <GridListTile

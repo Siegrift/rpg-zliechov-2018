@@ -2,7 +2,7 @@ import produce from 'immer'
 import { pick, cloneDeep } from 'lodash'
 import { setIn } from 'imuty'
 
-import getInitialState from './store/initialState'
+import getInitialState, { createDefaultCreature } from './store/initialState'
 import { addFighter, setFightersChief } from './helpers'
 import { creatureSpells } from './spells'
 
@@ -47,6 +47,7 @@ export const prepareStateForFight = () => ({
 
       // determine the figthters chief
       setFightersChief(fighters)
+      state.originalCreatures = cloneDeep(state.creatures)
     })
   },
 })
@@ -98,23 +99,25 @@ export const giveUpFight = () => ({
   reducer: (state) => {
     return produce(state, (draft) => {
       const chief = draft.fighters.find((f) => f.isChief)
-      const creatures = draft.creatures
       const initialState = getInitialState()
       const keys = Object.keys(initialState)
       const draftKeys = Object.keys(draft)
 
       for (const key of draftKeys) {
+        if (key === 'originalCreatures') continue
         if (keys.includes(key)) draft[key] = initialState[key]
         else delete draft[key]
       }
 
-      creatures.push({
-        ...pick(chief, 'power', 'agi', 'int'),
-        name: 'Kostlivec',
-        imageIndex: 5,
-        spellIndexes: [],
-      })
-      draft.creatures = creatures
+      draft.creatures = draft.originalCreatures
+      draft.creatures.push(
+        createDefaultCreature({
+          ...pick(chief, 'power', 'agi', 'int'),
+          name: 'Kostlivec',
+          imageIndex: 42,
+          spellIndexes: [],
+        })
+      )
       draft.page = 'dungeon'
     })
   },
