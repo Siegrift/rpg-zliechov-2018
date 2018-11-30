@@ -12,7 +12,7 @@ WHAT TO HANDLE:
 import { cloneDeep } from 'lodash'
 import { creatureSpells, fighterSpells } from './spells'
 import { items } from './items'
-import { MAX_SPELL_LEVELS } from './constants'
+import { MAX_SPELL_LEVELS, RACES } from './constants'
 
 export const proxyTarget = (proxy) => {
   return cloneDeep(proxy)
@@ -37,15 +37,33 @@ export const setFightersChief = (fighters) => {
 
 // Damage helpers
 export const powerDmg = (creature, amount, state) => {
-  creature.power -= Math.min(amount, creature.power)
+  if (creature.invisible) return
+  if (creature.draciaKoza) {
+    creature.power -= Math.min(Math.ceil(amount / 2), creature.power)
+  }
+  else {
+    creature.power -= Math.min(amount, creature.power)
+  }
 }
 
 export const agiDmg = (creature, amount, state) => {
-  creature.agi -= Math.min(amount, creature.agi)
+  if (creature.invisible) return
+  if (creature.draciaKoza) {
+    creature.agi -= Math.min(Math.ceil(amount / 2), creature.power)
+  }
+  else {
+    creature.agi -= Math.min(amount, creature.power)
+  }
 }
 
 export const intDmg = (creature, amount, state) => {
-  creature.int -= Math.min(amount, creature.int)
+  if (creature.invisible) return
+  if (creature.draciaKoza) {
+    creature.int -= Math.min(Math.ceil(amount / 2), creature.power)
+  }
+  else {
+    creature.int -= Math.min(amount, creature.power)
+  }
 }
 
 // Enabler helpers
@@ -162,6 +180,18 @@ export const dealCombatDamage = (fighter, monster, state) => {
     agi: fighter.agi + fighter.bonusAgi,
     int: fighter.int + fighter.bonusInt,
   }
+  if (fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK || fighter.race === RACES.PRIEST) {
+    attributes.int *= 2
+  }
+  else if (fighter.race === RACES.WARRIOR) {
+    attributes.power *= 2
+  }
+  else if (fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) {
+    attributes.agi *= 2
+  }
+  if (fighter.buffs.svatyCiel) {
+    attributes.agi += fighter.buffs.svatyCiel * fighter.agi
+  }
   for (const spell of fighterSpells[fighter.race]) {
     if (spell.isEnabled && spell.isEnabled({ fighter, state }) && spell.combatModifier) {
       attributes = spell.combatModifier(fighter, attributes, state)
@@ -176,9 +206,9 @@ export const dealCombatDamage = (fighter, monster, state) => {
       attributes = items[fighter.itemIndexes[i]].combatModifier(fighter, attributes, state)
     }
   }
-  powerDmg(monster, attributes.power, state)
-  agiDmg(monster, attributes.agi, state)
-  intDmg(monster, attributes.int, state)
+  powerDmg(monster, Math.ceil(attributes.power), state)
+  agiDmg(monster, Math.ceil(attributes.agi), state)
+  intDmg(monster, Math.ceil(attributes.int), state)
   if (fighter.buffs.willDie) {
     removeFighter(fighter, state)
   }

@@ -8,7 +8,9 @@ import {
   UNIT_TYPES,
   FIRST_SUMMON_INDEX,
 } from './constants'
-import { createDefaultFighter } from './store/initialState'
+import { items } from './items'
+import { createDefaultFighter, createDefaultCreature } from './store/initialState'
+import { cloneDeep } from 'lodash'
 
 /*
 There are 2 categories of spells (fighter and creature). Both are represented as
@@ -230,9 +232,9 @@ export const fighterSpells = [
         symbiont.bonusPower += levels[fighter.spellLevels[spellID]]
         symbiont.bonusAgi += levels[fighter.spellLevels[spellID]]
         symbiont.bonusInt += levels[fighter.spellLevels[spellID]]
+        helpers.addFighter(symbiont, state)
         helpers.removeFighter(pet, state)
         helpers.removeFighter(fighter, state)
-        helpers.addFighter(symbiont, state)
       },
       isEnabled: ({ fighter, state }) => {
         const spellID = 2
@@ -332,7 +334,7 @@ export const fighterSpells = [
       onInvoke: ({ fighter, chosen }) => {
         const spellID = 2
         const manaCost = [null, 1, 3, 6]
-        const levels = [null, 1.5, 2, 2.5]
+        const levels = [null, 0.5, 1, 1.5]
         chosen.buffs.svatyCiel = levels[fighter.spellLevels[spellID]]
         fighter.manaPool -= manaCost[fighter.spellLevels[spellID]]
       },
@@ -806,19 +808,253 @@ export const fighterSpells = [
 export const creatureSpells = [
   {
     image: require('./assets/creatureSpells/fireSword.png'),
-    title: 'Fire strike',
-    onInvoke: ({ fighter }) => {
-      fighter.power -= 10
+    title: 'Dvojník',
+    onInvoke: ({ creature, state }) => {
+      const bodyDouble = createDefaultCreature({
+        name: creature.name,
+        power: creature.power,
+        agi: creature.agi,
+        int: creature.int,
+        imageIndex: creature.imageIndex,
+      })
+      state.creatures.push(bodyDouble)
     },
     desc:
-      'Fire strike has hit bla bla and this caused and immerse pain to bla bla so this resulte in this buff...',
+      'Príšera vytvorí svojho klona, ktorý má rovnaké atribúty ako ona.',
   },
   {
     image: require('./assets/creatureSpells/sacrifice.jpg'),
-    title: 'Sacrifice',
-    onInvoke: ({ fighter }) => {
-      fighter.power -= 10
+    title: 'Ilúzia',
+    onInvoke: ({ creature, state }) => {
+      const illusion = createDefaultCreature({
+        name: 'Ilúzia ' + creature.name,
+        power: Math.ceil(creature.power / 2),
+        agi: Math.ceil(creature.agi / 2),
+        int: Math.ceil(creature.int / 2),
+        imageIndex: creature.imageIndex,
+      })
+      state.creatures.push(illusion)
     },
-    desc: 'Lorem ipsum dolor sit amet',
+    desc: 'Príšera vytvorí ilúziu s polovičnými atribútmi.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Kritický úder',
+    onInvoke: ({ creature, state }) => {
+      let minLevel = 12
+      for (const f of state.fighters) {
+        if (f.race <= LAST_HERO_INDEX && f.level < minLevel) {
+          minLevel = f.level
+        }
+      }
+      let weakestHeroes = []
+      for (let i = 0; i < state.fighters.length; i++) {
+        if (state.fighters[i].race <= LAST_HERO_INDEX && state.fighters[i].level === minLevel) {
+          weakestHeroes.push(i)
+        }
+      }
+      helpers.removeFighter(state.fighters[weakestHeroes[Math.floor(Math.random() * weakestHeroes.length)]], state)
+    },
+    desc: 'Príšera udelí hrdinom kritický úder, ktorým zabije najslabšieho z nich.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Uhrančivý pohľad',
+    onInvoke: ({ creature, state }) => {
+      let minInt = 1000000000
+      for (const f of state.fighters) {
+        if (f.race <= LAST_HERO_INDEX && f.int + f.bonusInt < minInt) {
+          minInt = f.int + f.bonusInt
+        }
+      }
+      let weakestHeroes = []
+      for (let i = 0; i < state.fighters.length; i++) {
+        if (state.fighters[i].race <= LAST_HERO_INDEX && state.fighters[i].int + state.fighters[i].bonusInt === minInt) {
+          weakestHeroes.push(i)
+        }
+      }
+      const pickedHero = weakestHeroes[Math.floor(Math.random() * weakestHeroes.length)]
+      const convertedHero = createDefaultCreature({
+        name: state.fighters[pickedHero].name,
+        power: state.fighters[pickedHero].power,
+        agi: state.fighters[pickedHero].agi,
+        int: state.fighters[pickedHero].int,
+        imageIndex: 42,
+      })
+      helpers.removeFighter(state.fighters[pickedHero], state)
+    },
+    desc: 'Príšera očaruje hrdinovi s najmenšou inteligenciou, tento hrdina sa pridá na jej stranu.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Umlčanie',
+    onInvoke: ({ creature, state }) => {
+      const pickedHero = Math.floor(Math.random() * state.fighters.length)
+      for (let i = 1; i < state.fighters[pickedHero].spellCasted.length; i++) {
+        state.fighters[pickedHero].spellCasted[i] = true
+      }
+    },
+    desc: 'Náhodne vybraný hrdina je umčaný a počas súboja nemôže hrať žiadne kúzla.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Polymorph',
+    onInvoke: ({ creature, state }) => {
+      const pickedHero = Math.floor(Math.random() * state.fighters.length)
+      state.fighters[pickedHero].power = Math.ceil(state.fighters[pickedHero].power / 2)
+      state.fighters[pickedHero].agi = Math.ceil(state.fighters[pickedHero].agi / 2)
+      state.fighters[pickedHero].int = Math.ceil(state.fighters[pickedHero].int / 2)
+      for (let i = 0; i < state.fighters[pickedHero].itemCasted.length; i++) {
+        state.fighters[pickedHero].itemCasted[i] = true
+      }
+    },
+    desc: 'Náhodne vybraný hrdina sa zmení na ovcu. Jeho atribúty sa znížia na polovicu a nemôže používať predmety.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Výtok many',
+    onInvoke: ({ creature, state }) => {
+      for (const f of state.fighters) {
+        console.log(f.manaPool)
+        f.manaPool -= Math.min(f.manaPool, Math.ceil(f.manaPool / 3))
+        console.log(f.manaPool)
+      }
+    },
+    desc: 'Každý hrdina stratí tretinu svojej many.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Mačacie zlato',
+    onInvoke: ({}) => {},
+    desc: 'Za výhru v súboji dostanete o jeden predmet menej.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Mŕtvolné ticho',
+    onInvoke: ({ state }) => {
+      for (const f of state.fighters) {
+        for (let i = 1; i < f.spellCasted.length; i++) {
+          f.spellCasted[i] = true
+        }
+        for (let i = 0; i < f.itemCasted.length; i++) {
+          f.itemCasted[i] = true
+        }
+      }
+    },
+    desc: 'Na bojisku zavládlo neprirodzené ticho. Nemôžete čarovať a používať predmety.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Korózia',
+    onInvoke: ({ state }) => {
+      for (const f of state.fighters) {
+        for (let i = 0; i < f.itemCasted.length; i++) {
+          f.itemCasted[i] = true
+        }
+      }
+    },
+    desc: 'Nemôžete používať predmety.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Gumenné ruky',
+    onInvoke: ({ state }) => {
+      for (const f of state.fighters) {
+        f.power = 1
+      }
+    },
+    desc: 'Všetkým hrdinom sa základná sila zníži na 1.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Drevené ruky',
+    onInvoke: ({ state }) => {
+      for (const f of state.fighters) {
+        f.agi = 1
+      }
+    },
+    desc: 'Všetkým hrdinom sa základná obratnosť zníži na 1.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Oblbnutie',
+    onInvoke: ({ state }) => {
+      for (const f of state.fighters) {
+        f.int = 1
+      }
+    },
+    desc: 'Všetkým hrdinom sa základná inteligencia zníži na 1.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Padajúci balvan',
+    onInvoke: ({ state }) => {
+      for (const f of state.fighters) {
+        f.power -= 5
+      }
+    },
+    desc: 'Všetkým hrdinom sa základná inteligencia zníži na 1.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Susanno',
+    onInvoke: ({ creature }) => {
+      creature.power += 200
+      creature.agi += 100
+    },
+    desc: 'Príšera je obalená do čierneho nepreniknuteľného brnenia. Získava 200 sily a 100 obratnosti.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Cthaeh',
+    onInvoke: ({}) => {},
+    desc: 'Povedzte vedúdemu, že príšera má tento modifikátor.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Dementorov bozk',
+    onInvoke: ({ state }) => {
+      for (const f of state.fighters) {
+        f.agi = Math.ceil(f.agi / 2)
+      }
+      state.fighters[Math.floor(Math.random() * state.fighters.length)].manaPool = 0
+    },
+    desc: 'Obrovská zima zníži obratnosť všetkých hrdinov na polovicu. Náhodne vybraný hrdina je pobozkaný dementorom a stráca všetku manu.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Dračia koža',
+    onInvoke: ({ creature }) => {
+      creature.draciaKoza = true
+    },
+    desc: 'Všetky útoky na príšeru sú redukované na polovicu.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Zúrivosť',
+    onInvoke: ({ creature }) => {
+      creature.power += Math.ceil(creature.power / 2)
+      creature.agi += Math.ceil(creature.agi / 2)
+      creature.int += Math.ceil(creature.int / 2)
+    },
+    desc: 'Všetky atribúty príšery sú 1.5 násobne väčšie.',
+  },
+  {
+    image: require('./assets/creatureSpells/sacrifice.jpg'),
+    title: 'Neviditeľnosť',
+    onInvoke: ({ creature, state }) => {
+      let invisibility = true
+      for (const f of state.fighters) {
+        for (let i = 0; i < f.itemIndexes.length; i++) {
+          if (items[f.itemIndexes[i]].revealsInvis) {
+            invisibility = false
+          }
+        }
+      }
+      if (invisibility) {
+        creature.invisible = true
+      }
+    },
+    desc: 'Príšera je neviditeľná. Pokiaľ nemáte Prášok zviditeľnenia alebo Kryštálové oko, vaše útoky sú bez efektu.',
   },
 ]
