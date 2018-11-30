@@ -153,4 +153,4 @@ const state = {
   page: 'create',
 }
 
-export default () => mockedState
+export default () => state
