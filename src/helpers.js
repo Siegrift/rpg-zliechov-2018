@@ -19,6 +19,9 @@ export const proxyTarget = (proxy) => {
 }
 
 export const canUpgradeSpell = (freeAttr, spellIndex, spellLevel, level) => {
+  if (spellIndex === 4 && level < 6) return false
+  if (spellLevel === 1 && level < 3) return false
+  if (spellLevel === 2 && level < 6) return false
   return freeAttr !== 0 && spellLevel !== MAX_SPELL_LEVELS[spellIndex]
 }
 
@@ -40,8 +43,7 @@ export const powerDmg = (creature, amount, state) => {
   if (creature.invisible) return
   if (creature.draciaKoza) {
     creature.power -= Math.min(Math.ceil(amount / 2), creature.power)
-  }
-  else {
+  } else {
     creature.power -= Math.min(amount, creature.power)
   }
 }
@@ -50,8 +52,7 @@ export const agiDmg = (creature, amount, state) => {
   if (creature.invisible) return
   if (creature.draciaKoza) {
     creature.agi -= Math.min(Math.ceil(amount / 2), creature.power)
-  }
-  else {
+  } else {
     creature.agi -= Math.min(amount, creature.power)
   }
 }
@@ -60,8 +61,7 @@ export const intDmg = (creature, amount, state) => {
   if (creature.invisible) return
   if (creature.draciaKoza) {
     creature.int -= Math.min(Math.ceil(amount / 2), creature.power)
-  }
-  else {
+  } else {
     creature.int -= Math.min(amount, creature.power)
   }
 }
@@ -180,13 +180,15 @@ export const dealCombatDamage = (fighter, monster, state) => {
     agi: fighter.agi + fighter.bonusAgi,
     int: fighter.int + fighter.bonusInt,
   }
-  if (fighter.race === RACES.MAGE || fighter.race === RACES.WARLOCK || fighter.race === RACES.PRIEST) {
+  if (
+    fighter.race === RACES.MAGE ||
+    fighter.race === RACES.WARLOCK ||
+    fighter.race === RACES.PRIEST
+  ) {
     attributes.int *= 2
-  }
-  else if (fighter.race === RACES.WARRIOR) {
+  } else if (fighter.race === RACES.WARRIOR) {
     attributes.power *= 2
-  }
-  else if (fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) {
+  } else if (fighter.race === RACES.HUNTER || fighter.race === RACES.SYMBIONT) {
     attributes.agi *= 2
   }
   if (fighter.buffs.svatyCiel) {

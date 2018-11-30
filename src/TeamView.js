@@ -174,7 +174,8 @@ const TeamView = ({
                       attribute,
                       index: ind,
                     })
-                  })
+                  }),
+                  'Invoke spell'
                 )
               }}
             />
